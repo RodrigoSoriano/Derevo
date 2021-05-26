@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.LoginController">
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="88.0" fitWidth="91.0" layoutX="134.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/lock.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="accederBoton" layoutX="107.0" layoutY="280.0" mnemonicParsing="false" onAction="#accederBotonOnAction" prefHeight="30.0" prefWidth="142.0" style="-fx-background-color: gray;" text="Acceder">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <effect>
+                  <Blend />
+               </effect>
+            </Button>
+            <Button fx:id="configuracionBoton" contentDisplay="CENTER" layoutX="107.0" layoutY="382.0" mnemonicParsing="false" onAction="#configuracionBotonOnAction" prefHeight="30.0" prefWidth="142.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="Configuración" textAlignment="CENTER" underline="true" visible="false">
+               <font>
+                  <Font name="Arial Narrow" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <effect>
+                  <Blend />
+               </effect>
+            </Button>
+            <Button fx:id="cancelarBoton" layoutX="107.0" layoutY="321.0" mnemonicParsing="false" onAction="#cancelarBotonOnAction" prefHeight="30.0" prefWidth="142.0" style="-fx-background-color: gray;" text="Cancelar">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <effect>
+                  <Blend />
+               </effect>
+            </Button>
+            <PasswordField fx:id="contrasenaTextField" layoutX="102.0" layoutY="187.0" promptText="Contraseña" />
+            <TextField fx:id="usuarioTextField" layoutX="103.0" layoutY="147.0" promptText="Usuario" />
+            <Label fx:id="errorSesion" alignment="CENTER" layoutX="27.0" layoutY="230.0" prefHeight="18.0" prefWidth="304.0" style="-fx-text-fill: red;" textAlignment="CENTER" textFill="RED" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

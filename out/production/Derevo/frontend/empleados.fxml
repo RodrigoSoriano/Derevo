@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" prefWidth="65.0" text="Registrar" />
+            <Button mnemonicParsing="false" prefWidth="65.0" text="Editar" />
+            <Button layoutX="75.0" layoutY="10.0" mnemonicParsing="false" prefWidth="65.0" text="Borrar" />
+            <Region HBox.hgrow="ALWAYS" />
+            <TextField prefHeight="25.0" prefWidth="252.0" promptText="Buscar" />
+         </children>
+      </HBox>
+   </top>
+   <right>
+      <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn prefWidth="59.0" text="ID" />
+          <TableColumn prefWidth="99.0" text="Cédula" />
+            <TableColumn prefWidth="172.0" text="Nombres" />
+            <TableColumn prefWidth="170.0" text="Apellidos" />
+        </columns>
+      </TableView>
+   </center>
+</BorderPane>
