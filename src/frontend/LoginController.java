@@ -18,9 +18,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class LoginController {
-
-    @FXML
-    private Button accederBoton;
     @FXML
     private Label errorSesion;
     @FXML
@@ -63,12 +60,13 @@ public class LoginController {
                 if(queryResult.getInt(1) == 1){
                     Stage stage = (Stage) cancelarBoton.getScene().getWindow();
                     stage.close();
-                    //coneccion.close();
                     abrirPrincipal();
                 }else{
                     errorSesion.setText("Usuario o contraseña incorrectos");
                 }
             }
+            coneccion.close();
+            System.out.println("sesion con DB cerrada");
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
