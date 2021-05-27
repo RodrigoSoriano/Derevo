@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 
-<BorderPane prefHeight="875.0" prefWidth="1186.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.EmpleadosController">
+<BorderPane prefHeight="730.0" prefWidth="1298.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#abrirRegistrarEmpleado" prefWidth="65.0" text="Registrar" />
+            <Button mnemonicParsing="false" prefWidth="65.0" text="Registrar" />
             <Button mnemonicParsing="false" prefWidth="65.0" text="Editar" />
             <Button layoutX="75.0" layoutY="10.0" mnemonicParsing="false" prefWidth="65.0" text="Borrar" />
             <Region HBox.hgrow="ALWAYS" />
@@ -28,9 +28,8 @@
       <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn prefWidth="59.0" text="ID" />
-          <TableColumn prefWidth="99.0" text="Cédula" />
-            <TableColumn prefWidth="172.0" text="Nombres" />
-            <TableColumn prefWidth="170.0" text="Apellidos" />
+          <TableColumn prefWidth="99.0" text="Nombre" />
+            <TableColumn prefWidth="522.0" text="Descripción" />
         </columns>
       </TableView>
    </center>

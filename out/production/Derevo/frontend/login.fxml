@@ -29,7 +29,7 @@
                   <Blend />
                </effect>
             </Button>
-            <Button fx:id="configuracionBoton" contentDisplay="CENTER" layoutX="107.0" layoutY="382.0" mnemonicParsing="false" onAction="#configuracionBotonOnAction" prefHeight="30.0" prefWidth="142.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="Configuración" textAlignment="CENTER" underline="true" visible="false">
+            <Button fx:id="configuracionBoton" contentDisplay="CENTER" layoutX="107.0" layoutY="382.0" mnemonicParsing="false" onAction="#configuracionBotonOnAction" prefHeight="30.0" prefWidth="142.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="Configuración" textAlignment="CENTER" underline="true">
                <font>
                   <Font name="Arial Narrow" size="12.0" />
                </font>
