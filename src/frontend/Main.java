@@ -1,11 +1,17 @@
 package frontend;
 
+import backend.ConeccionBD;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class Main extends Application {
     @Override
@@ -15,6 +21,22 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 355, 426));
         primaryStage.setResizable(false);
         primaryStage.show();
+
+        try {
+            ConeccionBD conectar = new ConeccionBD();
+            Connection coneccion = conectar.getConnection();
+            coneccion.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error de conexión");
+            alert.setHeaderText("No se pudo conectar con la base de datos");
+            alert.setContentText(e.getMessage());
+
+            alert.showAndWait();
+            primaryStage.close();
+        }
     }
 
 

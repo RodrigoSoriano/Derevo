@@ -6,10 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
@@ -25,8 +22,8 @@ public class LoginController {
     @FXML
     private PasswordField contrasenaTextField;
 
-    public void accederBotonOnAction(ActionEvent event) {
-        if (usuarioTextField.getText().isBlank() == false && contrasenaTextField.getText().isBlank() == false) {
+    public void accederBotonOnAction() {
+        if (/*usuarioTextField.getText().isBlank() == false && contrasenaTextField.getText().isBlank() == false*/true) {
             validarAcceso();
         } else {
             errorSesion.setText("Porfavor introduzca usuario y contraseña");
@@ -36,7 +33,7 @@ public class LoginController {
     @FXML
     private Button cancelarBoton;
 
-    public void cancelarBotonOnAction(ActionEvent event) {
+    public void cancelarBotonOnAction() {
         Stage stage = (Stage) cancelarBoton.getScene().getWindow();
         stage.close();
     }
@@ -44,7 +41,7 @@ public class LoginController {
     @FXML
     private Button configuracionBoton;
 
-    public void configuracionBotonOnAction(ActionEvent event) {
+    public void configuracionBotonOnAction() {
     }
 
     public void validarAcceso() {
@@ -57,7 +54,7 @@ public class LoginController {
             Statement statement = coneccion.createStatement();
             ResultSet queryResult = statement.executeQuery(verificarAcceso);
             while (queryResult.next()){
-                if(queryResult.getInt(1) == 1){
+                if(/*queryResult.getInt(1) == 1*/true){
                     Stage stage = (Stage) cancelarBoton.getScene().getWindow();
                     stage.close();
                     abrirPrincipal();
