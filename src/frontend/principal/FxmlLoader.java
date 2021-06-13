@@ -1,5 +1,6 @@
-package frontend;
+package frontend.principal;
 
+import frontend.principal.PrincipalController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -11,7 +12,7 @@ public class FxmlLoader {
 
     public Pane getPage (String fileName){
         try{
-            URL fileUrl = PrincipalController.class.getResource("/frontend/" + fileName + ".fxml");
+            URL fileUrl = PrincipalController.class.getResource("/frontend/" + fileName + "/" + fileName + ".fxml");
             if(fileUrl == null){
                 throw new java.io.FileNotFoundException("Archivo FXML no encontrado");
             }
@@ -19,7 +20,8 @@ public class FxmlLoader {
             view = new FXMLLoader().load(fileUrl);
 
         }catch(Exception e){
-            System.out.println("Archivo FXML corrupto");
+            e.printStackTrace();
+            e.getCause();
         }
         return view;
     }

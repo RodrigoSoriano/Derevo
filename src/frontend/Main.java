@@ -10,13 +10,11 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/frontend/acceder/acceder.fxml"));
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(new Scene(root, 355, 426));
         primaryStage.setResizable(false);
@@ -35,7 +33,7 @@ public class Main extends Application {
             alert.setContentText(e.getMessage());
 
             alert.showAndWait();
-            primaryStage.close();
+            System.exit(8);
         }
     }
 

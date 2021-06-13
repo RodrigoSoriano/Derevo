@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="510.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.empleados.EmpleadosController">
+   <top>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#abrirRegistrarEmpleado" prefWidth="65.0" text="Registrar" />
+            <Button mnemonicParsing="false" prefWidth="65.0" text="Editar" />
+            <Button layoutX="75.0" layoutY="10.0" mnemonicParsing="false" prefWidth="65.0" text="Borrar" />
+            <Region HBox.hgrow="ALWAYS" />
+            <TextField prefHeight="25.0" prefWidth="252.0" promptText="Buscar" />
+         </children>
+      </HBox>
+   </top>
+   <right>
+      <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <TableView fx:id="tablaEmpleados" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="id" prefWidth="67.0" text="ID" />
+          <TableColumn fx:id="cedula" prefWidth="91.0" text="Cédula" />
+            <TableColumn fx:id="nombres" prefWidth="230.0" text="Nombres" />
+            <TableColumn fx:id="apellidos" prefWidth="206.0" text="Apellidos" />
+        </columns>
+      </TableView>
+   </center>
+</BorderPane>

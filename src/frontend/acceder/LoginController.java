@@ -1,5 +1,4 @@
-package frontend;
-
+package frontend.acceder;
 
 import backend.ConeccionBD;
 import javafx.fxml.FXML;
@@ -8,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -23,11 +21,18 @@ public class LoginController {
     private PasswordField contrasenaTextField;
 
     public void accederBotonOnAction() {
-        if (/*usuarioTextField.getText().isBlank() == false && contrasenaTextField.getText().isBlank() == false*/true) {
+        //open();
+        if (usuarioTextField.getText().isBlank() == false && contrasenaTextField.getText().isBlank() == false) {
             validarAcceso();
         } else {
             errorSesion.setText("Porfavor introduzca usuario y contraseña");
         }
+    }
+
+    public void open(){
+        Stage stage = (Stage) cancelarBoton.getScene().getWindow();
+        stage.close();
+        abrirPrincipal();
     }
 
     @FXML
@@ -54,7 +59,7 @@ public class LoginController {
             Statement statement = coneccion.createStatement();
             ResultSet queryResult = statement.executeQuery(verificarAcceso);
             while (queryResult.next()){
-                if(/*queryResult.getInt(1) == 1*/true){
+                if(queryResult.getInt(1) == 1){
                     Stage stage = (Stage) cancelarBoton.getScene().getWindow();
                     stage.close();
                     abrirPrincipal();
@@ -72,7 +77,7 @@ public class LoginController {
 
     public void abrirPrincipal() {
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("principal.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/frontend/principal/principal.fxml"));
             Stage principalStage = new Stage();
             principalStage.setTitle("Magnallum, E.I.R.L.");
             principalStage.setScene(new Scene(root, 355, 426));

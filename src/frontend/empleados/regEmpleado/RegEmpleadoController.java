@@ -1,8 +1,13 @@
-package frontend;
+package frontend.empleados.regEmpleado;
 
 import backend.ConeccionBD;
+import frontend.empleados.EmpleadosController;
+import frontend.empleados.ModeloTablaEmpleados;
+import frontend.principal.FxmlLoader;
+import frontend.principal.PrincipalController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
@@ -40,6 +45,7 @@ public class RegEmpleadoController {
     public void salirBotonOnAction() {
         Stage stage = (Stage) salirBoton.getScene().getWindow();
         stage.close();
+
     }
 
     public void formatoSueldo() {
