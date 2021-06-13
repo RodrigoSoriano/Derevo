@@ -21,7 +21,7 @@ public class LoginController {
     private PasswordField contrasenaTextField;
 
     public void accederBotonOnAction() {
-        //open();
+        open();
         if (usuarioTextField.getText().isBlank() == false && contrasenaTextField.getText().isBlank() == false) {
             validarAcceso();
         } else {

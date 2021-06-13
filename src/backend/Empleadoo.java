@@ -1,15 +1,18 @@
 package backend;
 
-public class Empleado {
+import java.time.LocalDate;
+import java.util.Date;
+
+public class Empleadoo {
     private String id_empleado;
     private String cedula;
     private String nombres;
     private String apellidos;
     private String numero;
-    private String fecha;
+    private LocalDate fecha;
     private String sueldo_base;
 
-    public Empleado(String id_empleado, String cedula, String nombres, String apellidos, String numero, String fecha, String sueldo_base) {
+    public Empleadoo(String id_empleado, String cedula, String nombres, String apellidos, String numero, LocalDate fecha, String sueldo_base) {
         this.id_empleado = id_empleado;
         this.cedula = cedula;
         this.nombres = nombres;
@@ -59,11 +62,11 @@ public class Empleado {
         this.numero = numero;
     }
 
-    public String getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

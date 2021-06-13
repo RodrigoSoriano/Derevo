@@ -39,7 +39,7 @@
             <Label layoutX="228.0" layoutY="19.0" text="Fecha:" />
             <Label layoutX="8.0" layoutY="165.0" text="Telefono:" />
             <Label layoutX="194.0" layoutY="165.0" text="Sueldo base:" />
-            <DatePicker fx:id="fecha" layoutX="265.0" layoutY="15.0" prefHeight="25.0" prefWidth="103.0" />
+            <DatePicker fx:id="fecha" editable="false" layoutX="265.0" layoutY="15.0" prefHeight="25.0" prefWidth="103.0" />
             <TextField fx:id="id" disable="true" layoutX="28.0" layoutY="57.0" prefHeight="25.0" prefWidth="81.0" />
             <TextField fx:id="nombres" layoutX="65.0" layoutY="91.0" prefHeight="25.0" prefWidth="302.0" />
             <TextField fx:id="apellidos" layoutX="65.0" layoutY="126.0" prefHeight="25.0" prefWidth="302.0" />

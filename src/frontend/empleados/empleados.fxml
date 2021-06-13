@@ -8,8 +8,9 @@
       <HBox BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#abrirRegistrarEmpleado" prefWidth="65.0" text="Registrar" />
-            <Button mnemonicParsing="false" prefWidth="65.0" text="Editar" />
-            <Button layoutX="75.0" layoutY="10.0" mnemonicParsing="false" prefWidth="65.0" text="Borrar" />
+            <Button mnemonicParsing="false" onAction="#editarRegistrarEmpleado" prefWidth="65.0" text="Editar" />
+            <Button layoutX="75.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteEmpleado" prefWidth="65.0" text="Borrar" />
+            <Button layoutX="75.0" layoutY="10.0" mnemonicParsing="false" onAction="#actualizarTabla" prefHeight="25.0" prefWidth="71.0" text="Actualizar" />
             <Region HBox.hgrow="ALWAYS" />
             <TextField prefHeight="25.0" prefWidth="252.0" promptText="Buscar" />
          </children>
