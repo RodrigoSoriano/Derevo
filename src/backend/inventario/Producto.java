@@ -1,4 +1,4 @@
-package backend;
+package backend.inventario;
 
 public class Producto {
     private String id_producto;
@@ -6,13 +6,15 @@ public class Producto {
     private String descripcion;
     private String peso;
     private String mano_obra;
+    private String existencia;
 
-    public Producto(String id_producto, String nombre, String descripcion, String peso, String mano_obra) {
+    public Producto(String id_producto, String nombre, String descripcion, String peso, String mano_obra, String existencia) {
         this.id_producto = id_producto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.peso = peso;
         this.mano_obra = mano_obra;
+        this.existencia = existencia;
     }
 
     public String getId_producto() {
@@ -53,5 +55,13 @@ public class Producto {
 
     public void setMano_obra(String mano_obra) {
         this.mano_obra = mano_obra;
+    }
+
+    public String getExistencia() {
+        return existencia;
+    }
+
+    public void setExistencia(String existencia) {
+        this.existencia = existencia;
     }
 }

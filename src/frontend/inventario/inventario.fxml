@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ScrollBar?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="730.0" prefWidth="1298.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="730.0" prefWidth="1298.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.inventario.InventarioController">
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefWidth="65.0" text="Registrar" />
-            <Button mnemonicParsing="false" prefWidth="65.0" text="Editar" />
-            <Button layoutX="75.0" layoutY="10.0" mnemonicParsing="false" prefWidth="65.0" text="Borrar" />
+            <Button mnemonicParsing="false" onAction="#abrirRegistrarProducto" prefWidth="65.0" text="Nuevo" />
+            <Button mnemonicParsing="false" onAction="#editarRegistrarProducto" prefWidth="65.0" text="Editar" />
+            <Button layoutX="75.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteProducto" prefWidth="65.0" text="Borrar" />
+            <Button layoutX="140.0" layoutY="10.0" mnemonicParsing="false" onAction="#actualizarTabla" prefWidth="71.0" text="Actualizar" />
             <Region HBox.hgrow="ALWAYS" />
             <TextField prefHeight="25.0" prefWidth="252.0" promptText="Buscar" />
          </children>
@@ -25,11 +20,12 @@
       <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="tablaInventario" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="59.0" text="ID" />
-          <TableColumn prefWidth="99.0" text="Nombre" />
-            <TableColumn prefWidth="522.0" text="Descripción" />
+          <TableColumn fx:id="colum_id" prefWidth="59.0" text="ID" />
+          <TableColumn fx:id="colum_nombre" prefWidth="99.0" text="Nombre" />
+            <TableColumn fx:id="colum_desc" prefWidth="779.0" text="Descripción" />
+            <TableColumn fx:id="colum_existen" minWidth="0.0" prefWidth="103.0" text="Existencia" />
         </columns>
       </TableView>
    </center>

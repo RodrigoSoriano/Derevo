@@ -1,4 +1,4 @@
-package backend;
+package backend.empleados;
 
 import java.time.LocalDate;
 import java.util.Date;

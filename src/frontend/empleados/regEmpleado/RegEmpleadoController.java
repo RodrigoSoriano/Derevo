@@ -1,8 +1,8 @@
 package frontend.empleados.regEmpleado;
 
 import backend.ConeccionBD;
-import backend.Empleadoo;
-import backend.EmpleadoHolder;
+import backend.empleados.Empleadoo;
+import backend.empleados.EmpleadoHolder;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;

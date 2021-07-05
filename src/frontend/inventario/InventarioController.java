@@ -1,8 +1,9 @@
-package frontend.empleados;
+package frontend.inventario;
 
 import backend.ConeccionBD;
-import backend.empleados.Empleadoo;
-import backend.empleados.EmpleadoHolder;
+import backend.inventario.Producto;
+import backend.inventario.ProductoHolder;
+import frontend.empleados.ModeloTablaEmpleados;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,34 +26,33 @@ import java.sql.Statement;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class EmpleadosController implements Initializable {
+public class InventarioController implements Initializable {
     @FXML
-    private TableView<ModeloTablaEmpleados> tablaEmpleados;
-
-    @FXML
-    private TableColumn<ModeloTablaEmpleados,String> id;
+    private TableView<ModeloTablaInventario> tablaInventario;
 
     @FXML
-    private TableColumn<ModeloTablaEmpleados,String> cedula;
+    private TableColumn<ModeloTablaInventario,String> colum_id;
 
     @FXML
-    private TableColumn<ModeloTablaEmpleados,String> nombres;
+    private TableColumn<ModeloTablaInventario,String> colum_nombre;
 
     @FXML
-    private TableColumn<ModeloTablaEmpleados,String> apellidos;
+    private TableColumn<ModeloTablaInventario,String> colum_desc;
 
-    ObservableList<ModeloTablaEmpleados> oblist = FXCollections.observableArrayList();
+    @FXML
+    private TableColumn<ModeloTablaInventario,String> colum_existen;
 
+    ObservableList<ModeloTablaInventario> oblist = FXCollections.observableArrayList();
 
-    public void abrirRegistrarEmpleado() {
-        Empleadoo empleadoo = new Empleadoo(null, null, null, null, null, null, null);
-        EmpleadoHolder holder = EmpleadoHolder.getInstancia();
-        holder.setEmpleado(empleadoo);
+    public void abrirRegistrarProducto() {
+        Producto producto = new Producto(null, null, null, null, null, null);
+        ProductoHolder holder = ProductoHolder.getInstancia();
+        holder.setProducto(producto);
 
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("regEmpleado/regEmpleado.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("regProducto/regProducto.fxml"));
             Stage regStage = new Stage();
-            regStage.setTitle("Registro de Empleado");
+            regStage.setTitle("Registro de Producto");
             regStage.setScene(new Scene(root, 375, 272));
             regStage.setResizable(false);
             regStage.initModality(Modality.APPLICATION_MODAL);
@@ -63,26 +63,24 @@ public class EmpleadosController implements Initializable {
         }
     }
 
-    public void editarRegistrarEmpleado() {
-        if(tablaEmpleados.getSelectionModel().getSelectedItem() != null){
+    public void editarRegistrarProducto() {
+        if(tablaInventario.getSelectionModel().getSelectedItem() != null){
             ConeccionBD conectar = new ConeccionBD();
             Connection coneccion = conectar.getConnection();
 
-            String query = "select * from Empleado where id_empleado =" + tablaEmpleados.getSelectionModel().getSelectedItem().id;
-            Empleadoo empleadoo = new Empleadoo(null, null, null, null, null, null, null);
+            String query = "select * from Producto where id_producto =" + tablaInventario.getSelectionModel().getSelectedItem().id;
+            Producto producto = new Producto(null, null, null, null, null, null);
 
             try {
                 Statement statement = coneccion.createStatement();
                 ResultSet queryResult = statement.executeQuery(query);
 
                 while (queryResult.next()){
-                    empleadoo.setId_empleado(queryResult.getString("id_empleado"));
-                    empleadoo.setCedula(queryResult.getString("cedula"));
-                    empleadoo.setNombres(queryResult.getString("nombres"));
-                    empleadoo.setApellidos(queryResult.getString("apellidos"));
-                    empleadoo.setNumero(queryResult.getString("telefono"));
-                    empleadoo.setFecha(queryResult.getDate("fecha").toLocalDate());
-                    empleadoo.setSueldo_base(queryResult.getString("sueldo_base"));
+                    producto.setId_producto(queryResult.getString("id_producto"));
+                    producto.setNombre(queryResult.getString("nombre"));
+                    producto.setDescripcion(queryResult.getString("descripcion"));
+                    producto.setPeso(queryResult.getString("mano_obra"));
+                    producto.setExistencia(queryResult.getString("existencia"));
                 }
 
                 coneccion.close();
@@ -92,13 +90,13 @@ public class EmpleadosController implements Initializable {
                 e.getCause();
             }
 
-            EmpleadoHolder holder = EmpleadoHolder.getInstancia();
-            holder.setEmpleado(empleadoo);
+            ProductoHolder holder = ProductoHolder.getInstancia();
+            holder.setProducto(producto);
 
             try{
-                Parent root = FXMLLoader.load(getClass().getResource("regEmpleado/regEmpleado.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("regProducto/regProducto.fxml"));
                 Stage regStage = new Stage();
-                regStage.setTitle("Edición de Empleado");
+                regStage.setTitle("Edición de Producto");
                 regStage.setScene(new Scene(root, 375, 272));
                 regStage.setResizable(false);
                 regStage.initModality(Modality.APPLICATION_MODAL);
@@ -109,23 +107,23 @@ public class EmpleadosController implements Initializable {
             }
         }else{
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Edición de empleado");
-            alert.setHeaderText("Seleccione un empleado para editar");
+            alert.setTitle("Edición de producto");
+            alert.setHeaderText("Seleccione un producto para editar");
             //alert.setContentText("");
             alert.showAndWait();
         }
     }
 
-    public void deleteEmpleado(){
-        String id = tablaEmpleados.getSelectionModel().getSelectedItem().id;
+    public void deleteProducto(){
+        String id = tablaInventario.getSelectionModel().getSelectedItem().id;
         ConeccionBD conectar = new ConeccionBD();
         Connection coneccion = conectar.getConnection();
 
-        String query = "delete from Empleado where id_empleado = " + id;
+        String query = "delete from Producto where id_producto = " + id;
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Eliminación de empleado");
-        alert.setHeaderText("Se procedera a eliminar el empleado: " + tablaEmpleados.getSelectionModel().getSelectedItem().nombres + " " + tablaEmpleados.getSelectionModel().getSelectedItem().apellidos);
+        alert.setTitle("Eliminación de Producto");
+        alert.setHeaderText("Se procedera a eliminar el producto: " + tablaInventario.getSelectionModel().getSelectedItem().nombre + " " + tablaInventario.getSelectionModel().getSelectedItem().descripcion);
         alert.setContentText("¿Seguro que desea preceder?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
@@ -147,7 +145,7 @@ public class EmpleadosController implements Initializable {
         ConeccionBD conectar = new ConeccionBD();
         Connection coneccion = conectar.getConnection();
 
-        String query = "select * from Empleado";
+        String query = "select * from Producto";
         oblist.clear();
 
         try {
@@ -155,7 +153,7 @@ public class EmpleadosController implements Initializable {
             ResultSet queryResult = statement.executeQuery(query);
 
             while (queryResult.next()){
-                oblist.add(new ModeloTablaEmpleados(queryResult.getString("id_empleado"), queryResult.getString("cedula"), queryResult.getString("nombres"), queryResult.getString("apellidos")));
+                oblist.add(new ModeloTablaInventario(queryResult.getString("id_producto"), queryResult.getString("nombre"), queryResult.getString("descripcion"), queryResult.getString("existencia")));
             }
 
             coneccion.close();
@@ -165,13 +163,16 @@ public class EmpleadosController implements Initializable {
             e.getCause();
         }
 
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        cedula.setCellValueFactory(new PropertyValueFactory<>("cedula"));
-        nombres.setCellValueFactory(new PropertyValueFactory<>("nombres"));
-        apellidos.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
+        colum_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colum_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colum_desc.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        colum_existen.setCellValueFactory(new PropertyValueFactory<>("existencia"));
 
-        tablaEmpleados.setItems(oblist);
+        tablaInventario.setItems(oblist);
     }
+
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
