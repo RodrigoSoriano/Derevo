@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -101,12 +102,12 @@ public class RegEmpleadoController implements Initializable {
                 Statement statement = coneccion.createStatement();
                 statement.executeUpdate("UPDATE Empleado SET cedula = '" + cedula.getText() + "', nombres = '" + nombres.getText() + "', apellidos = '" + apellidos.getText() + "', telefono = '" + telefono.getText() + "', fecha = '" + fecha.getValue().toString() + "', sueldo_base = '" + sueldo.getText() +"' WHERE id_empleado = '" + id.getText() + "'");
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Registro de empleado");
-                alert.setHeaderText("Registro completado");
-                alert.setContentText("Los datos del empleado han sido registrados correctamente");
+                alert.setTitle("Edición de empleado");
+                alert.setHeaderText("Edición completada");
+                alert.setContentText("Los datos del empleado han sido editados correctamente");
 
                 alert.showAndWait();
-                clear();
+                salirBotonOnAction();
             }catch (Exception e){
                 e.printStackTrace();
                 e.getCause();

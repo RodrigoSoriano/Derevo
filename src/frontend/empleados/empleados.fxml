@@ -12,13 +12,10 @@
             <Button layoutX="75.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteEmpleado" prefWidth="65.0" text="Borrar" />
             <Button layoutX="75.0" layoutY="10.0" mnemonicParsing="false" onAction="#actualizarTabla" prefHeight="25.0" prefWidth="71.0" text="Actualizar" />
             <Region HBox.hgrow="ALWAYS" />
-            <TextField prefHeight="25.0" prefWidth="252.0" promptText="Buscar" />
+            <TextField fx:id="busqueda" onKeyReleased="#actualizarTabla" prefHeight="25.0" prefWidth="252.0" promptText="Buscar" />
          </children>
       </HBox>
    </top>
-   <right>
-      <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
-   </right>
    <center>
       <TableView fx:id="tablaEmpleados" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>

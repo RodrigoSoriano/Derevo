@@ -10,10 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -40,6 +37,9 @@ public class EmpleadosController implements Initializable {
 
     @FXML
     private TableColumn<ModeloTablaEmpleados,String> apellidos;
+
+    @FXML
+    private TextField busqueda;
 
     ObservableList<ModeloTablaEmpleados> oblist = FXCollections.observableArrayList();
 
@@ -147,7 +147,8 @@ public class EmpleadosController implements Initializable {
         ConeccionBD conectar = new ConeccionBD();
         Connection coneccion = conectar.getConnection();
 
-        String query = "select * from Empleado";
+
+        String query = "EXEC BusquedaEmpleado @Busqueda = '" + busqueda.getText() + "'";
         oblist.clear();
 
         try {

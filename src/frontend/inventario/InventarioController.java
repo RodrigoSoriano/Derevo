@@ -11,10 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -41,6 +38,9 @@ public class InventarioController implements Initializable {
 
     @FXML
     private TableColumn<ModeloTablaInventario,String> colum_existen;
+
+    @FXML
+    private TextField busqueda;
 
     ObservableList<ModeloTablaInventario> oblist = FXCollections.observableArrayList();
 
@@ -79,7 +79,8 @@ public class InventarioController implements Initializable {
                     producto.setId_producto(queryResult.getString("id_producto"));
                     producto.setNombre(queryResult.getString("nombre"));
                     producto.setDescripcion(queryResult.getString("descripcion"));
-                    producto.setPeso(queryResult.getString("mano_obra"));
+                    producto.setPeso(queryResult.getString("peso"));
+                    producto.setMano_obra(queryResult.getString("mano_obra"));
                     producto.setExistencia(queryResult.getString("existencia"));
                 }
 
@@ -145,7 +146,7 @@ public class InventarioController implements Initializable {
         ConeccionBD conectar = new ConeccionBD();
         Connection coneccion = conectar.getConnection();
 
-        String query = "select * from Producto";
+        String query = "EXEC BusquedaInventario @Busqueda = '" + busqueda.getText() + "'";
         oblist.clear();
 
         try {
