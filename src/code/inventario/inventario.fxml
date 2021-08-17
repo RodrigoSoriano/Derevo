@@ -20,8 +20,8 @@
       <TableView fx:id="tablaInventario" onMouseClicked="#dobleClick" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="colum_id" prefWidth="59.0" text="ID" />
-          <TableColumn fx:id="colum_nombre" prefWidth="99.0" text="Nombre" />
-            <TableColumn fx:id="colum_desc" prefWidth="779.0" text="Descripción" />
+          <TableColumn fx:id="colum_nombre" prefWidth="150.0" text="Nombre" />
+            <TableColumn fx:id="colum_desc" prefWidth="728.0" text="Descripción" />
             <TableColumn fx:id="colum_existen" minWidth="0.0" prefWidth="103.0" text="Existencia" />
         </columns>
       </TableView>
