@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="510.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.empleados.EmpleadosController">
+<BorderPane prefHeight="510.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.empleados.EmpleadosController">
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
@@ -17,7 +17,7 @@
       </HBox>
    </top>
    <center>
-      <TableView fx:id="tablaEmpleados" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="tablaEmpleados" onMouseClicked="#dobleClick" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="id" prefWidth="67.0" text="ID" />
           <TableColumn fx:id="cedula" prefWidth="91.0" text="Cédula" />

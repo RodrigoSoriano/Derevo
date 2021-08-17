@@ -1,4 +1,4 @@
-package frontend.empleados;
+package code.empleados;
 
 public class ModeloTablaEmpleados {
 

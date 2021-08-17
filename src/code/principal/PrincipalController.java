@@ -1,4 +1,4 @@
-package frontend.principal;
+package code.principal;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;

@@ -1,10 +1,8 @@
-package backend.inventario;
+package code.inventario;
 
 public class ProductoHolder {
     private Producto producto;
     private final static ProductoHolder instancia = new ProductoHolder();
-
-    private ProductoHolder() {}
 
     public Producto getProducto() {
         return producto;

@@ -1,4 +1,4 @@
-package frontend.inventario;
+package code.inventario;
 
 public class ModeloTablaInventario {
 

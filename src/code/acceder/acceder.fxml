@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.acceder.LoginController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.acceder.LoginController">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -43,8 +43,8 @@
                   <Blend />
                </effect>
             </Button>
-            <PasswordField fx:id="contrasenaTextField" layoutX="102.0" layoutY="187.0" promptText="Contraseña" />
-            <TextField fx:id="usuarioTextField" layoutX="103.0" layoutY="147.0" promptText="Usuario" />
+            <PasswordField fx:id="contrasenaTextField" layoutX="102.0" layoutY="187.0" onKeyPressed="#manejarTeclasPresionadas" promptText="Contraseña" />
+            <TextField fx:id="usuarioTextField" layoutX="103.0" layoutY="147.0" onKeyPressed="#manejarTeclasPresionadas" promptText="Usuario" />
             <Label fx:id="errorSesion" alignment="CENTER" layoutX="27.0" layoutY="230.0" prefHeight="18.0" prefWidth="304.0" style="-fx-text-fill: red;" textAlignment="CENTER" textFill="RED" />
          </children>
       </AnchorPane>

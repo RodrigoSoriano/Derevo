@@ -1,7 +1,6 @@
-package backend.empleados;
+package code.empleados;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Empleadoo {
     private String id_empleado;

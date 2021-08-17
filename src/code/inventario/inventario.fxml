@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="730.0" prefWidth="1298.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.inventario.InventarioController">
+<BorderPane prefHeight="730.0" prefWidth="1298.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.inventario.InventarioController">
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
@@ -17,7 +17,7 @@
       </HBox>
    </top>
    <center>
-      <TableView fx:id="tablaInventario" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="tablaInventario" onMouseClicked="#dobleClick" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="colum_id" prefWidth="59.0" text="ID" />
           <TableColumn fx:id="colum_nombre" prefWidth="99.0" text="Nombre" />

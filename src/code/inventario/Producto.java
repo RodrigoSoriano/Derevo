@@ -1,4 +1,4 @@
-package backend.inventario;
+package code.inventario;
 
 public class Producto {
     private String id_producto;
@@ -7,14 +7,18 @@ public class Producto {
     private String peso;
     private String mano_obra;
     private String existencia;
+    private boolean producto_final;
+    private boolean paga_fundidor;
 
-    public Producto(String id_producto, String nombre, String descripcion, String peso, String mano_obra, String existencia) {
+    public Producto(String id_producto, String nombre, String descripcion, String peso, String mano_obra, String existencia, boolean producto_final, boolean paga_fundidor) {
         this.id_producto = id_producto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.peso = peso;
         this.mano_obra = mano_obra;
         this.existencia = existencia;
+        this.producto_final = producto_final;
+        this.paga_fundidor = paga_fundidor;
     }
 
     public String getId_producto() {
@@ -63,5 +67,21 @@ public class Producto {
 
     public void setExistencia(String existencia) {
         this.existencia = existencia;
+    }
+
+    public boolean getProducto_final() {
+        return producto_final;
+    }
+
+    public void setProducto_final(boolean producto_final) {
+        this.producto_final = producto_final;
+    }
+
+    public boolean getPaga_fundidor() {
+        return paga_fundidor;
+    }
+
+    public void setPaga_fundidor(boolean paga_fundidor) {
+        this.paga_fundidor = paga_fundidor;
     }
 }

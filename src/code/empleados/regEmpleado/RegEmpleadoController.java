@@ -1,17 +1,14 @@
-package frontend.empleados.regEmpleado;
+package code.empleados.regEmpleado;
 
-import backend.ConeccionBD;
-import backend.empleados.Empleadoo;
-import backend.empleados.EmpleadoHolder;
+import code.ConeccionBD;
+import code.empleados.Empleadoo;
+import code.empleados.EmpleadoHolder;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.text.DecimalFormat;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -43,10 +40,11 @@ public class RegEmpleadoController implements Initializable {
     private String oldValue_sueldo = "";
     private int caretPosition_sueldo = 0;
 
+    private boolean edicion = false;
+
     public void salirBotonOnAction() {
         Stage stage = (Stage) salirBoton.getScene().getWindow();
         stage.close();
-
     }
 
     public void formatoSueldo() {
@@ -60,7 +58,7 @@ public class RegEmpleadoController implements Initializable {
     }
 
     public void regEmpleadoButton() {
-        if(nombres.getText().isBlank() == false && sueldo.getText().isBlank() == false && fecha.getValue().toString().isBlank() == false){
+        if(!nombres.getText().isBlank() && !sueldo.getText().isBlank() && !fecha.getValue().toString().isBlank()){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Registro de empleado");
             alert.setHeaderText("Se procedera a registrar el empleado");
@@ -74,46 +72,40 @@ public class RegEmpleadoController implements Initializable {
             alert.setTitle("Registro Empleado");
             alert.setHeaderText("No se puede registrar");
             alert.setContentText("Revise los campos");
-
             alert.showAndWait();
         }
     }
 
     private void regEmpleado() {
-        ConeccionBD conectar = new ConeccionBD();
-        Connection coneccion = conectar.getConnection();
-        if(id.getText().isBlank()){
-            try{
-                Statement statement = coneccion.createStatement();
-                statement.executeUpdate("INSERT INTO Empleado (cedula, nombres, apellidos, telefono, fecha, sueldo_base) VALUES ('" + cedula.getText() + "', '" + nombres.getText() + "', '" + apellidos.getText() + "', '" + telefono.getText() + "', '" + fecha.getValue().toString() + "', " + sueldo.getText() +")");
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        if (ConeccionBD.getInstancia().regEmpleado(edicion, id.getText(), cedula.getText(), nombres.getText(), apellidos.getText(), telefono.getText(), fecha.getValue().toString(), sueldo.getText())){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            if(!edicion){
                 alert.setTitle("Registro de empleado");
                 alert.setHeaderText("Registro completado");
                 alert.setContentText("Los datos del empleado han sido registrados correctamente");
-
                 alert.showAndWait();
                 clear();
-            }catch (Exception e){
-                e.printStackTrace();
-                e.getCause();
-            }
-        }else{
-            try{
-                Statement statement = coneccion.createStatement();
-                statement.executeUpdate("UPDATE Empleado SET cedula = '" + cedula.getText() + "', nombres = '" + nombres.getText() + "', apellidos = '" + apellidos.getText() + "', telefono = '" + telefono.getText() + "', fecha = '" + fecha.getValue().toString() + "', sueldo_base = '" + sueldo.getText() +"' WHERE id_empleado = '" + id.getText() + "'");
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            }else{
                 alert.setTitle("Edición de empleado");
                 alert.setHeaderText("Edición completada");
                 alert.setContentText("Los datos del empleado han sido editados correctamente");
-
                 alert.showAndWait();
                 salirBotonOnAction();
-            }catch (Exception e){
-                e.printStackTrace();
-                e.getCause();
+            }
+        }else{
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            if(!edicion){
+                alert.setTitle("Registro de empleado");
+                alert.setHeaderText("No se pudo completar el registro");
+                alert.setContentText("Los datos del empleado no fueron registrados");
+                alert.showAndWait();
+            }else{
+                alert.setTitle("Edición de empleado");
+                alert.setHeaderText("No se pudo completar la edición");
+                alert.setContentText("Los datos del empleado no fueron editados");
+                alert.showAndWait();
             }
         }
-
     }
 
     private void clear(){
@@ -141,6 +133,9 @@ public class RegEmpleadoController implements Initializable {
             clear();
         }else{
             fecha.setValue(empleadoo.getFecha());
+        }
+        if (!id.getText().isBlank()){
+            edicion = true;
         }
     }
 }
