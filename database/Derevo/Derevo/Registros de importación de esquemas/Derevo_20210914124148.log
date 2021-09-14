@@ -1,0 +1,87 @@
+13/09/2021 20:41:48	Este registro contiene información acerca de la operación de importación de esquema en el proyecto 'Derevo' del equipo 'PORTATIL-R8S1U0' por el usuario 'rodri'.
+13/09/2021 20:41:48	Se inició la importación del esquema de la base de datos.
+13/09/2021 20:41:57	Recopilando credenciales de la base de datos
+13/09/2021 20:41:57	Recopilando opciones de base de datos
+13/09/2021 20:41:57	Recopilando la opción de configuración de ámbito de la base de datos genérica
+13/09/2021 20:41:57	Recopilando usuarios
+13/09/2021 20:41:57	Recopilando roles
+13/09/2021 20:41:57	Recopilando roles de aplicación
+13/09/2021 20:41:57	Recopilando pertenencias a roles
+13/09/2021 20:41:57	Recopilando grupos de archivos
+13/09/2021 20:41:57	Recopilando catálogos de texto completo
+13/09/2021 20:41:57	Recopilando ensamblados
+13/09/2021 20:41:57	Recopilando certificados
+13/09/2021 20:41:57	Recopilando claves asimétricas
+13/09/2021 20:41:57	Recopilando claves simétricas
+13/09/2021 20:41:57	Recopilando claves simétricas cifradas
+13/09/2021 20:41:57	Recopilando esquemas
+13/09/2021 20:41:57	Recopilando colecciones de esquemas XML
+13/09/2021 20:41:57	Recopilando tipos de datos definidos por el usuario
+13/09/2021 20:41:57	Recopilando tipos definidos por el usuario
+13/09/2021 20:41:57	Recopilando tipos de tabla
+13/09/2021 20:41:57	Recopilando claves únicas para tipos de tabla
+13/09/2021 20:41:57	Recopilando claves principales para tipos de tabla
+13/09/2021 20:41:57	Recopilando índices para tipos de tablas
+13/09/2021 20:41:58	Recopilando restricciones CHECK para tipos de tabla
+13/09/2021 20:41:58	Recopilando restricciones DEFAULT para tipos de tabla
+13/09/2021 20:41:58	Recopilando funciones de partición
+13/09/2021 20:41:58	Recopilando esquemas de partición
+13/09/2021 20:41:58	Recopilando funciones
+13/09/2021 20:41:58	Recopilando funciones cifradas
+13/09/2021 20:41:58	Recopilando agregados
+13/09/2021 20:41:58	Recopilando procedimientos
+13/09/2021 20:41:58	Recopilando procedimientos cifrados
+13/09/2021 20:41:58	Recopilando tablas
+13/09/2021 20:41:58	Recopilando claves principales
+13/09/2021 20:41:58	Recopilando restricciones UNIQUE
+13/09/2021 20:41:58	Recopilando claves externas
+13/09/2021 20:41:58	Recopilando restricciones DEFAULT
+13/09/2021 20:41:58	Recopilando restricciones CHECK
+13/09/2021 20:41:58	Recopilando vistas
+13/09/2021 20:41:58	Recopilando vistas cifradas
+13/09/2021 20:41:58	Recopilando índices
+13/09/2021 20:41:58	Recopilando estadísticas
+13/09/2021 20:41:58	Recopilando listas de palabras irrelevantes de índices de texto completo
+13/09/2021 20:41:58	Recopilando listas de propiedades de búsqueda
+13/09/2021 20:41:58	Recopilando propiedades de búsqueda
+13/09/2021 20:41:58	Recopilando índices de texto completo
+13/09/2021 20:41:58	Recopilando índices de almacenamiento de columnas
+13/09/2021 20:41:58	Recopilando índices espaciales
+13/09/2021 20:41:58	Recopilando índices XML
+13/09/2021 20:41:58	Recopilando índices XML selectivos
+13/09/2021 20:41:58	Recopilando desencadenadores cifrados
+13/09/2021 20:41:58	Recopilando desencadenadores
+13/09/2021 20:41:58	Recopilando DDL triggers cifrados y de CLR
+13/09/2021 20:41:58	Recopilando DDL triggers
+13/09/2021 20:41:58	Creación de la restricción perimetral en curso
+13/09/2021 20:41:58	Recopilando sinónimos
+13/09/2021 20:41:58	Recopilando valores predeterminados
+13/09/2021 20:41:58	Recopilando enlaces UDDT de restricción de datos
+13/09/2021 20:41:58	Recopilando reglas
+13/09/2021 20:41:58	Recopilando enlaces UDDT de restricción de datos
+13/09/2021 20:41:58	Recopilando tipos de mensaje
+13/09/2021 20:41:58	Recopilando colas
+13/09/2021 20:41:58	Recopilando contratos
+13/09/2021 20:41:58	Recopilando servicios
+13/09/2021 20:41:58	Recopilando notificaciones de eventos
+13/09/2021 20:41:58	Recopilando enlaces de servicio remoto
+13/09/2021 20:41:58	Recopilando prioridades de Broker
+13/09/2021 20:41:58	Recopilando firmas
+13/09/2021 20:41:58	Recopilando opciones de compresión de datos
+13/09/2021 20:41:58	Recopilando tipos de secuencia
+13/09/2021 20:41:58	Recopilando directivas de seguridad
+13/09/2021 20:41:58	Recopilar claves de cifrado de columna
+13/09/2021 20:41:58	Recopilando claves maestras de columna
+13/09/2021 20:41:58	Recopilando orígenes de datos externos
+13/09/2021 20:41:58	Recopilando formatos de archivo externos
+13/09/2021 20:41:58	Recopilando tablas externas
+13/09/2021 20:41:58	Recopilando permisos de base de datos
+13/09/2021 20:41:58	Recopilando propiedades extendidas
+13/09/2021 20:41:58	Recopilando credenciales
+13/09/2021 20:41:58	Recopilando inicios de sesión
+13/09/2021 20:41:58	Recopilando auditorías de servidor
+13/09/2021 20:42:01	Buscando elementos duplicados en el proyecto
+13/09/2021 20:42:01	Ha finalizado el procesamiento de los elementos duplicados
+13/09/2021 20:42:01	Finalizó la importación de la base de datos.
+13/09/2021 20:42:01	Se guardó un resumen de la importación en la siguiente ubicación: C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\Registros de importación de esquemas\Derevo_20210914124148.log
+13/09/2021 20:42:01	Haga clic en Finalizar para continuar...
