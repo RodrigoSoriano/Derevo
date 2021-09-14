@@ -16,8 +16,8 @@ public class ConeccionBD {
     }
 
     public Connection getConnection(){
-        String usuarioBD = "sa";
-        String contrasenaBD = "#Cabezaco018";
+        String usuarioBD = "derevo";
+        String contrasenaBD = "abc12345";
         String url = "jdbc:sqlserver://localhost\\SQLEXPRESS;database=Derevo";
         try{
             BaseDeDatosLink = DriverManager.getConnection(url, usuarioBD, contrasenaBD);
