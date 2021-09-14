@@ -1,5 +1,5 @@
-/out/
-/.idea/
-/database/Derevo/Derevo/bin/
-/database/Derevo/Derevo/Derevo.dbmdl
-/database/Derevo/Derevo/Derevo.jfm
+.idea
+out
+database/Derevo/Derevo.dbmdl
+database/Derevo/Derevo.jfm
+database/Derevo/Derevo/bin
