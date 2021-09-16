@@ -55,6 +55,7 @@ public class EmpleadosController implements Initializable {
             e.getCause();
         }
     }
+    
     public void abrirRegistrarEmpleado() {
         Empleadoo empleadoo = new Empleadoo(null, null, null, null, null, null, null);
         EmpleadoHolder.getInstancia().setEmpleado(empleadoo);

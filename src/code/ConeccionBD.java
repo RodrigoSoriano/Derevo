@@ -4,6 +4,8 @@ import code.empleados.EmpleadoHolder;
 import code.empleados.Empleadoo;
 import code.inventario.Producto;
 import code.inventario.ProductoHolder;
+import code.produccion.Produccion;
+import code.produccion.ProduccionHolder;
 import javafx.scene.control.Alert;
 import java.sql.*;
 
@@ -93,7 +95,7 @@ public class ConeccionBD {
         ejecutarQuery("delete from Empleado where id_empleado = " + id);
     }
     public ResultSet getListaEmpleados(String busqueda){
-        return ejecutarQuery("EXEC BusquedaEmpleado @Busqueda = '" + busqueda + "'");
+        return ejecutarQuery("EXEC BusquedaEmpleado @Busqueda = '" + busqueda.replace("'", "''") + "'");
     }
 
     //PRODUCTO
@@ -139,9 +141,29 @@ public class ConeccionBD {
         ejecutarQuery("delete from Producto where id_producto = " + id);
     }
     public ResultSet getListaProductos(String busqueda){
-        return ejecutarQuery("EXEC BusquedaInventario @Busqueda = '" + busqueda + "'");
+        return ejecutarQuery("EXEC BusquedaInventario @Busqueda = '" + busqueda.replace("'", "''") + "'");
     }
 
+    //PRODUCCION
+    public void setProduccionHolder(String id) throws SQLException {
+        ResultSet queryResult = ejecutarQuery("select * from Produccion where id_produccion =" + id);
+        Produccion produccion = new Produccion(null, null, null, null, null);
+        while (true){
+            assert queryResult != null;
+            if (!queryResult.next()) break;
+            produccion.setId_produccion(queryResult.getString("id_produccion"));
+            produccion.setId_empleado(queryResult.getString("id_empleado"));
+            produccion.setId_producto(queryResult.getString("id_producto"));
+            produccion.setCantidad(queryResult.getString("cantidad"));
+            produccion.setFecha(queryResult.getString("fecha"));
+        }
+        ProduccionHolder.getInstancia().setProduccion(produccion);
+    }
+    public ResultSet getListaProduccion(String busqueda){
+        return ejecutarQuery("EXEC BusquedaProduccion @Busqueda = '" + busqueda.replace("'", "''") + "'");
+    }
+    
+    //OTROS
     public void testConection(){
         try {
             getConnection().close();

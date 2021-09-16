@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[BusquedaEmpleado] @Busqueda VARCHAR(100)
 AS
-select * from Empleado 
-where
+SELECT * FROM Empleado
+WHERE
 id_empleado like '%'+@Busqueda+'%' or 
 cedula like '%'+@Busqueda+'%' or 
 nombres like '%'+@Busqueda+'%' or

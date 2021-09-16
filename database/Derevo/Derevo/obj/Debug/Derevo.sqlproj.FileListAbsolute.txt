@@ -1,0 +1,6 @@
+C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\bin\Debug\Derevo.dacpac
+C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\obj\Debug\Derevo.sqlproj.AssemblyReference.cache
+C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\obj\Debug\Derevo.dll
+C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\obj\Debug\Derevo.pdb
+C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\bin\Debug\Derevo.dll
+C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\bin\Debug\Derevo.pdb

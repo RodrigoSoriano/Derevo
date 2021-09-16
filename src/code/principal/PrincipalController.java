@@ -21,6 +21,12 @@ public class PrincipalController {
         panelPrincipal.setCenter(view);
     }
 
+    public void produccionBotonOnAction() {
+        FxmlLoader carga = new FxmlLoader();
+        Pane view = carga.getPage("produccion");
+        panelPrincipal.setCenter(view);
+    }
+
     public void departamentosBotonOnAction() {
         FxmlLoader carga = new FxmlLoader();
         Pane view = carga.getPage("departamentos");

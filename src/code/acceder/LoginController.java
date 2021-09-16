@@ -9,10 +9,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.ResourceBundle;
-
 public class LoginController {
     @FXML
     private Label errorSesion;
@@ -37,8 +33,6 @@ public class LoginController {
     }
 
     public void accederBotonOnAction() {
-        //cancelarBotonOnAction();
-        //abrirPrincipal();
         if (usuarioTextField.getText().isBlank()) {
             errorSesion.setText("Porfavor introduzca el usuario");
             usuarioTextField.requestFocus();

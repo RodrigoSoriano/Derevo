@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="730.0" prefWidth="1298.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.produccion.ProduccionController">
+    <top>
+        <HBox BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#abrirRegistrarProduccion" prefWidth="65.0" text="Nuevo" />
+                <Button mnemonicParsing="false" onAction="#editarRegistrarProduccion" prefWidth="65.0" text="Editar" />
+                <Button layoutX="75.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteProduccion" prefWidth="65.0" text="Borrar" />
+                <Button layoutX="140.0" layoutY="10.0" mnemonicParsing="false" onAction="#actualizarTabla" prefWidth="71.0" text="Actualizar" />
+                <Region HBox.hgrow="ALWAYS" />
+                <TextField fx:id="busqueda" onKeyReleased="#actualizarTabla" prefHeight="25.0" prefWidth="252.0" promptText="Buscar" />
+            </children>
+        </HBox>
+    </top>
+    <center>
+        <TableView fx:id="tablaProduccion" onMouseClicked="#dobleClick" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="colum_id" prefWidth="107.0" text="ID" />
+                <TableColumn fx:id="colum_empleado" prefWidth="107.0" text="Empleado" />
+                <TableColumn fx:id="colum_producto" prefWidth="96.0" text="Producto" />
+                <TableColumn fx:id="colum_cantidad" prefWidth="115.0" text="Cantidad" />
+                <TableColumn fx:id="colum_fecha" minWidth="0.0" prefWidth="234.0" text="Fecha" />
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>
