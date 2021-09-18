@@ -47,10 +47,10 @@ public class ProduccionController implements Initializable {
 
     private void regProduccion(String titulo){
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("regEmpleado/regProduccion.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("regProduccion/regProduccion.fxml"));
             Stage regStage = new Stage();
             regStage.setTitle(titulo);
-            regStage.setScene(new Scene(root, 375, 272));
+            regStage.setScene(new Scene(root, 375, 464));
             regStage.setResizable(false);
             regStage.initModality(Modality.APPLICATION_MODAL);
             regStage.show();

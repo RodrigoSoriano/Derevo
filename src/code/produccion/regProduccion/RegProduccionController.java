@@ -2,13 +2,25 @@ package code.produccion.regProduccion;
 
 import code.ConeccionBD;
 import code.General;
+import code.produccion.ModeloTablaProduccion;
+import code.produccion.Produccion;
+import code.produccion.ProduccionHolder;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class RegProduccionController {
+public class RegProduccionController implements Initializable {
     @FXML
     private Button salirBoton;
 
@@ -19,13 +31,31 @@ public class RegProduccionController {
     private TextField id;
 
     @FXML
-    private ComboBox empleado;
+    private TextField empleado_id;
 
     @FXML
-    private ComboBox producto;
+    private TextField empleado;
+
+    @FXML
+    private TextField producto_id;
+
+    @FXML
+    private TextField producto;
 
     @FXML
     private TextField cantidad;
+
+    @FXML
+    private TableView<ModeloTablaProduccion> tablaProduccion;
+
+    @FXML
+    private TableColumn<ModeloTablaProduccion,String> colum_id;
+
+    @FXML
+    private TableColumn<ModeloTablaProduccion,String> colum_producto;
+
+    @FXML
+    private TableColumn<ModeloTablaProduccion,String> colum_cantidad;
 
     private String oldValue_cantidad = "";
     private int caretPosition_cantidad = 0;
@@ -38,7 +68,7 @@ public class RegProduccionController {
         stage.close();
     }
 
-    public void formatoCantidad() {
+    public void formatoCantidad(KeyEvent event) {
         if (!cantidad.getText().matches("\\d{0,9}?")) {
             cantidad.setText(oldValue_cantidad);
             cantidad.positionCaret(caretPosition_cantidad);
@@ -48,14 +78,18 @@ public class RegProduccionController {
         }
     }
 
+    public void formatoId_empleado(KeyEvent event) {
+
+    }
+
     private boolean validaDatos(){
-        if(     !empleado.getSelectionModel().isEmpty() &&
-                !producto.getSelectionModel().isEmpty() &&
+        if(     !empleado_id.getText().isBlank() &&
+                !producto_id.getText().isBlank() &&
                 !fecha.getValue().toString().isBlank() &&
                 !cantidad.getText().isBlank()){
-            return false;
-        }else{
             return true;
+        }else{
+            return false;
         }
     }
 
@@ -74,22 +108,19 @@ public class RegProduccionController {
         }
     }
 
+    public void llenarEmpleado(KeyEvent event) throws SQLException {
+       if(event.getCode() == KeyCode.ENTER) {
+           empleado.setText(ConeccionBD.getInstancia().getEmpleadoById(empleado_id.getText()));
+       }
+    }
+
     private void regProduccion() {
-        if (ConeccionBD.getInstancia().regProduccion(
-                edicion,
-                id.getText(),
-                fecha.getValue().toString(),
-                empleado.getSelectionModel().toString(),
-                producto.getSelectionModel().toString(),
-                cantidad.toString())){
-            General.mensaje(Alert.AlertType.INFORMATION, ventana, "Los datos han sido guardados satisfactoriamente");
-            if(!edicion){
-                clear();
-            }else{
-                salirBotonOnAction();
-            }
-        }else{
-            General.mensaje(Alert.AlertType.WARNING, ventana, "Los datos no fueron registrados");
-        }
+
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Produccion produccion = ProduccionHolder.getInstancia().getProduccion();
+        fecha.setValue(java.time.LocalDate.now());
     }
 }

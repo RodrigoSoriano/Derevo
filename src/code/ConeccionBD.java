@@ -97,6 +97,14 @@ public class ConeccionBD {
     public ResultSet getListaEmpleados(String busqueda){
         return ejecutarQuery("EXEC BusquedaEmpleado @Busqueda = '" + busqueda.replace("'", "''") + "'");
     }
+    public String getEmpleadoById(String id) throws SQLException {
+        ResultSet query = ejecutarQuery("select top 1 nombres + ' ' + apellidos as resultado from Empleado where id_empleado = " + id);
+        if(query.next()){
+            return query.getString("resultado");
+        }else{
+            return "No encontrado";
+        }
+    }
 
     //PRODUCTO
     public boolean regProducto(boolean edicion, String id, String nombre, String descripcion, String peso, String mano_obra, String existencia, boolean producto_final, boolean paga_fundidor){

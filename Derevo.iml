@@ -21,7 +21,9 @@
           <root url="jar://$MODULE_DIR$/lib/javafx-base-16-win.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/lib/javafx-fxml-16.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="library" name="lib" level="project" />
