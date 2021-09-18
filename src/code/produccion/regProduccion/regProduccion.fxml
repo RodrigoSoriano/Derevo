@@ -1,14 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="code.produccion.regProduccion.RegProduccion"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="464.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.produccion.regProduccion.RegProduccionController">
+    <bottom>
+        <HBox BorderPane.alignment="CENTER">
+            <children>
+                <Region prefHeight="31.0" prefWidth="106.0" HBox.hgrow="ALWAYS" />
+                <Button fx:id="guardarBoton" mnemonicParsing="false" onAction="#regProduccionButton" text="Guardar">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Button>
+                <Button fx:id="salirBoton" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#salirBotonOnAction" text="Salir">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets left="10.0" />
+                    </HBox.margin>
+                </Button>
+            </children>
+            <padding>
+                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+            </padding>
+        </HBox>
+    </bottom>
+    <center>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label layoutX="8.0" layoutY="60.0" text="ID:" />
+                <Label layoutX="121.0" layoutY="61.0" text="Nota:" />
+                <Label layoutX="8.0" layoutY="95.0" text="Empleado:" />
+                <Label layoutX="8.0" layoutY="130.0" text="Producto:" />
+                <Label layoutX="228.0" layoutY="19.0" text="Fecha:" />
+                <Label layoutX="8.0" layoutY="164.0" text="Cantidad:" />
+                <DatePicker fx:id="fecha" editable="false" layoutX="265.0" layoutY="15.0" prefHeight="25.0" prefWidth="103.0" />
+                <TextField fx:id="id" disable="true" layoutX="28.0" layoutY="57.0" prefHeight="25.0" prefWidth="81.0" />
+                <TextField fx:id="cantidad" layoutX="73.0" layoutY="161.0" onKeyReleased="#formatoCantidad" onMouseClicked="#formatoCantidad" prefHeight="25.0" prefWidth="79.0" />
+                <TextField fx:id="nota" layoutX="154.0" layoutY="56.0" prefHeight="25.0" prefWidth="213.0" />
+                <Label contentDisplay="CENTER" layoutX="8.0" layoutY="6.0" prefHeight="43.0" prefWidth="177.0" text="Registro de Producción">
+                    <font>
+                        <Font name="System Bold" size="15.0" />
+                    </font>
+                </Label>
+            <Button layoutX="195.0" layoutY="161.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" text="Agregar" />
+            <BorderPane layoutY="194.0" prefHeight="223.0" prefWidth="375.0">
+               <center>
+                  <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                    <columns>
+                      <TableColumn prefWidth="290.0" text="Producto" />
+                      <TableColumn minWidth="0.0" prefWidth="83.0" text="Cantidad" />
+                    </columns>
+                  </TableView>
+               </center>
+            </BorderPane>
+            <Button layoutX="284.0" layoutY="161.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" text="Remover" />
+            <TextField layoutX="73.0" layoutY="91.0" prefHeight="25.0" prefWidth="43.0" />
+            <TextField editable="false" layoutX="121.0" layoutY="91.0" prefHeight="25.0" prefWidth="180.0" />
+            <Button layoutX="308.0" layoutY="91.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Buscar" />
+            <TextField layoutX="73.0" layoutY="126.0" prefHeight="25.0" prefWidth="43.0" />
+            <TextField editable="false" layoutX="121.0" layoutY="126.0" prefHeight="25.0" prefWidth="180.0" />
+            <Button layoutX="308.0" layoutY="126.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Buscar" />
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

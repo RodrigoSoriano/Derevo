@@ -57,8 +57,18 @@ public class RegEmpleadoController implements Initializable {
         }
     }
 
+    private boolean validaDatos(){
+        if(     !nombres.getText().isBlank() &&
+                !sueldo.getText().isBlank() &&
+                !fecha.getValue().toString().isBlank()){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     public void regEmpleadoButton() {
-        if(!nombres.getText().isBlank() && !sueldo.getText().isBlank() && !fecha.getValue().toString().isBlank()){
+        if(validaDatos()){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Registro de empleado");
             alert.setHeaderText("Se procedera a registrar el empleado");
