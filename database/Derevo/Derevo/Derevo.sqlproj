@@ -159,6 +159,8 @@
     <Build Include="dbo\Views\vProduccion.sql" />
     <Build Include="dbo\Stored Procedures\RemoverProduccion.sql" />
     <Build Include="dbo\Views\vSubProduccion.sql" />
+    <Build Include="dbo\Stored Procedures\AperturarProduccion.sql" />
+    <Build Include="dbo\Stored Procedures\BorrarProduccion.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Derevo.refactorlog" />

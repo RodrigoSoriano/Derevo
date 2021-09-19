@@ -69,13 +69,14 @@ public class ProduccionController implements Initializable {
         alert.setContentText("¿Seguro que desea preceder?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
-            ConeccionBD.getInstancia().deleteEmpleado(tablaProduccion.getSelectionModel().getSelectedItem().toString());
+            ConeccionBD.getInstancia().deleteProduccion(tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
             actualizarTabla();
         }
     }
 
     public void actualizarTabla() throws SQLException {
-        General.llenarTabla(tablaProduccion, ventana);
+        String busca = busqueda.getText().replace("'", "''");
+        General.llenarTabla(tablaProduccion, ventana, "WHERE ID like '%"+busca+"%' or Empleado like '%"+busca+"%' or Fecha like '%"+busca+"%' or Nota like '%"+busca+"%'");
     }
 
     @Override

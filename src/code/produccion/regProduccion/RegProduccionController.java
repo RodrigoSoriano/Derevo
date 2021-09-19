@@ -3,6 +3,7 @@ package code.produccion.regProduccion;
 import code.ConeccionBD;
 import code.General;
 import code.produccion.Produccion;
+import code.produccion.ProduccionController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,6 +13,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -21,6 +24,7 @@ import java.util.ResourceBundle;
 
 
 public class RegProduccionController implements Initializable {
+    //region Variables FXML
     @FXML
     private Button salirBoton;
 
@@ -52,16 +56,11 @@ public class RegProduccionController implements Initializable {
     private TableView tablaProduccion;
 
     @FXML
-    private TableColumn colum_id;
-
-    @FXML
-    private TableColumn colum_producto;
-
-    @FXML
-    private TableColumn colum_cantidad;
-
-    @FXML
     private Button aperturar;
+
+    @FXML
+    private Button buscarEmpleado;
+    //endregion
 
     private boolean edicion = false;
     private String ventana = "Producción";
@@ -74,19 +73,18 @@ public class RegProduccionController implements Initializable {
 
     private boolean validaDatos(){
         if(     !empleado_id.getText().isBlank() &&
-                !fecha.getValue().toString().isBlank() &&
-                !cantidad.getText().isBlank()){
+                !fecha.getValue().toString().isBlank()){
             return true;
         }else{
             return false;
         }
     }
 
-    public void aperturarProduccionBoton() {
+    public void aperturarProduccionBoton() throws SQLException {
         if(validaDatos()){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Registro de producción");
-            alert.setHeaderText("Se procedera a registrar la producción");
+            alert.setTitle("Apertura de producción");
+            alert.setHeaderText("Se procedera a aprturar la producción");
             alert.setContentText("¿Seguro que desea preceder?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
@@ -97,8 +95,9 @@ public class RegProduccionController implements Initializable {
         }
     }
 
-    private void aperturarProduccion() {
-
+    private void aperturarProduccion() throws SQLException {
+        ConeccionBD.getInstancia().aperturarProduccion(empleado_id.getText(), fecha.getValue().toString(), nota.getText());
+        setDatos();
     }
 
     public void llenarEmpleado(KeyEvent event) throws SQLException {
@@ -112,32 +111,57 @@ public class RegProduccionController implements Initializable {
         producto.setText("");
         if(event.getCode() == KeyCode.ENTER) {
             producto.setText(ConeccionBD.getInstancia().getProductoById(producto_id.getText()));
+            if (!producto.getText().equals("No encontrado")){
+                cantidad.requestFocus();
+            }
+        }
+    }
+
+    public void enterCantidad(KeyEvent event) throws SQLException {
+        if (event.getCode() == KeyCode.ENTER){
+            agregarProduccion();
+            producto_id.requestFocus();
         }
     }
 
     public void agregarProduccion() throws SQLException {
         ConeccionBD.getInstancia().agregarProduccion(id.getText(), producto_id.getText(), cantidad.getText());
         actualizarTabla();
+        clear();
     }
 
-    public void removerProduccion() {
+    public void dobleClick(MouseEvent event) throws SQLException {
+        if(event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2){
+            removerProduccion();
+        }
+    }
+
+    public void removerProduccion() throws SQLException {
         ConeccionBD.getInstancia().removerProduccion(id.getText(), tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
+        actualizarTabla();
     }
 
     private void clear() {
-        fecha.setValue(java.time.LocalDate.now());
+        producto_id.setText("");
+        producto.setText("");
+        cantidad.setText("");
     }
 
-    private void actualizarTabla() throws SQLException {
-        General.llenarTabla(tablaProduccion, "SubProduccion", id.getText());
+    private void setFormatos() {
+        empleado_id.setTextFormatter(General.soloNumero());
+        producto_id.setTextFormatter(General.soloNumero());
+        cantidad.setTextFormatter(General.soloNumero());
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    private void setDatos() {
         Produccion produccion = Produccion.getProduccion();
         if (produccion.getId_produccion() != null){
             edicion = true;
             aperturar.setDisable(true);
+            fecha.setDisable(true);
+            nota.setEditable(false);
+            empleado_id.setEditable(false);
+            buscarEmpleado.setDisable(true);
             id.setText(produccion.getId_produccion());
             nota.setText(produccion.getNota());
             empleado_id.setText(produccion.getId_empleado());
@@ -149,10 +173,18 @@ public class RegProduccionController implements Initializable {
                 ConeccionBD.getInstancia().error(e);
             }
         }else{
-            clear();
+            fecha.setValue(java.time.LocalDate.now());
         }
-        empleado_id.setTextFormatter(General.soloNumero());
-        producto_id.setTextFormatter(General.soloNumero());
-        cantidad.setTextFormatter(General.soloNumero());
+    }
+
+    private void actualizarTabla() throws SQLException {
+        General.llenarTabla(tablaProduccion,"SubProduccion", "WHERE id_produccion = " + id.getText());
+        tablaProduccion.getColumns().remove(3);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        setFormatos();
+        setDatos();
     }
 }

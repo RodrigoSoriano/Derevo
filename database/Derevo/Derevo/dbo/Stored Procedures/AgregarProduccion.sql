@@ -3,5 +3,17 @@
 	@id_producto int,
 	@cantidad int
 AS
-	INSERT INTO SubProduccion(id_produccion, id_producto, cantidad)
-		VALUES(@id_producto, @id_produccion, @cantidad)
+	DECLARE @id int
+	SELECT @id = id FROM SubProduccion WHERE id_produccion = @id_produccion AND id_producto = @id_producto
+
+	IF (@id > 0)
+	BEGIN
+		UPDATE SubProduccion SET cantidad = (SELECT cantidad FROM SubProduccion WHERE id = @id) + @cantidad WHERE id = @id
+	END
+	ELSE
+	BEGIN
+		INSERT INTO SubProduccion(id_produccion, id_producto, cantidad)
+						  VALUES(@id_produccion, @id_producto, @cantidad)
+	END
+
+	SELECT TOP 0 * FROM SubProduccion

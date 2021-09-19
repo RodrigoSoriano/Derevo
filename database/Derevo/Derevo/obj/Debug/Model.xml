@@ -48,7 +48,8 @@
 			<Property Name="BodyScript">
 				<Value><![CDATA[
 	INSERT INTO SubProduccion(id_produccion, id_producto, cantidad)
-		VALUES(@id_producto, @id_produccion, @cantidad)]]></Value>
+		VALUES(@id_produccion, @id_producto, @cantidad)
+RETURN (0)]]></Value>
 			</Property>
 			<Property Name="IsQuotedIdentifierOn" Value="False" />
 			<Relationship Name="BodyDependencies">
@@ -65,10 +66,10 @@
 					<References Name="[dbo].[SubProduccion].[cantidad]" />
 				</Entry>
 				<Entry>
-					<References Name="[dbo].[AgregarProduccion].[@id_producto]" />
+					<References Name="[dbo].[AgregarProduccion].[@id_produccion]" />
 				</Entry>
 				<Entry>
-					<References Name="[dbo].[AgregarProduccion].[@id_produccion]" />
+					<References Name="[dbo].[AgregarProduccion].[@id_producto]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[AgregarProduccion].[@cantidad]" />
@@ -127,7 +128,7 @@
 				</Entry>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
-				<Property Name="Length" Value="221" />
+				<Property Name="Length" Value="233" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[AgregarProduccion]&#xD;&#xA;&#x9;@id_produccion int,&#xD;&#xA;&#x9;@id_producto int,&#xD;&#xA;&#x9;@cantidad int&#xD;&#xA;AS" />
@@ -845,7 +846,8 @@ Nota like '%'+@Busqueda+'%']]></Value>
 		<Element Type="SqlProcedure" Name="[dbo].[RemoverProduccion]">
 			<Property Name="BodyScript">
 				<Value><![CDATA[
-	DELETE SubProduccion WHERE id_produccion = @id_produccion AND id_producto = @id_producto]]></Value>
+	DELETE SubProduccion WHERE id_produccion = @id_produccion AND id_producto = @id_producto
+RETURN (0)]]></Value>
 			</Property>
 			<Property Name="IsQuotedIdentifierOn" Value="False" />
 			<Relationship Name="BodyDependencies">
@@ -903,7 +905,7 @@ Nota like '%'+@Busqueda+'%']]></Value>
 				</Entry>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
-				<Property Name="Length" Value="178" />
+				<Property Name="Length" Value="190" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[RemoverProduccion]&#xD;&#xA;&#x9;@id_produccion int,&#xD;&#xA;&#x9;@id_producto int&#xD;&#xA;AS" />

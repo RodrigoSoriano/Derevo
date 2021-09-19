@@ -3,3 +3,5 @@
 	@id_producto int
 AS
 	DELETE SubProduccion WHERE id_produccion = @id_produccion AND id_producto = @id_producto
+	
+	SELECT TOP 0 * FROM SubProduccion

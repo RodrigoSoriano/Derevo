@@ -38,9 +38,13 @@ public class General {
     }
 
     static public void llenarTabla(TableView tabla, String origen, String ... filtro) throws SQLException {
-        tabla.getItems().clear();
+        if (filtro.length == 0){
+            filtro = new String[1];
+            filtro[0] = "";
+        }
+        tabla.getColumns().clear();
         ObservableList<ObservableList> data = FXCollections.observableArrayList();
-        ResultSet rs = ConeccionBD.getInstancia().getData(origen);
+        ResultSet rs = ConeccionBD.getInstancia().getData(origen, filtro[0]);
 
         for(int i=0 ; i<rs.getMetaData().getColumnCount(); i++){
             final int j = i;

@@ -33,15 +33,15 @@
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="417.0" prefWidth="375.0" BorderPane.alignment="CENTER">
             <children>
                 <DatePicker fx:id="fecha" editable="false" layoutX="265.0" layoutY="15.0" prefHeight="25.0" prefWidth="103.0" />
-                <TextField fx:id="id" disable="true" layoutX="28.0" layoutY="57.0" prefHeight="25.0" prefWidth="81.0" />
-                <TextField fx:id="nota" layoutX="154.0" layoutY="56.0" prefHeight="25.0" prefWidth="213.0" />
+                <TextField fx:id="id" disable="true" layoutX="28.0" layoutY="57.0" prefHeight="25.0" prefWidth="38.0" />
+                <TextField fx:id="nota" layoutX="121.0" layoutY="56.0" prefHeight="25.0" prefWidth="245.0" />
             <TextField fx:id="empleado_id" layoutX="73.0" layoutY="91.0" onKeyPressed="#llenarEmpleado" prefHeight="25.0" prefWidth="43.0" />
             <TextField fx:id="empleado" editable="false" layoutX="121.0" layoutY="91.0" prefHeight="25.0" prefWidth="180.0" />
             <TextField fx:id="producto_id" layoutX="73.0" layoutY="126.0" onKeyPressed="#llenarProducto" prefHeight="25.0" prefWidth="43.0" />
             <TextField fx:id="producto" editable="false" layoutX="121.0" layoutY="126.0" prefHeight="25.0" prefWidth="180.0" />
-                <TextField fx:id="cantidad" layoutX="73.0" layoutY="161.0" prefHeight="25.0" prefWidth="79.0" />
+                <TextField fx:id="cantidad" layoutX="73.0" layoutY="161.0" onKeyPressed="#enterCantidad" prefHeight="25.0" prefWidth="79.0" />
                 <Label layoutX="8.0" layoutY="60.0" text="ID:" />
-                <Label layoutX="121.0" layoutY="61.0" text="Nota:" />
+                <Label layoutX="83.0" layoutY="61.0" text="Nota:" />
                 <Label layoutX="8.0" layoutY="95.0" text="Empleado:" />
                 <Label layoutX="8.0" layoutY="130.0" text="Producto:" />
                 <Label layoutX="228.0" layoutY="19.0" text="Fecha:" />
@@ -54,12 +54,12 @@
             <Button layoutX="195.0" layoutY="161.0" mnemonicParsing="false" onAction="#agregarProduccion" prefHeight="25.0" prefWidth="83.0" text="Agregar" />
             <BorderPane layoutY="194.0" maxHeight="223.0" maxWidth="375.0" minHeight="223.0" minWidth="375.0" prefHeight="223.0" prefWidth="375.0">
                <center>
-                  <TableView fx:id="tablaProduccion" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                  <TableView fx:id="tablaProduccion" onMouseClicked="#dobleClick" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
             <Button layoutX="284.0" layoutY="161.0" mnemonicParsing="false" onAction="#removerProduccion" prefHeight="25.0" prefWidth="83.0" text="Remover" />
-            <Button layoutX="308.0" layoutY="91.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Buscar" />
-            <Button layoutX="308.0" layoutY="126.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Buscar" />
+            <Button fx:id="buscarEmpleado" layoutX="308.0" layoutY="91.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Buscar" />
+            <Button fx:id="buscarProducto" layoutX="308.0" layoutY="126.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Buscar" />
             </children>
         </AnchorPane>
     </center>

@@ -160,6 +160,14 @@ public class ConeccionBD {
     }
 
     //PRODUCCION
+    public void aperturarProduccion(String id_empelado, String fecha, String nota) throws SQLException {
+        ResultSet rs = ejecutarQuery("EXEC AperturarProduccion @id_empleado = " + id_empelado + ", @fecha = '" + fecha + "', @nota = '" + nota + "'");
+        rs.next();
+        setProduccionHolder(rs.getString("id_produccion"));
+    }
+    public void deleteProduccion(String id){
+        ejecutarQuery("EXEC RemoverProduccion @id_produccion = " + id);
+    }
     public void setProduccionHolder(String id) throws SQLException {
         ResultSet queryResult = ejecutarQuery("select * from Produccion where id_produccion = " + id);
         Produccion produccion = new Produccion();
@@ -191,8 +199,8 @@ public class ConeccionBD {
             error(e);
         }
     }
-    public ResultSet getData(String origen) {
-        return ejecutarQuery("select * from v" + origen);
+    public ResultSet getData(String origen, String filtro) {
+        return ejecutarQuery("select * from v" + origen + " " + filtro);
     }
 
     private ResultSet ejecutarQuery(String query){
