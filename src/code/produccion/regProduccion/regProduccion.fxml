@@ -10,7 +10,7 @@
         <HBox BorderPane.alignment="CENTER">
             <children>
                 <Region prefHeight="31.0" prefWidth="106.0" HBox.hgrow="ALWAYS" />
-                <Button fx:id="guardarBoton" mnemonicParsing="false" onAction="#regProduccionButton" text="Guardar">
+                <Button fx:id="aperturar" mnemonicParsing="false" onAction="#aperturarProduccionBoton" text="Aperturar">
                     <font>
                         <Font size="15.0" />
                     </font>
@@ -32,39 +32,33 @@
     <center>
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="417.0" prefWidth="375.0" BorderPane.alignment="CENTER">
             <children>
+                <DatePicker fx:id="fecha" editable="false" layoutX="265.0" layoutY="15.0" prefHeight="25.0" prefWidth="103.0" />
+                <TextField fx:id="id" disable="true" layoutX="28.0" layoutY="57.0" prefHeight="25.0" prefWidth="81.0" />
+                <TextField fx:id="nota" layoutX="154.0" layoutY="56.0" prefHeight="25.0" prefWidth="213.0" />
+            <TextField fx:id="empleado_id" layoutX="73.0" layoutY="91.0" onKeyPressed="#llenarEmpleado" prefHeight="25.0" prefWidth="43.0" />
+            <TextField fx:id="empleado" editable="false" layoutX="121.0" layoutY="91.0" prefHeight="25.0" prefWidth="180.0" />
+            <TextField fx:id="producto_id" layoutX="73.0" layoutY="126.0" onKeyPressed="#llenarProducto" prefHeight="25.0" prefWidth="43.0" />
+            <TextField fx:id="producto" editable="false" layoutX="121.0" layoutY="126.0" prefHeight="25.0" prefWidth="180.0" />
+                <TextField fx:id="cantidad" layoutX="73.0" layoutY="161.0" prefHeight="25.0" prefWidth="79.0" />
                 <Label layoutX="8.0" layoutY="60.0" text="ID:" />
                 <Label layoutX="121.0" layoutY="61.0" text="Nota:" />
                 <Label layoutX="8.0" layoutY="95.0" text="Empleado:" />
                 <Label layoutX="8.0" layoutY="130.0" text="Producto:" />
                 <Label layoutX="228.0" layoutY="19.0" text="Fecha:" />
                 <Label layoutX="8.0" layoutY="164.0" text="Cantidad:" />
-                <DatePicker fx:id="fecha" editable="false" layoutX="265.0" layoutY="15.0" prefHeight="25.0" prefWidth="103.0" />
-                <TextField fx:id="id" disable="true" layoutX="28.0" layoutY="57.0" prefHeight="25.0" prefWidth="81.0" />
-                <TextField fx:id="cantidad" layoutX="73.0" layoutY="161.0" onKeyReleased="#formatoCantidad" onMouseClicked="#formatoCantidad" prefHeight="25.0" prefWidth="79.0" />
-                <TextField fx:id="nota" layoutX="154.0" layoutY="56.0" prefHeight="25.0" prefWidth="213.0" />
                 <Label contentDisplay="CENTER" layoutX="8.0" layoutY="6.0" prefHeight="43.0" prefWidth="177.0" text="Registro de Producción">
                     <font>
                         <Font name="System Bold" size="15.0" />
                     </font>
                 </Label>
-            <Button layoutX="195.0" layoutY="161.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" text="Agregar" />
+            <Button layoutX="195.0" layoutY="161.0" mnemonicParsing="false" onAction="#agregarProduccion" prefHeight="25.0" prefWidth="83.0" text="Agregar" />
             <BorderPane layoutY="194.0" maxHeight="223.0" maxWidth="375.0" minHeight="223.0" minWidth="375.0" prefHeight="223.0" prefWidth="375.0">
                <center>
-                  <TableView fx:id="tablaProduccion" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                    <columns>
-                      <TableColumn fx:id="colum_id" minWidth="0.0" prefWidth="53.0" text="ID" />
-                      <TableColumn fx:id="colum_producto" prefWidth="241.0" text="Producto" />
-                        <TableColumn fx:id="colum_cantidad" minWidth="0.0" prefWidth="77.0" text="Cantidad" />
-                    </columns>
-                  </TableView>
+                  <TableView fx:id="tablaProduccion" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
-            <Button layoutX="284.0" layoutY="161.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" text="Remover" />
-            <TextField fx:id="empleado_id" layoutX="73.0" layoutY="91.0" onKeyReleased="#llenarEmpleado" prefHeight="25.0" prefWidth="43.0" />
-            <TextField fx:id="empleado" editable="false" layoutX="121.0" layoutY="91.0" prefHeight="25.0" prefWidth="180.0" />
+            <Button layoutX="284.0" layoutY="161.0" mnemonicParsing="false" onAction="#removerProduccion" prefHeight="25.0" prefWidth="83.0" text="Remover" />
             <Button layoutX="308.0" layoutY="91.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Buscar" />
-            <TextField fx:id="producto_id" layoutX="73.0" layoutY="126.0" prefHeight="25.0" prefWidth="43.0" />
-            <TextField fx:id="producto" editable="false" layoutX="121.0" layoutY="126.0" prefHeight="25.0" prefWidth="180.0" />
             <Button layoutX="308.0" layoutY="126.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Buscar" />
             </children>
         </AnchorPane>

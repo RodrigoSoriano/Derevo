@@ -1,6 +1,9 @@
 C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\bin\Debug\Derevo.dacpac
-C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\obj\Debug\Derevo.sqlproj.AssemblyReference.cache
-C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\obj\Debug\Derevo.dll
-C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\obj\Debug\Derevo.pdb
 C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\bin\Debug\Derevo.dll
 C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\bin\Debug\Derevo.pdb
+C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\obj\Debug\Model.xml
+C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\obj\Debug\refactor.xml
+C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\obj\Debug\postdeploy.sql
+C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\obj\Debug\predeploy.sql
+C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\obj\Debug\Derevo.dll
+C:\Users\rodri\IdeaProjects\Derevo\database\Derevo\Derevo\obj\Debug\Derevo.pdb

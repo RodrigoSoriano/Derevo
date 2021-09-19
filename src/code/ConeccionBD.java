@@ -5,7 +5,6 @@ import code.empleados.Empleadoo;
 import code.inventario.Producto;
 import code.inventario.ProductoHolder;
 import code.produccion.Produccion;
-import code.produccion.ProduccionHolder;
 import javafx.scene.control.Alert;
 import java.sql.*;
 
@@ -98,7 +97,7 @@ public class ConeccionBD {
         return ejecutarQuery("EXEC BusquedaEmpleado @Busqueda = '" + busqueda.replace("'", "''") + "'");
     }
     public String getEmpleadoById(String id) throws SQLException {
-        ResultSet query = ejecutarQuery("select top 1 nombres + ' ' + apellidos as resultado from Empleado where id_empleado = " + id);
+        ResultSet query = ejecutarQuery("select top 1 nombres + ' ' + apellidos as resultado from Empleado where id_empleado = " + (id.equals("") ? "0": id));
         if(query.next()){
             return query.getString("resultado");
         }else{
@@ -151,24 +150,37 @@ public class ConeccionBD {
     public ResultSet getListaProductos(String busqueda){
         return ejecutarQuery("EXEC BusquedaInventario @Busqueda = '" + busqueda.replace("'", "''") + "'");
     }
+    public String getProductoById(String id) throws SQLException {
+        ResultSet query = ejecutarQuery("select top 1 nombre as resultado from Producto where id_producto = " + (id.equals("") ? "0": id));
+        if(query.next()){
+            return query.getString("resultado");
+        }else{
+            return "No encontrado";
+        }
+    }
 
     //PRODUCCION
     public void setProduccionHolder(String id) throws SQLException {
-        ResultSet queryResult = ejecutarQuery("select * from Produccion where id_produccion =" + id);
-        Produccion produccion = new Produccion(null, null, null, null, null);
+        ResultSet queryResult = ejecutarQuery("select * from Produccion where id_produccion = " + id);
+        Produccion produccion = new Produccion();
         while (true){
             assert queryResult != null;
             if (!queryResult.next()) break;
             produccion.setId_produccion(queryResult.getString("id_produccion"));
             produccion.setId_empleado(queryResult.getString("id_empleado"));
-            produccion.setId_producto(queryResult.getString("id_producto"));
-            produccion.setCantidad(queryResult.getString("cantidad"));
-            produccion.setFecha(queryResult.getString("fecha"));
+            produccion.setFecha(queryResult.getDate("fecha").toLocalDate());
+            produccion.setNota(queryResult.getString("nota"));
         }
-        ProduccionHolder.getInstancia().setProduccion(produccion);
+        Produccion.setProduccion(produccion);
     }
     public ResultSet getListaProduccion(String busqueda){
         return ejecutarQuery("EXEC BusquedaProduccion @Busqueda = '" + busqueda.replace("'", "''") + "'");
+    }
+    public void agregarProduccion(String produccion_id, String producto_id, String cantidad){
+        ejecutarQuery("EXEC AgregarProduccion @id_produccion = " + produccion_id + ", @id_producto = " + producto_id + ", @cantidad = " + cantidad);
+    }
+    public void removerProduccion(String produccion_id, String producto_id){
+        ejecutarQuery("EXEC RemoverProduccion @id_produccion = " + produccion_id + ", @id_producto = " + producto_id);
     }
     
     //OTROS
@@ -178,6 +190,9 @@ public class ConeccionBD {
         } catch (Exception e) {
             error(e);
         }
+    }
+    public ResultSet getData(String origen) {
+        return ejecutarQuery("select * from v" + origen);
     }
 
     private ResultSet ejecutarQuery(String query){
@@ -192,7 +207,7 @@ public class ConeccionBD {
         return null;
     }
 
-    private void error(Exception e){
+    public void error(Exception e){
         System.out.println("e.printStackTrace()");
         e.printStackTrace();
         System.out.println("e.getCause()");

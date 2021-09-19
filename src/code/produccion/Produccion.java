@@ -1,18 +1,31 @@
 package code.produccion;
 
+import java.time.LocalDate;
+
 public class Produccion {
     private String id_produccion;
     private String id_empleado;
-    private String id_producto;
-    private String cantidad;
-    private String fecha;
+    private LocalDate fecha;
+    private String nota;
+    private static Produccion instancia = new Produccion();
 
-    public Produccion(String id_produccion, String id_empleado, String id_producto, String cantidad, String fecha) {
+    public Produccion(String id_produccion, String id_empleado, LocalDate fecha, String nota) {
         this.id_produccion = id_produccion;
         this.id_empleado = id_empleado;
-        this.id_producto = id_producto;
-        this.cantidad = cantidad;
         this.fecha = fecha;
+        this.nota = nota;
+    }
+
+    public Produccion() {
+
+    }
+
+    public static Produccion getProduccion() {
+        return instancia;
+    }
+
+    public static void setProduccion(Produccion produccion) {
+        instancia = produccion;
     }
 
     public String getId_produccion() {
@@ -31,27 +44,19 @@ public class Produccion {
         this.id_empleado = id_empleado;
     }
 
-    public String getId_producto() {
-        return id_producto;
-    }
-
-    public void setId_producto(String id_producto) {
-        this.id_producto = id_producto;
-    }
-
-    public String getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(String cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public String getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
+    }
+
+    public String getNota() {
+        return nota;
+    }
+
+    public void setNota(String nota) {
+        this.nota = nota;
     }
 }
