@@ -7,7 +7,9 @@ import code.produccion.ProduccionController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -17,6 +19,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -60,59 +63,91 @@ public class RegProduccionController implements Initializable {
 
     @FXML
     private Button buscarEmpleado;
+
+    @FXML
+    private Button buscarProducto;
+
+    @FXML
+    private Button agregarBoton;
+
+    @FXML
+    private Button removerBoton;
     //endregion
 
     private boolean edicion = false;
     private String ventana = "Producción";
     private ObservableList<String> produccionTabla = FXCollections.observableArrayList();
+    private ProduccionController produccionController;
 
     public void salirBotonOnAction() {
         Stage stage = (Stage) salirBoton.getScene().getWindow();
         stage.close();
     }
 
-    private boolean validaDatos(){
-        if(     !empleado_id.getText().isBlank() &&
-                !fecha.getValue().toString().isBlank()){
-            return true;
-        }else{
+    private boolean validaDatosAperturar(){
+        if(     fecha.getValue().toString().isBlank() ||
+                empleado_id.getText().isBlank() ||
+                empleado.getText().equals("No encontrado")
+        ){
             return false;
+        }else{
+            return true;
         }
     }
 
-    public void aperturarProduccionBoton() throws SQLException {
-        if(validaDatos()){
+    private boolean validaDatosAgregar(){
+        if(     producto_id.getText().isBlank() ||
+                producto.getText().equals("No encontrado") ||
+                cantidad.getText().isBlank()
+        ){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    private boolean validaDatosRemover(){
+        if(tablaProduccion.getSelectionModel().getSelectedItem() == null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public void aperturarProduccionBoton() throws SQLException, IOException {
+        if(validaDatosAperturar()){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Apertura de producción");
             alert.setHeaderText("Se procedera a aprturar la producción");
             alert.setContentText("¿Seguro que desea preceder?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
-                aperturarProduccion();
+                ConeccionBD.getInstancia().aperturarProduccion(empleado_id.getText(), fecha.getValue().toString(), nota.getText());
+                setDatos();
+                produccionController.actualizarTabla();
             }
         }else{
             General.mensaje(Alert.AlertType.WARNING, ventana, "Datos incompletos");
         }
     }
 
-    private void aperturarProduccion() throws SQLException {
-        ConeccionBD.getInstancia().aperturarProduccion(empleado_id.getText(), fecha.getValue().toString(), nota.getText());
-        setDatos();
-    }
-
     public void llenarEmpleado(KeyEvent event) throws SQLException {
-        empleado.setText("");
-        if(event.getCode() == KeyCode.ENTER) {
-            empleado.setText(ConeccionBD.getInstancia().getEmpleadoById(empleado_id.getText()));
+        if (empleado_id.isEditable()) {
+            empleado.setText("");
+            if(event.getCode() == KeyCode.ENTER) {
+                empleado.setText(ConeccionBD.getInstancia().getEmpleadoById(empleado_id.getText()));
+            }
         }
     }
 
     public void llenarProducto(KeyEvent event) throws SQLException {
-        producto.setText("");
-        if(event.getCode() == KeyCode.ENTER) {
-            producto.setText(ConeccionBD.getInstancia().getProductoById(producto_id.getText()));
-            if (!producto.getText().equals("No encontrado")){
-                cantidad.requestFocus();
+        if (producto_id.isEditable()) {
+            producto.setText("");
+            if(event.getCode() == KeyCode.ENTER) {
+                producto.setText(ConeccionBD.getInstancia().getProductoById(producto_id.getText()));
+                if (!producto.getText().equals("No encontrado")){
+                    cantidad.requestFocus();
+                }
             }
         }
     }
@@ -125,9 +160,13 @@ public class RegProduccionController implements Initializable {
     }
 
     public void agregarProduccion() throws SQLException {
-        ConeccionBD.getInstancia().agregarProduccion(id.getText(), producto_id.getText(), cantidad.getText());
-        actualizarTabla();
-        clear();
+        if (validaDatosAgregar()) {
+            ConeccionBD.getInstancia().agregarProduccion(id.getText(), producto_id.getText(), cantidad.getText());
+            actualizarTabla();
+            clear();
+        } else {
+            General.mensaje(Alert.AlertType.WARNING, ventana, "No se puede agregar la produccion, revise los datos");
+        }
     }
 
     public void dobleClick(MouseEvent event) throws SQLException {
@@ -137,8 +176,12 @@ public class RegProduccionController implements Initializable {
     }
 
     public void removerProduccion() throws SQLException {
-        ConeccionBD.getInstancia().removerProduccion(id.getText(), tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
-        actualizarTabla();
+        if (validaDatosRemover()) {
+            ConeccionBD.getInstancia().removerProduccion(id.getText(), tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
+            actualizarTabla();
+        } else {
+            General.mensaje(Alert.AlertType.WARNING, ventana, "Seleccione una produccion para remover");
+        }
     }
 
     private void clear() {
@@ -153,15 +196,24 @@ public class RegProduccionController implements Initializable {
         cantidad.setTextFormatter(General.soloNumero());
     }
 
+    private void cambiarEditable(boolean editable){
+        edicion = editable;
+        fecha.setDisable(editable);
+        nota.setEditable(!editable);
+        empleado_id.setEditable(!editable);
+        buscarEmpleado.setDisable(editable);
+        producto_id.setEditable(editable);
+        buscarProducto.setDisable(!editable);
+        cantidad.setEditable(editable);
+        agregarBoton.setDisable(!editable);
+        removerBoton.setDisable(!editable);
+        aperturar.setDisable(editable);
+    }
+
     private void setDatos() {
         Produccion produccion = Produccion.getProduccion();
         if (produccion.getId_produccion() != null){
-            edicion = true;
-            aperturar.setDisable(true);
-            fecha.setDisable(true);
-            nota.setEditable(false);
-            empleado_id.setEditable(false);
-            buscarEmpleado.setDisable(true);
+            cambiarEditable(true);
             id.setText(produccion.getId_produccion());
             nota.setText(produccion.getNota());
             empleado_id.setText(produccion.getId_empleado());
@@ -173,6 +225,7 @@ public class RegProduccionController implements Initializable {
                 ConeccionBD.getInstancia().error(e);
             }
         }else{
+            cambiarEditable(false);
             fecha.setValue(java.time.LocalDate.now());
         }
     }
@@ -182,9 +235,14 @@ public class RegProduccionController implements Initializable {
         tablaProduccion.getColumns().remove(3);
     }
 
+    public void loadParentController(ProduccionController produccionController) {
+        this.produccionController = produccionController;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setFormatos();
         setDatos();
     }
+
 }

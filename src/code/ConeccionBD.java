@@ -166,7 +166,7 @@ public class ConeccionBD {
         setProduccionHolder(rs.getString("id_produccion"));
     }
     public void deleteProduccion(String id){
-        ejecutarQuery("EXEC RemoverProduccion @id_produccion = " + id);
+        ejecutarQuery("EXEC BorrarProduccion @id_produccion = " + id);
     }
     public void setProduccionHolder(String id) throws SQLException {
         ResultSet queryResult = ejecutarQuery("select * from Produccion where id_produccion = " + id);

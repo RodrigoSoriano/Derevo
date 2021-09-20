@@ -2,6 +2,7 @@ package code.produccion;
 
 import code.ConeccionBD;
 import code.General;
+import code.produccion.regProduccion.RegProduccionController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -25,11 +27,17 @@ public class ProduccionController implements Initializable {
     @FXML
     private TextField busqueda;
 
+    @FXML
+    private ProduccionController ProduccionController;
+
     private String ventana = "Produccion";
 
     private void regProduccion(String titulo){
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("regProduccion/regProduccion.fxml"));
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass().getResource("regProduccion/regProduccion.fxml").openStream());
+            RegProduccionController regProduccionController = loader.getController();
+            regProduccionController.loadParentController(this);
             Stage regStage = new Stage();
             regStage.setTitle(titulo);
             regStage.setScene(new Scene(root, 375, 464));
@@ -63,14 +71,18 @@ public class ProduccionController implements Initializable {
     }
 
     public void deleteProduccion() throws SQLException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Eliminación de producción");
-        alert.setHeaderText("Se procedera a eliminar la producción: " + tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
-        alert.setContentText("¿Seguro que desea preceder?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            ConeccionBD.getInstancia().deleteProduccion(tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
-            actualizarTabla();
+        if (tablaProduccion.getSelectionModel().getSelectedItem() != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Eliminación de producción");
+            alert.setHeaderText("Se procedera a eliminar la producción: " + tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
+            alert.setContentText("¿Seguro que desea preceder?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                ConeccionBD.getInstancia().deleteProduccion(tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
+                actualizarTabla();
+            }
+        } else {
+            General.mensaje(Alert.AlertType.WARNING, ventana, "Seleccione una producción para borrar");
         }
     }
 
