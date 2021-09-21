@@ -40,15 +40,15 @@
             <Label layoutX="204.0" layoutY="130.0" text="Existencia:" />
             <TextField fx:id="id" disable="true" layoutX="28.0" layoutY="57.0" prefHeight="25.0" prefWidth="81.0" />
             <TextField fx:id="descripcion" layoutX="76.0" layoutY="91.0" prefHeight="25.0" prefWidth="291.0" />
-            <TextField fx:id="existencia" layoutX="266.0" layoutY="126.0" onKeyTyped="#formatoExist" onMouseClicked="#formatoExist" prefHeight="25.0" prefWidth="101.0" />
+            <TextField fx:id="existencia" layoutX="266.0" layoutY="126.0" prefHeight="25.0" prefWidth="101.0" />
             <TextField fx:id="nombre" layoutX="182.0" layoutY="56.0" prefHeight="25.0" prefWidth="185.0" />
             <Label contentDisplay="CENTER" layoutX="8.0" layoutY="6.0" prefHeight="43.0" prefWidth="164.0" text="Registro de Producto">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="mano_obra" layoutX="93.0" layoutY="161.0" onKeyTyped="#formatoObra" onMouseClicked="#formatoObra" prefHeight="25.0" prefWidth="101.0" />
-            <TextField fx:id="peso" layoutX="93.0" layoutY="126.0" onKeyTyped="#formatoPeso" onMouseClicked="#formatoPeso" prefHeight="25.0" prefWidth="101.0" />
+            <TextField fx:id="mano_obra" layoutX="93.0" layoutY="161.0" prefHeight="25.0" prefWidth="101.0" />
+            <TextField fx:id="peso" layoutX="93.0" layoutY="126.0" prefHeight="25.0" prefWidth="101.0" />
             <CheckBox fx:id="producto_final" layoutX="240.0" layoutY="167.0" mnemonicParsing="false" selected="true" text="Producto Final" />
             <CheckBox fx:id="paga_fundidor" layoutX="240.0" layoutY="188.0" mnemonicParsing="false" selected="true" text="Paga a Fundidor" />
          </children>

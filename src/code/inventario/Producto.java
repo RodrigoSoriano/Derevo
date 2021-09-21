@@ -9,6 +9,7 @@ public class Producto {
     private String existencia;
     private boolean producto_final;
     private boolean paga_fundidor;
+    private static Producto instancia = new Producto();
 
     public Producto(String id_producto, String nombre, String descripcion, String peso, String mano_obra, String existencia, boolean producto_final, boolean paga_fundidor) {
         this.id_producto = id_producto;
@@ -19,6 +20,18 @@ public class Producto {
         this.existencia = existencia;
         this.producto_final = producto_final;
         this.paga_fundidor = paga_fundidor;
+    }
+
+    public Producto(){
+
+    }
+
+    public static Producto getInstancia() {
+        return instancia;
+    }
+
+    public static void setInstancia(Producto instancia) {
+        Producto.instancia = instancia;
     }
 
     public String getId_producto() {

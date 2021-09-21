@@ -2,6 +2,8 @@ package code;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextFormatter;
+import javafx.util.converter.DefaultStringConverter;
+import javafx.util.converter.FloatStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.sql.ResultSet;
@@ -26,15 +28,16 @@ public class General {
         alert.showAndWait();
     }
 
-    static public TextFormatter soloNumero(){
+    static public TextFormatter soloNumero(boolean ... decimales){
+        String regex = (decimales.length == 1) ? "([0-9]*)(\\.?)([0-9]?[0-9])?" : "([0-9]*)?";
         UnaryOperator<TextFormatter.Change> integerFilter = change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("([0-9]*)?")) {
+            if (newText.matches(regex)) {
                 return change;
             }
             return null;
         };
-        return new TextFormatter<>(new IntegerStringConverter(), null, integerFilter);
+        return new TextFormatter<>(new DefaultStringConverter(), null, integerFilter);
     }
 
     static public void llenarTabla(TableView tabla, String origen, String ... filtro) throws SQLException {

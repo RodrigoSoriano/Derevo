@@ -3,7 +3,6 @@ package code;
 import code.empleados.EmpleadoHolder;
 import code.empleados.Empleadoo;
 import code.inventario.Producto;
-import code.inventario.ProductoHolder;
 import code.produccion.Produccion;
 import javafx.scene.control.Alert;
 import java.sql.*;
@@ -142,13 +141,10 @@ public class ConeccionBD {
             producto.setProducto_final(queryResult.getString("producto_final").equals("1"));
             producto.setPaga_fundidor(queryResult.getString("paga_fundidor").equals("1"));
         }
-        ProductoHolder.getInstancia().setProducto(producto);
+        Producto.setInstancia(producto);
     }
     public void deleteProducto(String id){
-        ejecutarQuery("delete from Producto where id_producto = " + id);
-    }
-    public ResultSet getListaProductos(String busqueda){
-        return ejecutarQuery("EXEC BusquedaInventario @Busqueda = '" + busqueda.replace("'", "''") + "'");
+        ejecutarQuery("EXEC BorrarProducto @id_producto = " + id);
     }
     public String getProductoById(String id) throws SQLException {
         ResultSet query = ejecutarQuery("select top 1 nombre as resultado from Producto where id_producto = " + (id.equals("") ? "0": id));
@@ -179,10 +175,7 @@ public class ConeccionBD {
             produccion.setFecha(queryResult.getDate("fecha").toLocalDate());
             produccion.setNota(queryResult.getString("nota"));
         }
-        Produccion.setProduccion(produccion);
-    }
-    public ResultSet getListaProduccion(String busqueda){
-        return ejecutarQuery("EXEC BusquedaProduccion @Busqueda = '" + busqueda.replace("'", "''") + "'");
+        Produccion.setInstancia(produccion);
     }
     public void agregarProduccion(String produccion_id, String producto_id, String cantidad){
         ejecutarQuery("EXEC AgregarProduccion @id_produccion = " + produccion_id + ", @id_producto = " + producto_id + ", @cantidad = " + cantidad);

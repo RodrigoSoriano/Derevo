@@ -20,11 +20,11 @@ public class Produccion {
 
     }
 
-    public static Produccion getProduccion() {
+    public static Produccion getInstancia() {
         return instancia;
     }
 
-    public static void setProduccion(Produccion produccion) {
+    public static void setInstancia(Produccion produccion) {
         instancia = produccion;
     }
 

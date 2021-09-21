@@ -1,20 +1,20 @@
 package code.inventario.regProducto;
 
 import code.ConeccionBD;
+import code.General;
+import code.inventario.InventarioController;
 import code.inventario.Producto;
-import code.inventario.ProductoHolder;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.Statement;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class RegInventarioController implements Initializable {
+    //region Variables FXML
     @FXML
     private Button salirBoton;
 
@@ -41,55 +41,33 @@ public class RegInventarioController implements Initializable {
 
     @FXML
     private CheckBox paga_fundidor;
+    //endregion
 
-    private String oldValue_obra = "";
-    private int caretPosition_obra = 0;
-
-    private String oldValue_peso = "";
-    private int caretPosition_peso = 0;
-
-    private String oldValue_exist = "";
-    private int caretPosition_exist = 0;
+    private InventarioController inventarioController;
 
     private boolean edicion = false;
+
+    private String ventana = "Inventario";
 
     public void salirBotonOnAction() {
         Stage stage = (Stage) salirBoton.getScene().getWindow();
         stage.close();
     }
 
-    public void formatoObra() {
-        caretPosition_obra = mano_obra.getCaretPosition();
-        if (!mano_obra.getText().matches("\\d{0,9}([\\.]\\d{0,2})?")) {
-            mano_obra.setText(oldValue_obra);
-            mano_obra.positionCaret(caretPosition_obra);
+    private boolean validaDatosRegistro(){
+        if(     !nombre.getText().isBlank() &&
+                !peso.getText().isBlank() &&
+                !mano_obra.getText().isBlank() &&
+                !existencia.getText().isBlank()
+        ){
+            return true;
         }else{
-            oldValue_obra = mano_obra.getText();
+            return false;
         }
     }
 
-    public void formatoPeso() {
-        caretPosition_peso = peso.getCaretPosition();
-        if (!peso.getText().matches("\\d{0,9}([\\.]\\d{0,2})?")) {
-            peso.setText(oldValue_peso);
-            peso.positionCaret(caretPosition_peso);
-        }else{
-            oldValue_peso = peso.getText();
-        }
-    }
-
-    public void formatoExist() {
-        caretPosition_exist = existencia.getCaretPosition();
-        if (!existencia.getText().matches("\\d{0,9}?")) {
-            existencia.setText(oldValue_exist);
-            existencia.positionCaret(caretPosition_exist);
-        }else{
-            oldValue_exist = existencia.getText();
-        }
-    }
-
-    public void regProductoButton() {
-        if(!nombre.getText().isBlank() && !peso.getText().isBlank() && !mano_obra.getText().isBlank() && !existencia.getText().isBlank()){
+    public void regProductoButton() throws SQLException {
+        if(validaDatosRegistro()){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Registro de producto");
             alert.setHeaderText("Se procedera a registrar el producto");
@@ -99,43 +77,30 @@ public class RegInventarioController implements Initializable {
                 regProducto();
             }
         }else{
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Registro Producto");
-            alert.setHeaderText("No se puede registrar");
-            alert.setContentText("Revise los campos");
-            alert.showAndWait();
+            General.mensaje(Alert.AlertType.WARNING, ventana, "Datos incompletos");
         }
     }
 
-    private void regProducto() {
+    private void regProducto() throws SQLException {
+        String mensaje = "";
         if (ConeccionBD.getInstancia().regProducto(edicion, id.getText(), nombre.getText(), descripcion.getText(), peso.getText(), mano_obra.getText(), existencia.getText(), producto_final.isSelected(), paga_fundidor.isSelected())){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            inventarioController.actualizarTabla();
             if(!edicion){
-                alert.setTitle("Registro de producto");
-                alert.setHeaderText("Registro completado");
-                alert.setContentText("Los datos del prducto han sido registrados correctamente");
-                alert.showAndWait();
+                mensaje = "Los datos del prducto han sido registrados correctamente";
+                General.mensaje(Alert.AlertType.INFORMATION, ventana, mensaje);
                 clear();
             }else{
-                alert.setTitle("Edición de producto");
-                alert.setHeaderText("Edición completada");
-                alert.setContentText("Los datos del producto han sido editados correctamente");
-                alert.showAndWait();
+                mensaje = "Los datos del producto han sido editados correctamente";
+                General.mensaje(Alert.AlertType.INFORMATION, ventana, mensaje);
                 salirBotonOnAction();
             }
         }else{
-            Alert alert = new Alert(Alert.AlertType.WARNING);
             if(!edicion){
-                alert.setTitle("Registro de producto");
-                alert.setHeaderText("No se pudo completar el registro");
-                alert.setContentText("Los datos del prducto no fueron registrados");
-                alert.showAndWait();
+                mensaje = "Los datos del prducto no fueron registrados";
             }else{
-                alert.setTitle("Edición de producto");
-                alert.setHeaderText("No se pudo completar la edición");
-                alert.setContentText("Los datos del producto no fueron editados");
-                alert.showAndWait();
+                mensaje = "Los datos del producto no fueron editados";
             }
+            General.mensaje(Alert.AlertType.WARNING, ventana, mensaje);
         }
     }
 
@@ -150,10 +115,19 @@ public class RegInventarioController implements Initializable {
         paga_fundidor.setSelected(true);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        Producto producto = ProductoHolder.getInstancia().getProducto();
-        if (!producto.getId_producto().isBlank()){
+    public void loadParentController(InventarioController inventarioController) {
+        this.inventarioController = inventarioController;
+    }
+
+    private void setFormatos(){
+        peso.setTextFormatter(General.soloNumero(true));
+        mano_obra.setTextFormatter(General.soloNumero(true));
+        existencia.setTextFormatter(General.soloNumero());
+    }
+
+    private void setDatos() {
+        Producto producto = Producto.getInstancia();
+        if (producto.getId_producto() != null){
             edicion = true;
             id.setText(producto.getId_producto());
             nombre.setText(producto.getNombre());
@@ -166,5 +140,11 @@ public class RegInventarioController implements Initializable {
         }else{
             clear();
         }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        setFormatos();
+        setDatos();
     }
 }

@@ -7,9 +7,7 @@ import code.produccion.ProduccionController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -136,6 +134,9 @@ public class RegProduccionController implements Initializable {
             empleado.setText("");
             if(event.getCode() == KeyCode.ENTER) {
                 empleado.setText(ConeccionBD.getInstancia().getEmpleadoById(empleado_id.getText()));
+                if (empleado.getText().equals("No encontrado")){
+                    empleado_id.setText("");
+                }
             }
         }
     }
@@ -147,6 +148,8 @@ public class RegProduccionController implements Initializable {
                 producto.setText(ConeccionBD.getInstancia().getProductoById(producto_id.getText()));
                 if (!producto.getText().equals("No encontrado")){
                     cantidad.requestFocus();
+                }else{
+                    producto_id.setText("");
                 }
             }
         }
@@ -211,7 +214,7 @@ public class RegProduccionController implements Initializable {
     }
 
     private void setDatos() {
-        Produccion produccion = Produccion.getProduccion();
+        Produccion produccion = Produccion.getInstancia();
         if (produccion.getId_produccion() != null){
             cambiarEditable(true);
             id.setText(produccion.getId_produccion());

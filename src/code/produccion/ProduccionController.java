@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -51,7 +50,7 @@ public class ProduccionController implements Initializable {
     }
 
     public void abrirRegistrarProduccion() {
-        Produccion.setProduccion(new Produccion());
+        Produccion.setInstancia(new Produccion());
         regProduccion("Registro de Produccion");
     }
 
@@ -72,13 +71,14 @@ public class ProduccionController implements Initializable {
 
     public void deleteProduccion() throws SQLException {
         if (tablaProduccion.getSelectionModel().getSelectedItem() != null) {
+            String id = tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1);
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Eliminación de producción");
-            alert.setHeaderText("Se procedera a eliminar la producción: " + tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
+            alert.setHeaderText("Se procedera a eliminar la producción: " + id);
             alert.setContentText("¿Seguro que desea preceder?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
-                ConeccionBD.getInstancia().deleteProduccion(tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
+                ConeccionBD.getInstancia().deleteProduccion(id);
                 actualizarTabla();
             }
         } else {

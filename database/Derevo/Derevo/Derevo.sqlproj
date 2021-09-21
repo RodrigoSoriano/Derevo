@@ -123,6 +123,9 @@
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="Security\" />
     <Folder Include="dbo\Views" />
+    <Folder Include="dbo\Stored Procedures\Produccion" />
+    <Folder Include="dbo\Stored Procedures\Empleado" />
+    <Folder Include="dbo\Stored Procedures\Inventario" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Produccion.sql">
@@ -141,26 +144,27 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\BusquedaEmpleado.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Stored Procedures\BusquedaInventario.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
     <Build Include="Security\Permissions.sql" />
-    <Build Include="dbo\Stored Procedures\BusquedaProduccion.sql" />
     <Build Include="dbo\Tables\SubProduccion.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\AgregarProduccion.sql" />
     <Build Include="dbo\Views\vProduccion.sql" />
-    <Build Include="dbo\Stored Procedures\RemoverProduccion.sql" />
     <Build Include="dbo\Views\vSubProduccion.sql" />
-    <Build Include="dbo\Stored Procedures\AperturarProduccion.sql" />
-    <Build Include="dbo\Stored Procedures\BorrarProduccion.sql" />
+    <Build Include="dbo\Stored Procedures\Produccion\AgregarProduccion.sql" />
+    <Build Include="dbo\Stored Procedures\Produccion\AperturarProduccion.sql" />
+    <Build Include="dbo\Stored Procedures\Produccion\BorrarProduccion.sql" />
+    <Build Include="dbo\Stored Procedures\Produccion\RemoverProduccion.sql" />
+    <Build Include="dbo\Stored Procedures\Empleado\BusquedaEmpleado.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Inventario\BusquedaInventario.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Views\vInventario.sql" />
+    <Build Include="dbo\Stored Procedures\Inventario\BorrarProducto.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Derevo.refactorlog" />

@@ -1,49 +1,38 @@
 package code.inventario;
 
 import code.ConeccionBD;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import code.General;
+import code.inventario.regProducto.RegInventarioController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class InventarioController implements Initializable {
-    @FXML
-    private TableView<ModeloTablaInventario> tablaInventario;
+    private String ventana = "Inventario";
 
     @FXML
-    private TableColumn<ModeloTablaInventario,String> colum_id;
-
-    @FXML
-    private TableColumn<ModeloTablaInventario,String> colum_nombre;
-
-    @FXML
-    private TableColumn<ModeloTablaInventario,String> colum_desc;
-
-    @FXML
-    private TableColumn<ModeloTablaInventario,String> colum_existen;
+    private TableView tablaInventario;
 
     @FXML
     private TextField busqueda;
 
-    ObservableList<ModeloTablaInventario> oblist = FXCollections.observableArrayList();
-
     private void regProducto(String titulo){
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("regProducto/regProductoo.fxml"));
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass().getResource("regProducto/regProductoo.fxml").openStream());
+            RegInventarioController regInventarioController = loader.getController();
+            regInventarioController.loadParentController(this);
             Stage regStage = new Stage();
             regStage.setTitle(titulo);
             regStage.setScene(new Scene(root, 375, 272));
@@ -57,9 +46,7 @@ public class InventarioController implements Initializable {
     }
 
     public void abrirRegistrarProducto() {
-        Producto producto = new Producto("", null, null, null, null, null, true, true);
-        ProductoHolder holder = ProductoHolder.getInstancia();
-        holder.setProducto(producto);
+        Producto.setInstancia(new Producto());
         regProducto("Registro de Producto");
     }
 
@@ -71,39 +58,33 @@ public class InventarioController implements Initializable {
 
     public void editarRegistrarProducto() throws SQLException {
         if(tablaInventario.getSelectionModel().getSelectedItem() != null){
-            ConeccionBD.getInstancia().setProductoHolder(tablaInventario.getSelectionModel().getSelectedItem().id);
+            ConeccionBD.getInstancia().setProductoHolder(tablaInventario.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
             regProducto("Edición de Producto");
         }else{
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Edición de producto");
-            alert.setHeaderText("Seleccione un producto para editar");
-            alert.showAndWait();
+            General.mensaje(Alert.AlertType.WARNING, ventana, "Seleccione un producto para editar");
         }
     }
 
     public void deleteProducto() throws SQLException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Eliminación de Producto");
-        alert.setHeaderText("Se procedera a eliminar el producto: " + tablaInventario.getSelectionModel().getSelectedItem().nombre + " " + tablaInventario.getSelectionModel().getSelectedItem().descripcion);
-        alert.setContentText("¿Seguro que desea preceder?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            ConeccionBD.getInstancia().deleteProducto(tablaInventario.getSelectionModel().getSelectedItem().id);
-            actualizarTabla();
+        if (tablaInventario.getSelectionModel().getSelectedItem() != null) {
+            String id = tablaInventario.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Eliminación de Producto");
+            alert.setHeaderText("Se procedera a eliminar el producto: " + id);
+            alert.setContentText("¿Seguro que desea preceder?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                ConeccionBD.getInstancia().deleteProducto(id);
+                actualizarTabla();
+            }
+        } else {
+            General.mensaje(Alert.AlertType.WARNING, ventana, "Seleccione un producto para borrar");
         }
     }
 
     public void actualizarTabla() throws SQLException {
-        oblist.clear();
-        ResultSet queryResult = ConeccionBD.getInstancia().getListaProductos(busqueda.getText());
-        while (queryResult.next()){
-            oblist.add(new ModeloTablaInventario(queryResult.getString("id_producto"), queryResult.getString("nombre"), queryResult.getString("descripcion"), queryResult.getString("existencia")));
-        }
-        colum_id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colum_nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colum_desc.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-        colum_existen.setCellValueFactory(new PropertyValueFactory<>("existencia"));
-        tablaInventario.setItems(oblist);
+        String busca = busqueda.getText().replace("'", "''");
+        General.llenarTabla(tablaInventario, ventana, "WHERE ID like '%"+busca+"%' or Nombre like '%"+busca+"%' or Descripcion like '%"+busca+"%' or Existencia like '%"+busca+"%'");
     }
 
     @Override
