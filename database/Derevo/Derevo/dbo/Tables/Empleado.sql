@@ -6,6 +6,8 @@
     [telefono]    VARCHAR (50)    NULL,
     [fecha]       DATE            NULL,
     [sueldo_base] DECIMAL (18, 2) NULL,
-    CONSTRAINT [PK_Empleado] PRIMARY KEY CLUSTERED ([id_empleado] ASC)
+    [id_departamento] INT NULL, 
+    CONSTRAINT [PK_Empleado] PRIMARY KEY CLUSTERED ([id_empleado] ASC), 
+    CONSTRAINT [FK_Empleado_ToDepartamento] FOREIGN KEY ([id_departamento]) REFERENCES [Departamento]([id_departamento])
 );
 

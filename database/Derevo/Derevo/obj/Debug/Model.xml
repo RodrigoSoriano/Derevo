@@ -44,6 +44,25 @@
 				</Entry>
 			</Relationship>
 		</Element>
+		<Element Type="SqlPrimaryKeyConstraint">
+			<Relationship Name="ColumnSpecifications">
+				<Entry>
+					<Element Type="SqlIndexedColumnSpecification">
+						<Relationship Name="Column">
+							<Entry>
+								<References Name="[dbo].[Departamento].[id_departamento]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[Departamento]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="5" />
+		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[AgregarProduccion]">
 			<Property Name="BodyScript">
 				<Value><![CDATA[
@@ -500,6 +519,66 @@ existencia like '%'+@Busqueda+'%']]></Value>
 				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[BusquedaInventario] @Busqueda VARCHAR(100)&#xD;&#xA;AS" />
 			</Annotation>
 		</Element>
+		<Element Type="SqlTable" Name="[dbo].[Departamento]">
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="Columns">
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[Departamento].[id_departamento]">
+						<Property Name="IsNullable" Value="False" />
+						<Property Name="IsIdentity" Value="True" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+						<AttachedAnnotation Disambiguator="5" />
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[Departamento].[nombre]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="50" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[Departamento].[descripcion]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="100" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+		</Element>
 		<Element Type="SqlTable" Name="[dbo].[Empleado]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
 			<Relationship Name="Columns">
@@ -617,13 +696,52 @@ existencia like '%'+@Busqueda+'%']]></Value>
 						</Relationship>
 					</Element>
 				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[Empleado].[id_departamento]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
 			</Relationship>
 			<Relationship Name="Schema">
 				<Entry>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="5" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="6" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="7" />
+		</Element>
+		<Element Type="SqlForeignKeyConstraint" Name="[dbo].[FK_Empleado_ToDepartamento]">
+			<Relationship Name="Columns">
+				<Entry>
+					<References Name="[dbo].[Empleado].[id_departamento]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[Empleado]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForeignColumns">
+				<Entry>
+					<References Name="[dbo].[Departamento].[id_departamento]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForeignTable">
+				<Entry>
+					<References Name="[dbo].[Departamento]" />
+				</Entry>
+			</Relationship>
+			<AttachedAnnotation Disambiguator="7" />
 		</Element>
 		<Element Type="SqlForeignKeyConstraint" Name="[dbo].[FK_Produccion_Empleado]">
 			<Relationship Name="Columns">
@@ -646,7 +764,7 @@ existencia like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Empleado]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="6" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="8" />
 		</Element>
 		<Element Type="SqlForeignKeyConstraint" Name="[dbo].[FK_SubProduccion_Produccion]">
 			<Relationship Name="Columns">
@@ -669,7 +787,7 @@ existencia like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Produccion]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="7" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="9" />
 		</Element>
 		<Element Type="SqlForeignKeyConstraint" Name="[dbo].[FK_SubProduccion_Producto]">
 			<Relationship Name="Columns">
@@ -692,7 +810,7 @@ existencia like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Producto]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="8" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="10" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_Empleado]">
 			<Relationship Name="ColumnSpecifications">
@@ -711,7 +829,7 @@ existencia like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Empleado]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="5" />
+			<AttachedAnnotation Disambiguator="6" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_Produccion]">
 			<Relationship Name="ColumnSpecifications">
@@ -730,7 +848,7 @@ existencia like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Produccion]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="9" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="11" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_Producto]">
 			<Relationship Name="ColumnSpecifications">
@@ -749,7 +867,7 @@ existencia like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Producto]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="10" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="12" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_SubProduccion]">
 			<Relationship Name="ColumnSpecifications">
@@ -768,7 +886,7 @@ existencia like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[SubProduccion]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="11" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="13" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_Usuario]">
 			<Relationship Name="ColumnSpecifications">
@@ -787,7 +905,7 @@ existencia like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Usuario]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="12" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="14" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[Produccion]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -863,8 +981,8 @@ existencia like '%'+@Busqueda+'%']]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="9" />
-			<AttachedAnnotation Disambiguator="6" />
+			<AttachedAnnotation Disambiguator="11" />
+			<AttachedAnnotation Disambiguator="8" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[Producto]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -1004,7 +1122,7 @@ existencia like '%'+@Busqueda+'%']]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="10" />
+			<AttachedAnnotation Disambiguator="12" />
 		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[RemoverProduccion]">
 			<Property Name="BodyScript">
@@ -1150,9 +1268,9 @@ existencia like '%'+@Busqueda+'%']]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="11" />
-			<AttachedAnnotation Disambiguator="7" />
-			<AttachedAnnotation Disambiguator="8" />
+			<AttachedAnnotation Disambiguator="13" />
+			<AttachedAnnotation Disambiguator="9" />
+			<AttachedAnnotation Disambiguator="10" />
 		</Element>
 		<Element Type="SqlUniqueConstraint" Name="[dbo].[UQ__Usuario__9AFF8FC663790BEE]">
 			<Relationship Name="ColumnSpecifications">
@@ -1171,7 +1289,7 @@ existencia like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Usuario]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="13" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="15" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[Usuario]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -1265,8 +1383,80 @@ existencia like '%'+@Busqueda+'%']]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="12" />
-			<AttachedAnnotation Disambiguator="13" />
+			<AttachedAnnotation Disambiguator="14" />
+			<AttachedAnnotation Disambiguator="15" />
+		</Element>
+		<Element Type="SqlView" Name="[dbo].[vDepartamento]">
+			<Property Name="QueryScript">
+				<Value><![CDATA[ SELECT Departamento.nombre as Nombre, Departamento.descripcion as Descripcion, isnull(count(Empleado.nombres), 0) as 'Cantidad Registrados'
+	FROM [Departamento] 
+	left join Empleado on Departamento.id_departamento = Empleado.id_departamento
+	group by Departamento.nombre, Departamento.descripcion]]></Value>
+			</Property>
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="Columns">
+				<Entry>
+					<Element Type="SqlComputedColumn" Name="[dbo].[vDepartamento].[Nombre]">
+						<Relationship Name="ExpressionDependencies">
+							<Entry>
+								<References Name="[dbo].[Departamento].[nombre]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlComputedColumn" Name="[dbo].[vDepartamento].[Descripcion]">
+						<Relationship Name="ExpressionDependencies">
+							<Entry>
+								<References Name="[dbo].[Departamento].[descripcion]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlComputedColumn" Name="[dbo].[vDepartamento].[Cantidad Registrados]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="QueryDependencies">
+				<Entry>
+					<References Name="[dbo].[Departamento]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Empleado]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Departamento].[id_departamento]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Empleado].[id_departamento]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Departamento].[nombre]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Departamento].[descripcion]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Empleado].[nombres]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Departamento].[nombre]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Departamento].[descripcion]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="338" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE VIEW [dbo].[vDepartamento]&#xD;&#xA;&#x9;AS" />
+			</Annotation>
 		</Element>
 		<Element Type="SqlView" Name="[dbo].[vInventario]">
 			<Property Name="QueryScript">

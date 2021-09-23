@@ -1,6 +1,7 @@
 ﻿CREATE VIEW [dbo].[vSubProduccion]
 	AS SELECT Producto.id_producto AS ID,
-			  nombre AS Producto,
+			  nombre AS Clasificación,
+			  descripcion AS Producto,
 			  cantidad AS Cantidad,
 			  id_produccion
 	FROM [SubProduccion]

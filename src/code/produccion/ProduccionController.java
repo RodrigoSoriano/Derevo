@@ -1,7 +1,7 @@
 package code.produccion;
 
 import code.ConeccionBD;
-import code.General;
+import code.generales.General;
 import code.produccion.regProduccion.RegProduccionController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -58,9 +58,9 @@ public class RegEmpleadoController implements Initializable {
     }
 
     private boolean validaDatos(){
-        if(     !nombres.getText().isBlank() &&
-                !sueldo.getText().isBlank() &&
-                !fecha.getValue().toString().isBlank()){
+        if(     nombres.getText().isBlank() ||
+                sueldo.getText().isBlank() ||
+                fecha.getValue().toString().isBlank()){
             return false;
         }else{
             return true;

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.generales.buscador.BuscadorController">
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" prefHeight="34.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="nuevoBoton" layoutX="472.0" layoutY="15.0" mnemonicParsing="false" onAction="#botonNuevo" prefHeight="25.0" prefWidth="69.0" text="Nuevo" textAlignment="CENTER" />
+            <Button fx:id="editarBoton" mnemonicParsing="false" onAction="#botonEditar" prefHeight="25.0" prefWidth="69.0" text="Editar" textAlignment="CENTER" />
+            <Button fx:id="borrarBoton" layoutX="403.0" layoutY="15.0" mnemonicParsing="false" onAction="#botonBorrar" prefHeight="25.0" prefWidth="69.0" text="Borrar" textAlignment="CENTER" />
+            <Button fx:id="salirBoton" layoutX="541.0" layoutY="15.0" mnemonicParsing="false" onAction="#botonSalir" prefHeight="25.0" prefWidth="69.0" text="Salir" textAlignment="CENTER" />
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <TableView fx:id="tabla" onMouseClicked="#dblClic" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+   <top>
+      <HBox alignment="CENTER_RIGHT" prefHeight="0.0" prefWidth="600.0" BorderPane.alignment="CENTER_RIGHT">
+         <children>
+            <TextField fx:id="busqueda" onKeyReleased="#actualizarTabla" prefHeight="25.0" prefWidth="200.0" promptText="Buscar" />
+         </children>
+      </HBox>
+   </top>
+</BorderPane>

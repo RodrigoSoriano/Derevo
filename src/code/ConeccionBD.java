@@ -147,7 +147,7 @@ public class ConeccionBD {
         ejecutarQuery("EXEC BorrarProducto @id_producto = " + id);
     }
     public String getProductoById(String id) throws SQLException {
-        ResultSet query = ejecutarQuery("select top 1 nombre as resultado from Producto where id_producto = " + (id.equals("") ? "0": id));
+        ResultSet query = ejecutarQuery("select top 1 descripcion as resultado from Producto where id_producto = " + (id.equals("") ? "0": id));
         if(query.next()){
             return query.getString("resultado");
         }else{

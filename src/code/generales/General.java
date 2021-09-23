@@ -1,11 +1,17 @@
-package code;
+package code.generales;
+import code.ConeccionBD;
+import code.generales.buscador.BuscadorController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextFormatter;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.converter.DefaultStringConverter;
-import javafx.util.converter.FloatStringConverter;
-import javafx.util.converter.IntegerStringConverter;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.function.UnaryOperator;
@@ -20,6 +26,14 @@ import javafx.util.Callback;
 
 
 public class General {
+    public static String valor = "";
+    public static String getValor() {
+        return valor;
+    }
+    public static void setValor(String valor) {
+        General.valor = valor;
+    }
+
     static public void mensaje(Alert.AlertType alerta, String ventana, String mensaje){
         Alert alert = new Alert(alerta);
         alert.setTitle(ventana);
@@ -45,6 +59,7 @@ public class General {
             filtro = new String[1];
             filtro[0] = "";
         }
+        origen = origen.replace(" ", "");
         tabla.getColumns().clear();
         ObservableList<ObservableList> data = FXCollections.observableArrayList();
         ResultSet rs = ConeccionBD.getInstancia().getData(origen, filtro[0]);
@@ -66,5 +81,22 @@ public class General {
         }
 
         tabla.setItems(data);
+    }
+
+    public static void abrirBuscador(String nombre, boolean ... soloBuscar) throws SQLException, IOException {
+        FXMLLoader loader = new FXMLLoader();
+        Parent root = loader.load(General.class.getResource("/code/generales/buscador/buscador.fxml").openStream());
+        BuscadorController buscadorController = loader.getController();
+        buscadorController.llenarVentana(nombre);
+        if (soloBuscar.length > 0) {
+            buscadorController.soloBuscar(soloBuscar[0]);
+        }
+        buscadorController.actualizarTabla();
+        Stage regStage = new Stage();
+        regStage.setTitle(nombre);
+        regStage.setScene(new Scene(root, 700, 500));
+        regStage.setResizable(false);
+        regStage.initModality(Modality.APPLICATION_MODAL);
+        regStage.showAndWait();
     }
 }

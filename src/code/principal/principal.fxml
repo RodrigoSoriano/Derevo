@@ -11,16 +11,40 @@
          <children>
             <MenuBar>
               <menus>
-                <Menu mnemonicParsing="false" text="Archivo">
+                <Menu mnemonicParsing="false" text="Sistema">
                   <items>
+                        <MenuItem mnemonicParsing="false" text="Ajustes" />
                     <MenuItem fx:id="cerrar" mnemonicParsing="false" onAction="#cerrarBotonOnAction" text="Cerrar" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Editar">
+                <Menu mnemonicParsing="false" text="Generales">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Borrar" />
+                        <Menu mnemonicParsing="false" text="Empleados">
+                          <items>
+                              <MenuItem mnemonicParsing="false" onAction="#empleadosBotonOnAction" text="Registros" />
+                          <MenuItem mnemonicParsing="false" onAction="#departamentosBotonOnAction" text="Departamentos" />
+                              <MenuItem mnemonicParsing="false" text="Tipos de Nómina" />
+                          </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Inventario">
+                          <items>
+                              <MenuItem mnemonicParsing="false" onAction="#inventarioBotonOnAction" text="Registros" />
+                              <MenuItem mnemonicParsing="false" onAction="#clasificacionesProductosBotonOnAction" text="Clasificaciones de Productos" />
+                          </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Producción">
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#produccionBotonOnAction" text="Registros" />
+                          </items>
+                        </Menu>
                   </items>
                 </Menu>
+                  <Menu mnemonicParsing="false" text="Procesos">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Facturación" />
+                        <MenuItem mnemonicParsing="false" text="Nómina" />
+                    </items>
+                  </Menu>
                 <Menu mnemonicParsing="false" text="Ayuda">
                   <items>
                     <MenuItem mnemonicParsing="false" text="Acerca de" />

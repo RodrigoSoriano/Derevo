@@ -58,8 +58,8 @@
                </center>
             </BorderPane>
             <Button fx:id="removerBoton" layoutX="284.0" layoutY="161.0" mnemonicParsing="false" onAction="#removerProduccion" prefHeight="25.0" prefWidth="83.0" text="Remover" />
-            <Button fx:id="buscarEmpleado" layoutX="308.0" layoutY="91.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Buscar" />
-            <Button fx:id="buscarProducto" layoutX="308.0" layoutY="126.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Buscar" />
+            <Button fx:id="buscarEmpleado" layoutX="308.0" layoutY="91.0" mnemonicParsing="false" onAction="#BuscarEmpleado" prefHeight="25.0" prefWidth="58.0" text="Buscar" />
+            <Button fx:id="buscarProducto" layoutX="308.0" layoutY="126.0" mnemonicParsing="false" onAction="#BuscarProducto" prefHeight="25.0" prefWidth="58.0" text="Buscar" />
             </children>
         </AnchorPane>
     </center>

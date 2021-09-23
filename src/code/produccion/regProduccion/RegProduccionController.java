@@ -1,11 +1,9 @@
 package code.produccion.regProduccion;
 
 import code.ConeccionBD;
-import code.General;
+import code.generales.General;
 import code.produccion.Produccion;
 import code.produccion.ProduccionController;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -72,12 +70,10 @@ public class RegProduccionController implements Initializable {
     private Button removerBoton;
     //endregion
 
-    private boolean edicion = false;
     private String ventana = "Producción";
-    private ObservableList<String> produccionTabla = FXCollections.observableArrayList();
     private ProduccionController produccionController;
 
-    public void salirBotonOnAction() {
+    public void salirBotonOnAction() throws SQLException {
         Stage stage = (Stage) salirBoton.getScene().getWindow();
         stage.close();
     }
@@ -129,6 +125,14 @@ public class RegProduccionController implements Initializable {
         }
     }
 
+    public void BuscarEmpleado() throws SQLException, IOException {
+        General.abrirBuscador("Empleado", true);
+        if (!General.getValor().isBlank()) {
+            empleado_id.setText(General.getValor());
+            empleado.setText(ConeccionBD.getInstancia().getEmpleadoById(General.getValor()));
+        }
+    }
+
     public void llenarEmpleado(KeyEvent event) throws SQLException {
         if (empleado_id.isEditable()) {
             empleado.setText("");
@@ -138,6 +142,15 @@ public class RegProduccionController implements Initializable {
                     empleado_id.setText("");
                 }
             }
+        }
+    }
+
+    public void BuscarProducto() throws SQLException, IOException {
+        General.abrirBuscador("Inventario", true);
+        if (!General.getValor().isBlank()) {
+            producto_id.setText(General.getValor());
+            producto.setText(ConeccionBD.getInstancia().getProductoById(General.getValor()));
+            cantidad.requestFocus();
         }
     }
 
@@ -167,6 +180,7 @@ public class RegProduccionController implements Initializable {
             ConeccionBD.getInstancia().agregarProduccion(id.getText(), producto_id.getText(), cantidad.getText());
             actualizarTabla();
             clear();
+            produccionController.actualizarTabla();
         } else {
             General.mensaje(Alert.AlertType.WARNING, ventana, "No se puede agregar la produccion, revise los datos");
         }
@@ -182,6 +196,7 @@ public class RegProduccionController implements Initializable {
         if (validaDatosRemover()) {
             ConeccionBD.getInstancia().removerProduccion(id.getText(), tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
             actualizarTabla();
+            produccionController.actualizarTabla();
         } else {
             General.mensaje(Alert.AlertType.WARNING, ventana, "Seleccione una produccion para remover");
         }
@@ -200,7 +215,6 @@ public class RegProduccionController implements Initializable {
     }
 
     private void cambiarEditable(boolean editable){
-        edicion = editable;
         fecha.setDisable(editable);
         nota.setEditable(!editable);
         empleado_id.setEditable(!editable);
@@ -235,7 +249,7 @@ public class RegProduccionController implements Initializable {
 
     private void actualizarTabla() throws SQLException {
         General.llenarTabla(tablaProduccion,"SubProduccion", "WHERE id_produccion = " + id.getText());
-        tablaProduccion.getColumns().remove(3);
+        tablaProduccion.getColumns().remove(4);
     }
 
     public void loadParentController(ProduccionController produccionController) {

@@ -1,7 +1,7 @@
 package code.inventario.regProducto;
 
 import code.ConeccionBD;
-import code.General;
+import code.generales.General;
 import code.inventario.InventarioController;
 import code.inventario.Producto;
 import javafx.fxml.FXML;

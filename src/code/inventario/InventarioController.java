@@ -1,7 +1,7 @@
 package code.inventario;
 
 import code.ConeccionBD;
-import code.General;
+import code.generales.General;
 import code.inventario.regProducto.RegInventarioController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -84,7 +84,7 @@ public class InventarioController implements Initializable {
 
     public void actualizarTabla() throws SQLException {
         String busca = busqueda.getText().replace("'", "''");
-        General.llenarTabla(tablaInventario, ventana, "WHERE ID like '%"+busca+"%' or Nombre like '%"+busca+"%' or Descripcion like '%"+busca+"%' or Existencia like '%"+busca+"%'");
+        General.llenarTabla(tablaInventario, ventana, "WHERE ID like '%"+busca+"%' or Clasificacion like '%"+busca+"%' or Descripcion like '%"+busca+"%' or Existencia like '%"+busca+"%'");
     }
 
     @Override
