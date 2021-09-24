@@ -15,19 +15,7 @@ public class ConeccionBD {
         return instancia;
     }
 
-    public Connection getConnection(){
-        String usuarioBD = "derevo";
-        String contrasenaBD = "abc12345";
-        String url = "jdbc:sqlserver://localhost\\SQLEXPRESS;database=Derevo";
-        try{
-            BaseDeDatosLink = DriverManager.getConnection(url, usuarioBD, contrasenaBD);
-        }catch (Exception e){
-            error(e);
-        }
-
-        return  BaseDeDatosLink;
-    }
-
+    //region ACCESO
     public boolean validarAcceso(String user, String pass) {
         boolean exito = false;
 
@@ -49,8 +37,9 @@ public class ConeccionBD {
         }
         return exito;
     }
+    //endregion
 
-    //EMPLEADO
+    //region EMPLEADO
     public boolean regEmpleado(boolean edicion,String id, String cedula, String nombres, String apellidos, String telefono, String fecha, String sueldo) {
         boolean exito = false;
         if(!edicion){
@@ -103,8 +92,9 @@ public class ConeccionBD {
             return "No encontrado";
         }
     }
+    //endregion
 
-    //PRODUCTO
+    //region INVENTARIO
     public boolean regProducto(boolean edicion, String id, String nombre, String descripcion, String peso, String mano_obra, String existencia, boolean producto_final, boolean paga_fundidor){
         boolean exito = false;
         if(!edicion){
@@ -154,8 +144,9 @@ public class ConeccionBD {
             return "No encontrado";
         }
     }
+    //endregion
 
-    //PRODUCCION
+    //region PRODUCCION
     public void aperturarProduccion(String id_empelado, String fecha, String nota) throws SQLException {
         ResultSet rs = ejecutarQuery("EXEC AperturarProduccion @id_empleado = " + id_empelado + ", @fecha = '" + fecha + "', @nota = '" + nota + "'");
         rs.next();
@@ -183,8 +174,25 @@ public class ConeccionBD {
     public void removerProduccion(String produccion_id, String producto_id){
         ejecutarQuery("EXEC RemoverProduccion @id_produccion = " + produccion_id + ", @id_producto = " + producto_id);
     }
-    
-    //OTROS
+    //endregion
+
+    //region GENERAL
+    public boolean regGeneral1(String id, String nombre, String descripcion, String ventana){
+        ventana = ventana.replace(" ", "");
+        if (id.isBlank()){
+            id = "0";
+        }
+        try {
+            ejecutarQuery("EXEC Guardar" + ventana + " @id_" + ventana + " = " + id + ", @nombre = '" + nombre + "', @descripcion = '" + descripcion + "'");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    //endregion
+
+    //region OTROS
     public void testConection(){
         try {
             getConnection().close();
@@ -195,7 +203,6 @@ public class ConeccionBD {
     public ResultSet getData(String origen, String filtro) {
         return ejecutarQuery("select * from v" + origen + " " + filtro);
     }
-
     private ResultSet ejecutarQuery(String query){
         try {
             Statement statement = getConnection().createStatement();
@@ -207,7 +214,18 @@ public class ConeccionBD {
         }
         return null;
     }
+    public Connection getConnection(){
+        String usuarioBD = "derevo";
+        String contrasenaBD = "abc12345";
+        String url = "jdbc:sqlserver://localhost\\SQLEXPRESS;database=Derevo";
+        try{
+            BaseDeDatosLink = DriverManager.getConnection(url, usuarioBD, contrasenaBD);
+        }catch (Exception e){
+            error(e);
+        }
 
+        return  BaseDeDatosLink;
+    }
     public void error(Exception e){
         System.out.println("e.printStackTrace()");
         e.printStackTrace();
@@ -219,4 +237,5 @@ public class ConeccionBD {
         alert.setContentText(e.getMessage());
         alert.showAndWait();
     }
+    //endregion
 }
