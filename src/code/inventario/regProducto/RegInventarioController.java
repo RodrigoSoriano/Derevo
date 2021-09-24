@@ -8,7 +8,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -25,9 +27,6 @@ public class RegInventarioController implements Initializable {
     private TextField descripcion;
 
     @FXML
-    private TextField nombre;
-
-    @FXML
     private TextField existencia;
 
     @FXML
@@ -41,6 +40,15 @@ public class RegInventarioController implements Initializable {
 
     @FXML
     private CheckBox paga_fundidor;
+
+    @FXML
+    private ComboBox clasificacion;
+
+    @FXML
+    private TextField precio_costo;
+
+    @FXML
+    private TextField precio_venta;
     //endregion
 
     private InventarioController inventarioController;
@@ -55,14 +63,14 @@ public class RegInventarioController implements Initializable {
     }
 
     private boolean validaDatosRegistro(){
-        if(     !nombre.getText().isBlank() &&
-                !peso.getText().isBlank() &&
-                !mano_obra.getText().isBlank() &&
-                !existencia.getText().isBlank()
+        if(     clasificacion.getSelectionModel().getSelectedItem().toString().isBlank() ||
+                peso.getText().isBlank() ||
+                mano_obra.getText().isBlank() ||
+                existencia.getText().isBlank()
         ){
-            return true;
-        }else{
             return false;
+        }else{
+            return true;
         }
     }
 
@@ -83,7 +91,7 @@ public class RegInventarioController implements Initializable {
 
     private void regProducto() throws SQLException {
         String mensaje = "";
-        if (ConeccionBD.getInstancia().regProducto(edicion, id.getText(), nombre.getText(), descripcion.getText(), peso.getText(), mano_obra.getText(), existencia.getText(), producto_final.isSelected(), paga_fundidor.isSelected())){
+        if (ConeccionBD.getInstancia().regProducto(edicion, id.getText(), clasificacion.getSelectionModel().getSelectedItem().toString().split("|")[0], descripcion.getText(), peso.getText(), mano_obra.getText(), existencia.getText(), producto_final.isSelected(), paga_fundidor.isSelected(), precio_costo.getText(), precio_venta.getText())){
             inventarioController.actualizarTabla();
             if(!edicion){
                 mensaje = "Los datos del prducto han sido registrados correctamente";
@@ -107,12 +115,14 @@ public class RegInventarioController implements Initializable {
     private void clear(){
         id.setText("");
         descripcion.setText("");
-        nombre.setText("");
-        existencia.setText("");
-        peso.setText("");
-        mano_obra.setText("");
+        clasificacion.getSelectionModel().select(0);
+        existencia.setText("0");
+        peso.setText("0");
+        mano_obra.setText("0");
         producto_final.setSelected(true);
         paga_fundidor.setSelected(true);
+        precio_costo.setText("0");
+        precio_venta.setText("0");
     }
 
     public void loadParentController(InventarioController inventarioController) {
@@ -125,26 +135,46 @@ public class RegInventarioController implements Initializable {
         existencia.setTextFormatter(General.soloNumero());
     }
 
-    private void setDatos() {
+    private void setDatos() throws SQLException {
+        llenarCombobox();
         Producto producto = Producto.getInstancia();
         if (producto.getId_producto() != null){
             edicion = true;
             id.setText(producto.getId_producto());
-            nombre.setText(producto.getNombre());
+            String id_clasificacion = producto.getId_clasificacionProducto();
+            for (int i = 0; i < clasificacion.getItems().size(); i++){
+                if(clasificacion.getItems().get(i).toString().split("|")[0].equals(id_clasificacion)){
+                    clasificacion.getSelectionModel().select(i);
+                }
+            }
             descripcion.setText(producto.getDescripcion());
             peso.setText(producto.getPeso());
             mano_obra.setText(producto.getMano_obra());
             existencia.setText(producto.getExistencia());
             producto_final.setSelected(producto.getProducto_final());
             paga_fundidor.setSelected(producto.getPaga_fundidor());
+            precio_costo.setText(producto.getPrecio_costo());
+            precio_venta.setText(producto.getPrecio_venta());
         }else{
             clear();
+        }
+    }
+
+    private void llenarCombobox() throws SQLException {
+        ResultSet rs = ConeccionBD.getInstancia().getData("ClasificacionProducto", "");
+        clasificacion.getItems().add("");
+        while(rs.next()){
+            clasificacion.getItems().add(rs.getString(1) + "   |   " + rs.getString(2));
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setFormatos();
-        setDatos();
+        try {
+            setDatos();
+        } catch (SQLException throwables) {
+            ConeccionBD.getInstancia().error(throwables);
+        }
     }
 }

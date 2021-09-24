@@ -2,24 +2,28 @@ package code.inventario;
 
 public class Producto {
     private String id_producto;
-    private String nombre;
+    private String id_clasificacionProducto;
     private String descripcion;
     private String peso;
     private String mano_obra;
     private String existencia;
     private boolean producto_final;
     private boolean paga_fundidor;
+    private String precio_costo;
+    private String precio_venta;
     private static Producto instancia = new Producto();
 
-    public Producto(String id_producto, String nombre, String descripcion, String peso, String mano_obra, String existencia, boolean producto_final, boolean paga_fundidor) {
+    public Producto(String id_producto, String id_clasificacionProducto, String descripcion, String peso, String mano_obra, String existencia, boolean producto_final, boolean paga_fundidor, String precio_costo, String precio_venta) {
         this.id_producto = id_producto;
-        this.nombre = nombre;
+        this.id_clasificacionProducto = id_clasificacionProducto;
         this.descripcion = descripcion;
         this.peso = peso;
         this.mano_obra = mano_obra;
         this.existencia = existencia;
         this.producto_final = producto_final;
         this.paga_fundidor = paga_fundidor;
+        this.precio_costo = precio_costo;
+        this.precio_venta = precio_venta;
     }
 
     public Producto(){
@@ -42,12 +46,12 @@ public class Producto {
         this.id_producto = id_producto;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getId_clasificacionProducto() {
+        return id_clasificacionProducto;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setId_clasificacionProducto(String id_clasificacionProducto) {
+        this.id_clasificacionProducto = id_clasificacionProducto;
     }
 
     public String getDescripcion() {
@@ -96,5 +100,21 @@ public class Producto {
 
     public void setPaga_fundidor(boolean paga_fundidor) {
         this.paga_fundidor = paga_fundidor;
+    }
+
+    public String getPrecio_costo() {
+        return precio_costo;
+    }
+
+    public void setPrecio_costo(String precio_costo) {
+        this.precio_costo = precio_costo;
+    }
+
+    public String getPrecio_venta() {
+        return precio_venta;
+    }
+
+    public void setPrecio_venta(String precio_venta) {
+        this.precio_venta = precio_venta;
     }
 }

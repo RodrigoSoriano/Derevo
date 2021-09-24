@@ -3,4 +3,4 @@
 AS
 	delete Producto where id_producto = @id_producto
 
-	return select top 0 * from Producto
+	select top 0 * from Producto

@@ -33,6 +33,7 @@ public class LoginController {
     }
 
     public void accederBotonOnAction() {
+        abrirPrincipal();
         if (usuarioTextField.getText().isBlank()) {
             errorSesion.setText("Porfavor introduzca el usuario");
             usuarioTextField.requestFocus();

@@ -95,19 +95,19 @@ public class ConeccionBD {
     //endregion
 
     //region INVENTARIO
-    public boolean regProducto(boolean edicion, String id, String nombre, String descripcion, String peso, String mano_obra, String existencia, boolean producto_final, boolean paga_fundidor){
+    public boolean regProducto(boolean edicion, String id, String id_clasificacionProducto, String descripcion, String peso, String mano_obra, String existencia, boolean producto_final, boolean paga_fundidor, String precio_costo, String precio_venta){
         boolean exito = false;
         if(!edicion){
             try{
-                getConnection().createStatement().executeUpdate("INSERT INTO Producto (nombre, descripcion, peso, mano_obra, existencia, producto_final, paga_fundidor) " +
-                        "VALUES ('" + nombre + "', '" + descripcion + "', '" + peso + "', '" + mano_obra + "', '" + existencia + "', '" + producto_final + "', '" + paga_fundidor + "')");
+                getConnection().createStatement().executeUpdate("INSERT INTO Producto (id_clasificacionProducto, descripcion, peso, mano_obra, existencia, producto_final, paga_fundidor, precio_costo, precio_venta) " +
+                        "VALUES ('" + id_clasificacionProducto + "', '" + descripcion + "', '" + peso + "', '" + mano_obra + "', '" + existencia + "', '" + producto_final + "', '" + paga_fundidor + "', '" + precio_costo + "', '" + precio_venta + "')");
                 exito = true;
             }catch (Exception e){
                 error(e);
             }
         }else{
             try{
-                getConnection().createStatement().executeUpdate("UPDATE Producto SET nombre = '" + nombre + "', descripcion = '" + descripcion + "', peso = '" + peso + "', mano_obra = '" + mano_obra + "', existencia = '" + existencia + "', producto_final = '" + producto_final + "', paga_fundidor = '" + paga_fundidor + "' "+
+                getConnection().createStatement().executeUpdate("UPDATE Producto SET id_clasificacionProducto = '" + id_clasificacionProducto + "', descripcion = '" + descripcion + "', peso = '" + peso + "', mano_obra = '" + mano_obra + "', existencia = '" + existencia + "', producto_final = '" + producto_final + "', paga_fundidor = '" + paga_fundidor + "', precio_costo = '" + precio_costo + "', precio_venta = '" + precio_venta + "' "+
                         "WHERE id_producto = '" + id + "'");
                 exito = true;
             }catch (Exception e){
@@ -118,18 +118,20 @@ public class ConeccionBD {
     }
     public void setProductoHolder(String id) throws SQLException {
         ResultSet queryResult = ejecutarQuery("select * from Producto where id_producto =" + id);
-        Producto producto = new Producto(null, null, null, null, null, null, true, true);
+        Producto producto = new Producto(null, null, null, null, null, null, true, true, null, null);
         while (true){
             assert queryResult != null;
             if (!queryResult.next()) break;
             producto.setId_producto(queryResult.getString("id_producto"));
-            producto.setNombre(queryResult.getString("nombre"));
+            producto.setId_clasificacionProducto(queryResult.getString("id_clasificacionProducto"));
             producto.setDescripcion(queryResult.getString("descripcion"));
             producto.setPeso(queryResult.getString("peso"));
             producto.setMano_obra(queryResult.getString("mano_obra"));
             producto.setExistencia(queryResult.getString("existencia"));
             producto.setProducto_final(queryResult.getString("producto_final").equals("1"));
             producto.setPaga_fundidor(queryResult.getString("paga_fundidor").equals("1"));
+            producto.setPrecio_costo(queryResult.getString("precio_costo"));
+            producto.setPrecio_venta(queryResult.getString("precio_venta"));
         }
         Producto.setInstancia(producto);
     }

@@ -35,7 +35,7 @@ public class InventarioController implements Initializable {
             regInventarioController.loadParentController(this);
             Stage regStage = new Stage();
             regStage.setTitle(titulo);
-            regStage.setScene(new Scene(root, 375, 272));
+            regStage.setScene(new Scene(root, 392, 351));
             regStage.setResizable(false);
             regStage.initModality(Modality.APPLICATION_MODAL);
             regStage.show();
