@@ -1,18 +1,9 @@
 package code.principal;
 
 import code.generales.General;
-import code.generales.buscador.BuscadorController;
-import code.generales.buscador.*;
-import code.produccion.ProduccionController;
-import code.produccion.regProduccion.RegProduccionController;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -42,6 +33,10 @@ public class PrincipalController {
 
     public void departamentosBotonOnAction() throws SQLException, IOException {
         General.abrirBuscador("Departamento");
+    }
+
+    public void nacionalidadBotonOnAction() throws SQLException, IOException {
+        General.abrirBuscador("Nacionalidad");
     }
 
     public void clasificacionesProductosBotonOnAction() throws SQLException, IOException {

@@ -1,15 +1,14 @@
 package code.generales.buscador;
 
-import code.ConeccionBD;
 import code.generales.General;
 import code.generales.buscador.regBuscador.regBuscadorController;
-import code.inventario.regProducto.RegInventarioController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -35,6 +34,9 @@ public class BuscadorController implements Initializable {
 
     @FXML
     private TableView tabla;
+
+    @FXML
+    private Label titulo;
 
     private String ventana = "";
     private boolean soloBuscar = false;
@@ -106,6 +108,7 @@ public class BuscadorController implements Initializable {
 
     public void llenarVentana(String ventana){
         this.ventana = ventana;
+        titulo.setText("  " + ventana);
     }
 
     public void soloBuscar(boolean soloBuscar) {

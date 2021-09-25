@@ -6,11 +6,11 @@ import code.generales.buscador.BuscadorController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-
 import java.sql.SQLException;
 
 public class regBuscadorController {
@@ -26,6 +26,9 @@ public class regBuscadorController {
     @FXML
     private TextField nombre;
 
+    @FXML
+    private Label titulo;
+
     private BuscadorController buscadorController;
 
     private String ventana = "";
@@ -40,6 +43,7 @@ public class regBuscadorController {
         this.nombre.setText(nombre);
         this.descripcion.setText(descripcion);
         this.ventana = ventana;
+        titulo.setText("Registro de " + ventana);
     }
 
     public void loadParentController(BuscadorController buscadorController) {

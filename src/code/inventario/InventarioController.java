@@ -33,6 +33,7 @@ public class InventarioController implements Initializable {
             Parent root = loader.load(getClass().getResource("regProducto/regProductoo.fxml").openStream());
             RegInventarioController regInventarioController = loader.getController();
             regInventarioController.loadParentController(this);
+
             Stage regStage = new Stage();
             regStage.setTitle(titulo);
             regStage.setScene(new Scene(root, 392, 351));

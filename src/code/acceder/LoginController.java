@@ -3,19 +3,29 @@ package code.acceder;
 import code.ConeccionBD;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-public class LoginController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class LoginController implements Initializable {
     @FXML
     private Label errorSesion;
     @FXML
     private TextField usuarioTextField;
     @FXML
     private PasswordField contrasenaTextField;
+    @FXML
+    private Button cancelarBoton;
+    @FXML
+    private Button configuracionBoton;
+
+    private boolean prueba = true;
 
     public void manejarTeclasPresionadas(KeyEvent event){
         switch (event.getCode()){
@@ -33,7 +43,6 @@ public class LoginController {
     }
 
     public void accederBotonOnAction() {
-        abrirPrincipal();
         if (usuarioTextField.getText().isBlank()) {
             errorSesion.setText("Porfavor introduzca el usuario");
             usuarioTextField.requestFocus();
@@ -44,9 +53,6 @@ public class LoginController {
             validarAcceso();
         }
     }
-
-    @FXML
-    private Button cancelarBoton;
 
     public void cancelarBotonOnAction() {
         Stage stage = (Stage) cancelarBoton.getScene().getWindow();
@@ -76,9 +82,13 @@ public class LoginController {
         }
     }
 
-    @FXML
-    private Button configuracionBoton;
-
     public void configuracionBotonOnAction() {
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (prueba){
+            abrirPrincipal();
+        }
     }
 }

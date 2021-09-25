@@ -1,6 +1,5 @@
 package code;
 
-import code.empleados.EmpleadoHolder;
 import code.empleados.Empleadoo;
 import code.inventario.Producto;
 import code.produccion.Produccion;
@@ -40,12 +39,12 @@ public class ConeccionBD {
     //endregion
 
     //region EMPLEADO
-    public boolean regEmpleado(boolean edicion,String id, String cedula, String nombres, String apellidos, String telefono, String fecha, String sueldo) {
+    public boolean regEmpleado(boolean edicion,String id, String cedula, String nombres, String apellidos, String telefono, String fecha, String sueldo, String id_departamento, String id_nacionalidad, boolean inactivo) {
         boolean exito = false;
         if(!edicion){
             try{
-                getConnection().createStatement().executeUpdate("INSERT INTO Empleado (cedula, nombres, apellidos, telefono, fecha, sueldo_base) " +
-                        "VALUES ('" + cedula + "', '" + nombres + "', '" + apellidos + "', '" + telefono + "', '" + fecha + "', " + sueldo +")");
+                getConnection().createStatement().executeUpdate("INSERT INTO Empleado (cedula, nombres, apellidos, telefono, fecha, sueldo_base, id_departamento, id_nacionalidad, inactivo) " +
+                        "VALUES ('" + cedula + "', '" + nombres + "', '" + apellidos + "', '" + telefono + "', '" + fecha + "', " + sueldo + ", " + id_departamento + ", " + id_nacionalidad + ", '" + inactivo +"')");
                 exito = true;
             }catch (Exception e){
                 error(e);
@@ -53,7 +52,7 @@ public class ConeccionBD {
         }else{
             try{
                 getConnection().createStatement().executeUpdate("UPDATE Empleado " +
-                        "SET cedula = '" + cedula + "', nombres = '" + nombres + "', apellidos = '" + apellidos + "', telefono = '" + telefono + "', fecha = '" + fecha + "', sueldo_base = '" + sueldo +"' " +
+                        "SET cedula = '" + cedula + "', nombres = '" + nombres + "', apellidos = '" + apellidos + "', telefono = '" + telefono + "', fecha = '" + fecha + "', sueldo_base = '" + sueldo + "', id_departamento = '" + id_departamento + "', id_nacionalidad = '" + id_nacionalidad + "', inactivo = '" + inactivo +"' " +
                         "WHERE id_empleado = '" + id + "'");
                 exito = true;
             }catch (Exception e){
@@ -64,7 +63,7 @@ public class ConeccionBD {
     }
     public void setEmpleadoHolder(String id) throws SQLException {
         ResultSet queryResult = ejecutarQuery("select * from Empleado where id_empleado =" + id);
-        Empleadoo empleadoo = new Empleadoo(null, null, null, null, null, null, null);
+        Empleadoo empleadoo = new Empleadoo();
         while (true){
             assert queryResult != null;
             if (!queryResult.next()) break;
@@ -75,14 +74,14 @@ public class ConeccionBD {
             empleadoo.setNumero(queryResult.getString("telefono"));
             empleadoo.setFecha(queryResult.getDate("fecha").toLocalDate());
             empleadoo.setSueldo_base(queryResult.getString("sueldo_base"));
+            empleadoo.setId_departamento(queryResult.getString("id_departamento"));
+            empleadoo.setId_nacionalidad(queryResult.getString("id_nacionalidad"));
+            empleadoo.setInactivo(queryResult.getString("inactivo").equals("1"));
         }
-        EmpleadoHolder.getInstancia().setEmpleado(empleadoo);
+        Empleadoo.setEmpleadoo(empleadoo);
     }
     public void deleteEmpleado(String id){
         ejecutarQuery("delete from Empleado where id_empleado = " + id);
-    }
-    public ResultSet getListaEmpleados(String busqueda){
-        return ejecutarQuery("EXEC BusquedaEmpleado @Busqueda = '" + busqueda.replace("'", "''") + "'");
     }
     public String getEmpleadoById(String id) throws SQLException {
         ResultSet query = ejecutarQuery("select top 1 nombres + ' ' + apellidos as resultado from Empleado where id_empleado = " + (id.equals("") ? "0": id));
@@ -118,7 +117,7 @@ public class ConeccionBD {
     }
     public void setProductoHolder(String id) throws SQLException {
         ResultSet queryResult = ejecutarQuery("select * from Producto where id_producto =" + id);
-        Producto producto = new Producto(null, null, null, null, null, null, true, true, null, null);
+        Producto producto = new Producto();
         while (true){
             assert queryResult != null;
             if (!queryResult.next()) break;

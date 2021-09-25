@@ -1,52 +1,41 @@
 package code.empleados;
 
 import code.ConeccionBD;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import code.empleados.regEmpleado.RegEmpleadoController;
+import code.generales.General;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class EmpleadosController implements Initializable {
-    @FXML
-    private TableView<ModeloTablaEmpleados> tablaEmpleados;
+    private String ventana = "Empleado";
 
     @FXML
-    private TableColumn<ModeloTablaEmpleados,String> id;
-
-    @FXML
-    private TableColumn<ModeloTablaEmpleados,String> cedula;
-
-    @FXML
-    private TableColumn<ModeloTablaEmpleados,String> nombres;
-
-    @FXML
-    private TableColumn<ModeloTablaEmpleados,String> apellidos;
+    private TableView tablaEmpleados;
 
     @FXML
     private TextField busqueda;
 
-    ObservableList<ModeloTablaEmpleados> oblist = FXCollections.observableArrayList();
-
     private void regEmpleado(String titulo){
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("regEmpleado/regEmpleado.fxml"));
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass().getResource("regEmpleado/regEmpleado.fxml").openStream());
+            RegEmpleadoController regEmpleadoController = loader.getController();
+            regEmpleadoController.loadParentController(this);
             Stage regStage = new Stage();
             regStage.setTitle(titulo);
-            regStage.setScene(new Scene(root, 375, 272));
+            regStage.setScene(new Scene(root, 375, 314));
             regStage.setResizable(false);
             regStage.initModality(Modality.APPLICATION_MODAL);
             regStage.show();
@@ -57,8 +46,7 @@ public class EmpleadosController implements Initializable {
     }
     
     public void abrirRegistrarEmpleado() {
-        Empleadoo empleadoo = new Empleadoo(null, null, null, null, null, null, null);
-        EmpleadoHolder.getInstancia().setEmpleado(empleadoo);
+        Empleadoo.setEmpleadoo(new Empleadoo());
         regEmpleado("Registro de Empleado");
     }
 
@@ -70,7 +58,7 @@ public class EmpleadosController implements Initializable {
 
     public void editarRegistrarEmpleado() throws SQLException {
         if(tablaEmpleados.getSelectionModel().getSelectedItem() != null){
-            ConeccionBD.getInstancia().setEmpleadoHolder(tablaEmpleados.getSelectionModel().getSelectedItem().id);
+            ConeccionBD.getInstancia().setEmpleadoHolder(tablaEmpleados.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
             regEmpleado("Edición de Empleado");
         }else{
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -83,26 +71,18 @@ public class EmpleadosController implements Initializable {
     public void deleteEmpleado() throws SQLException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Eliminación de empleado");
-        alert.setHeaderText("Se procedera a eliminar el empleado: " + tablaEmpleados.getSelectionModel().getSelectedItem().nombres + " " + tablaEmpleados.getSelectionModel().getSelectedItem().apellidos);
+        alert.setHeaderText("Se procedera a eliminar el empleado: " + tablaEmpleados.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
         alert.setContentText("¿Seguro que desea preceder?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
-            ConeccionBD.getInstancia().deleteEmpleado(tablaEmpleados.getSelectionModel().getSelectedItem().id);
+            ConeccionBD.getInstancia().deleteEmpleado(tablaEmpleados.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
             actualizarTabla();
         }
     }
 
     public void actualizarTabla() throws SQLException {
-        oblist.clear();
-        ResultSet queryResult = ConeccionBD.getInstancia().getListaEmpleados(busqueda.getText());
-        while (queryResult.next()){
-            oblist.add(new ModeloTablaEmpleados(queryResult.getString("id_empleado"), queryResult.getString("cedula"), queryResult.getString("nombres"), queryResult.getString("apellidos")));
-        }
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        cedula.setCellValueFactory(new PropertyValueFactory<>("cedula"));
-        nombres.setCellValueFactory(new PropertyValueFactory<>("nombres"));
-        apellidos.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
-        tablaEmpleados.setItems(oblist);
+        String busca = busqueda.getText().replace("'", "''");
+        General.llenarTabla(tablaEmpleados, ventana, "WHERE ID like '%"+busca+"%' or Identificación like '%"+busca+"%' or Nombres like '%"+busca+"%' or Apellidos like '%"+busca+"%' or Departamento like '%"+busca+"%'");
     }
 
     @Override

@@ -91,7 +91,9 @@ public class RegInventarioController implements Initializable {
 
     private void regProducto() throws SQLException {
         String mensaje = "";
-        if (ConeccionBD.getInstancia().regProducto(edicion, id.getText(), clasificacion.getSelectionModel().getSelectedItem().toString().split("|")[0], descripcion.getText(), peso.getText(), mano_obra.getText(), existencia.getText(), producto_final.isSelected(), paga_fundidor.isSelected(), precio_costo.getText(), precio_venta.getText())){
+        if (ConeccionBD.getInstancia().regProducto(edicion, id.getText(), clasificacion.getSelectionModel().getSelectedItem().toString().split("|")[0],
+                descripcion.getText(), peso.getText(), mano_obra.getText(), existencia.getText(), producto_final.isSelected(), paga_fundidor.isSelected(),
+                precio_costo.getText(), precio_venta.getText())){
             inventarioController.actualizarTabla();
             if(!edicion){
                 mensaje = "Los datos del prducto han sido registrados correctamente";

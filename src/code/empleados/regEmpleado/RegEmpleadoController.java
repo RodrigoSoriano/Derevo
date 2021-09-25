@@ -2,13 +2,15 @@ package code.empleados.regEmpleado;
 
 import code.ConeccionBD;
 import code.empleados.Empleadoo;
-import code.empleados.EmpleadoHolder;
+import code.empleados.EmpleadosController;
+import code.generales.General;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -37,24 +39,22 @@ public class RegEmpleadoController implements Initializable {
     @FXML
     private TextField sueldo;
 
-    private String oldValue_sueldo = "";
-    private int caretPosition_sueldo = 0;
+    @FXML
+    private ComboBox departamento;
+
+    @FXML
+    private  ComboBox nacionalidad;
+
+    @FXML
+    private CheckBox inactivo;
 
     private boolean edicion = false;
+
+    private EmpleadosController empleadosController;
 
     public void salirBotonOnAction() {
         Stage stage = (Stage) salirBoton.getScene().getWindow();
         stage.close();
-    }
-
-    public void formatoSueldo() {
-        if (!sueldo.getText().matches("\\d{0,9}([\\.]\\d{0,2})?")) {
-            sueldo.setText(oldValue_sueldo);
-            sueldo.positionCaret(caretPosition_sueldo);
-        }else{
-            oldValue_sueldo = sueldo.getText();
-            caretPosition_sueldo = sueldo.getCaretPosition();
-        }
     }
 
     private boolean validaDatos(){
@@ -67,7 +67,7 @@ public class RegEmpleadoController implements Initializable {
         }
     }
 
-    public void regEmpleadoButton() {
+    public void regEmpleadoButton() throws SQLException {
         if(validaDatos()){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Registro de empleado");
@@ -86,8 +86,11 @@ public class RegEmpleadoController implements Initializable {
         }
     }
 
-    private void regEmpleado() {
-        if (ConeccionBD.getInstancia().regEmpleado(edicion, id.getText(), cedula.getText(), nombres.getText(), apellidos.getText(), telefono.getText(), fecha.getValue().toString(), sueldo.getText())){
+    private void regEmpleado() throws SQLException {
+        if (ConeccionBD.getInstancia().regEmpleado(edicion, id.getText(), cedula.getText(), nombres.getText(), apellidos.getText(), telefono.getText(), fecha.getValue().toString(),
+                sueldo.getText(), departamento.getSelectionModel().getSelectedItem().toString().split("|")[0], nacionalidad.getSelectionModel().getSelectedItem().toString().split("|")[0],
+                inactivo.isSelected())){
+            empleadosController.actualizarTabla();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             if(!edicion){
                 alert.setTitle("Registro de empleado");
@@ -118,6 +121,10 @@ public class RegEmpleadoController implements Initializable {
         }
     }
 
+    public void loadParentController(EmpleadosController empleadosController) {
+        this.empleadosController = empleadosController;
+    }
+
     private void clear(){
         id.setText("");
         cedula.setText("");
@@ -126,26 +133,65 @@ public class RegEmpleadoController implements Initializable {
         telefono.setText("");
         sueldo.setText("");
         fecha.setValue(java.time.LocalDate.now());
+        departamento.getSelectionModel().select(0);
+        nacionalidad.getSelectionModel().select(0);
+        inactivo.setSelected(false);
+    }
+
+    private void setFormatos(){
+        sueldo.setTextFormatter(General.soloNumero(true));
+    }
+
+    private void setDatos() throws SQLException {
+        llenarCombobox();
+        Empleadoo empleadoo = Empleadoo.getEmpleadoo();
+        if (empleadoo.getId_empleado() != null){
+            edicion = true;
+            String id_departamento = empleadoo.getId_departamento();
+            String id_nacionalidad = empleadoo.getId_nacionalidad();
+            for (int i = 0; i < departamento.getItems().size(); i++) {
+                if (departamento.getItems().get(i).toString().split("|")[0].equals(id_departamento)) {
+                    departamento.getSelectionModel().select(i);
+                }
+            }
+            id.setText(empleadoo.getId_empleado());
+            cedula.setText(empleadoo.getCedula());
+            nombres.setText(empleadoo.getNombres());
+            apellidos.setText(empleadoo.getApellidos());
+            telefono.setText(empleadoo.getNumero());
+            sueldo.setText(empleadoo.getSueldo_base());
+            fecha.setValue(empleadoo.getFecha());
+            for (int i = 0; i < nacionalidad.getItems().size(); i++){
+                if(nacionalidad.getItems().get(i).toString().split("|")[0].equals(id_nacionalidad)){
+                    nacionalidad.getSelectionModel().select(i);
+                }
+            }
+            inactivo.setSelected(empleadoo.getInactivo());
+        }else{
+            clear();
+        }
+    }
+
+    private void llenarCombobox() throws SQLException {
+        ResultSet rs = ConeccionBD.getInstancia().getData("Departamento", "");
+        departamento.getItems().add("");
+        while(rs.next()){
+            departamento.getItems().add(rs.getString(1) + "   |   " + rs.getString(2));
+        }
+        rs = ConeccionBD.getInstancia().getData("Nacionalidad", "");
+        nacionalidad.getItems().add("");
+        while(rs.next()){
+            nacionalidad.getItems().add(rs.getString(1) + "   |   " + rs.getString(2));
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Empleadoo empleadoo = EmpleadoHolder.getInstancia().getEmpleado();
-
-        id.setText(empleadoo.getId_empleado());
-        cedula.setText(empleadoo.getCedula());
-        nombres.setText(empleadoo.getNombres());
-        apellidos.setText(empleadoo.getApellidos());
-        telefono.setText(empleadoo.getNumero());
-        sueldo.setText(empleadoo.getSueldo_base());
-        if(empleadoo.getFecha() == null){
-            fecha.setValue(java.time.LocalDate.now());
-            clear();
-        }else{
-            fecha.setValue(empleadoo.getFecha());
-        }
-        if (!id.getText().isBlank()){
-            edicion = true;
+        setFormatos();
+        try {
+            setDatos();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }

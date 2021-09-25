@@ -7,7 +7,10 @@
     [fecha]       DATE            NULL,
     [sueldo_base] DECIMAL (18, 2) NULL,
     [id_departamento] INT NULL, 
+    [id_nacionalidad] INT NULL, 
+    [inactivo] BIT NULL, 
     CONSTRAINT [PK_Empleado] PRIMARY KEY CLUSTERED ([id_empleado] ASC), 
-    CONSTRAINT [FK_Empleado_ToDepartamento] FOREIGN KEY ([id_departamento]) REFERENCES [Departamento]([id_departamento])
+    CONSTRAINT [FK_Empleado_ToDepartamento] FOREIGN KEY ([id_departamento]) REFERENCES [Departamento]([id_departamento]), 
+    CONSTRAINT [FK_Empleado_ToNacionalidad] FOREIGN KEY ([id_nacionalidad]) REFERENCES [Nacionalidad]([id_nacionalidad])
 );
 

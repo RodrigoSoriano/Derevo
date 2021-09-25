@@ -5,11 +5,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="272.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.empleados.regEmpleado.RegEmpleadoController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="314.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.empleados.regEmpleado.RegEmpleadoController">
    <bottom>
-      <HBox BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="2.0" prefWidth="375.0" BorderPane.alignment="CENTER">
          <children>
-            <Region prefHeight="31.0" prefWidth="106.0" HBox.hgrow="ALWAYS" />
+            <CheckBox fx:id="inactivo" mnemonicParsing="false" prefHeight="17.0" prefWidth="66.0" text="Inactivo" />
+            <Region prefHeight="26.0" prefWidth="160.0" HBox.hgrow="ALWAYS" />
             <Button fx:id="guardarBoton" mnemonicParsing="false" onAction="#regEmpleadoButton" text="Guardar">
                <font>
                   <Font size="15.0" />
@@ -33,26 +34,28 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="8.0" layoutY="60.0" text="ID:" />
-            <Label layoutX="131.0" layoutY="61.0" text="Cédula:" />
+            <Label layoutX="82.0" layoutY="61.0" text="Identificación:" />
             <Label layoutX="8.0" layoutY="95.0" text="Nombres:" />
             <Label layoutX="8.0" layoutY="130.0" text="Apellidos:" />
             <Label layoutX="228.0" layoutY="19.0" text="Fecha:" />
             <Label layoutX="8.0" layoutY="165.0" text="Telefono:" />
             <Label layoutX="194.0" layoutY="165.0" text="Sueldo base:" />
             <DatePicker fx:id="fecha" editable="false" layoutX="265.0" layoutY="15.0" prefHeight="25.0" prefWidth="103.0" />
-            <TextField fx:id="id" disable="true" layoutX="28.0" layoutY="57.0" prefHeight="25.0" prefWidth="81.0" />
+            <TextField fx:id="id" editable="false" layoutX="28.0" layoutY="57.0" prefHeight="25.0" prefWidth="44.0" />
             <TextField fx:id="nombres" layoutX="65.0" layoutY="91.0" prefHeight="25.0" prefWidth="302.0" />
             <TextField fx:id="apellidos" layoutX="65.0" layoutY="126.0" prefHeight="25.0" prefWidth="302.0" />
             <TextField fx:id="telefono" layoutX="65.0" layoutY="161.0" prefHeight="25.0" prefWidth="121.0" />
-            <TextField fx:id="sueldo" layoutX="266.0" layoutY="161.0" onKeyReleased="#formatoSueldo" onMouseClicked="#formatoSueldo" prefHeight="25.0" prefWidth="101.0" />
-            <TextField fx:id="cedula" layoutX="176.0" layoutY="56.0" prefHeight="25.0" prefWidth="191.0" />
+            <TextField fx:id="sueldo" layoutX="266.0" layoutY="161.0" prefHeight="25.0" prefWidth="101.0" />
+            <TextField fx:id="cedula" layoutX="163.0" layoutY="56.0" prefHeight="25.0" prefWidth="204.0" />
             <Label contentDisplay="CENTER" layoutX="8.0" layoutY="6.0" prefHeight="43.0" prefWidth="164.0" text="Registro de Empleado">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Label layoutX="8.0" layoutY="200.0" text="Departamento:" />
-            <ComboBox fx:id="departamento" layoutX="93.0" layoutY="196.0" prefHeight="25.0" prefWidth="275.0" />
+            <Label layoutX="8.0" layoutY="240.0" text="Departamento:" />
+            <ComboBox fx:id="departamento" layoutX="93.0" layoutY="236.0" prefHeight="25.0" prefWidth="275.0" />
+            <ComboBox fx:id="nacionalidad" layoutX="93.0" layoutY="196.0" prefHeight="25.0" prefWidth="275.0" />
+            <Label layoutX="8.0" layoutY="201.0" text="Nacionalidad:" />
          </children>
       </AnchorPane>
    </center>
