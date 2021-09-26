@@ -4,11 +4,20 @@ import code.ConeccionBD;
 import code.generales.General;
 import code.inventario.InventarioController;
 import code.inventario.Producto;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -98,6 +107,8 @@ public class RegInventarioController implements Initializable {
 
     private InventarioController inventarioController;
 
+    ObservableList<ObservableList> data = FXCollections.observableArrayList();
+
     private boolean edicion = false;
 
     private String ventana = "Inventario";
@@ -171,6 +182,15 @@ public class RegInventarioController implements Initializable {
         precio_costo.setText("0");
         precio_venta.setText("0");
         dependencia.setSelected(false);
+        tablaDependencia.getItems().clear();
+        data.clear();
+        clearDependencia();
+    }
+
+    private void clearDependencia(){
+        id_productoDependencia.setText("");
+        productoDependencia.setText("");
+        cantidadDependencia.setText("");
     }
 
     public void loadParentController(InventarioController inventarioController) {
@@ -181,6 +201,8 @@ public class RegInventarioController implements Initializable {
         peso.setTextFormatter(General.soloNumero(true));
         mano_obra.setTextFormatter(General.soloNumero(true));
         existencia.setTextFormatter(General.soloNumero());
+        id_productoDependencia.setTextFormatter(General.soloNumero());
+        cantidadDependencia.setTextFormatter(General.soloNumero());
     }
 
     private void enableDependencias(boolean cargar){
@@ -217,6 +239,7 @@ public class RegInventarioController implements Initializable {
         }else{
             botonDependencias.setText("Ocultar dependencias");
         }
+        clearDependencia();
     }
 
     public void botonDependencia(){
@@ -226,6 +249,86 @@ public class RegInventarioController implements Initializable {
         }else{
             loadDependencias(true);
             botonDependencias.setText("Ocultar dependencias");
+        }
+        clearDependencia();
+    }
+
+    public void buscarProducto() throws SQLException, IOException {
+        General.abrirBuscador("Inventario", true);
+        if (!General.getValor().isBlank()) {
+            id_productoDependencia.setText(General.getValor());
+            productoDependencia.setText(ConeccionBD.getInstancia().getProductoById(General.getValor()));
+            cantidadDependencia.requestFocus();
+        }
+    }
+
+    public void llenarProducto(KeyEvent event) throws SQLException {
+        productoDependencia.setText("");
+        if(event.getCode() == KeyCode.ENTER) {
+            productoDependencia.setText(ConeccionBD.getInstancia().getProductoById(id_productoDependencia.getText()));
+            if (!productoDependencia.getText().equals("No encontrado")){
+                cantidadDependencia.requestFocus();
+            }else{
+                id_productoDependencia.setText("");
+            }
+        }
+    }
+
+    public void enterCantidad(KeyEvent event) throws SQLException {
+        if (event.getCode() == KeyCode.ENTER){
+            agregarDependencia();
+            id_productoDependencia.requestFocus();
+        }
+    }
+
+    private boolean validaAgregarDependencia(){
+        if(     id_productoDependencia.getText().isBlank() ||
+                productoDependencia.getText().isBlank() ||
+                cantidadDependencia.getText().isBlank()){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public void agregarDependencia() throws SQLException {
+        if (validaAgregarDependencia()) {
+            ResultSet rs = ConeccionBD.getInstancia().getDatosProductoById(id_productoDependencia.getText());
+            if(rs.next()){
+                ObservableList<String> row = FXCollections.observableArrayList();
+                row.add(rs.getString("ID"));
+                row.add(rs.getString("Clasificacion"));
+                row.add(rs.getString("Descripcion"));
+
+                for (int i = 0; i < data.size(); i++){
+                    if(row.get(0).equals(data.get(i).get(0))){
+                        row.add(Integer.toString(Integer.parseInt(cantidadDependencia.getText()) + Integer.parseInt(data.get(i).get(3).toString())));
+                        data.remove(i);
+                    }
+                }
+
+                if (row.size() == 3) {
+                    row.add(cantidadDependencia.getText());
+                }
+                data.add(row);
+            }
+            actualizarTabla(false);
+            clearDependencia();
+        }else{
+            General.mensaje(Alert.AlertType.WARNING, ventana, "No se puede agregar dependencia, revise los campos.");
+        }
+    }
+
+    public void removerDependencia(){
+        if (tablaDependencia.getSelectionModel().getSelectedItem() != null) {
+            for (int i = 0; i < data.size(); i++){
+                if(tablaDependencia.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1).equals(data.get(i).get(0))){
+                    data.remove(i);
+                }
+            }
+            actualizarTabla(false);
+        } else {
+            General.mensaje(Alert.AlertType.WARNING, ventana, "Seleccione una dependencia para remover");
         }
     }
 
@@ -254,6 +357,14 @@ public class RegInventarioController implements Initializable {
             clear();
         }
         botonDependencias.setVisible(dependencia.isSelected());
+
+        String[] columnas = {"ID", "Clasificación", "Producto", "Cantidad"};
+        for(int i=0 ; i<columnas.length; i++){
+            final int j = i;
+            TableColumn col = new TableColumn(columnas[i]);
+            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
+            tablaDependencia.getColumns().addAll(col);
+        }
     }
 
     private void llenarCombobox() throws SQLException {
@@ -261,6 +372,14 @@ public class RegInventarioController implements Initializable {
         clasificacion.getItems().add("");
         while(rs.next()){
             clasificacion.getItems().add(rs.getString(1) + "   |   " + rs.getString(2));
+        }
+    }
+
+    private void actualizarTabla(boolean database){
+        if (database){
+
+        }else{
+            tablaDependencia.setItems(data);
         }
     }
 

@@ -145,6 +145,9 @@ public class ConeccionBD {
             return "No encontrado";
         }
     }
+    public ResultSet getDatosProductoById(String id){
+        return ejecutarQuery("select * from vInventario where ID = " + (id.equals("") ? "0": id));
+    }
     //endregion
 
     //region PRODUCCION

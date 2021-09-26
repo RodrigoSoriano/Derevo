@@ -89,7 +89,7 @@ public class InventarioController implements Initializable {
 
     public void actualizarTabla() throws SQLException {
         String busca = busqueda.getText().replace("'", "''");
-        General.llenarTabla(tablaInventario, ventana, "WHERE ID like '%"+busca+"%' or Clasificacion like '%"+busca+"%' or Descripcion like '%"+busca+"%' or Existencia like '%"+busca+"%'");
+        General.llenarTabla(tablaInventario, ventana, "WHERE ID like '%"+busca+"%' or Clasificacion like '%"+busca+"%' or Descripcion like '%"+busca+"%' or Existencia like '%"+busca+"%'" + " ORDER BY Clasificacion");
     }
 
     @Override
