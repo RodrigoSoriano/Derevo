@@ -1,5 +1,6 @@
 package code.generales.buscador;
 
+import code.ConeccionBD;
 import code.generales.General;
 import code.generales.buscador.regBuscador.regBuscadorController;
 import javafx.fxml.FXML;
@@ -80,8 +81,10 @@ public class BuscadorController implements Initializable {
         }
     }
 
-    public void botonBorrar(){
-
+    public void botonBorrar() throws SQLException {
+        String id = tabla.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1);
+        ConeccionBD.getInstancia().borrarGeneral1(id, ventana);
+        actualizarTabla();
     }
 
     public void dblClic(MouseEvent event){

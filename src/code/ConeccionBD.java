@@ -191,6 +191,19 @@ public class ConeccionBD {
             return false;
         }
     }
+    public boolean borrarGeneral1(String id, String ventana) {
+        ventana = ventana.replace(" ", "");
+        if (id.isBlank()){
+            id = "0";
+        }
+        try {
+            ejecutarQuery("EXEC Borrar" + ventana + " @id_" + ventana + " = " + id);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     //endregion
 
     //region OTROS

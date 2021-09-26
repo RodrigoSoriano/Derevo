@@ -9,10 +9,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.awt.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -33,10 +36,11 @@ public class InventarioController implements Initializable {
             Parent root = loader.load(getClass().getResource("regProducto/regProductoo.fxml").openStream());
             RegInventarioController regInventarioController = loader.getController();
             regInventarioController.loadParentController(this);
-
             Stage regStage = new Stage();
             regStage.setTitle(titulo);
-            regStage.setScene(new Scene(root, 392, 351));
+            regStage.setScene(new Scene(root, 392, 315));
+            regStage.setY(0);
+            regStage.setX(Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 3);
             regStage.setResizable(false);
             regStage.initModality(Modality.APPLICATION_MODAL);
             regStage.show();

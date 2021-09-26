@@ -7,8 +7,8 @@ import code.inventario.Producto;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +17,9 @@ import java.util.ResourceBundle;
 
 public class RegInventarioController implements Initializable {
     //region Variables FXML
+    @FXML
+    private Button guardarBoton;
+
     @FXML
     private Button salirBoton;
 
@@ -49,6 +52,48 @@ public class RegInventarioController implements Initializable {
 
     @FXML
     private TextField precio_venta;
+
+    @FXML
+    private CheckBox dependencia;
+
+    @FXML
+    private Label label1;
+
+    @FXML
+    private Label label2;
+
+    @FXML
+    private Label label3;
+
+    @FXML
+    private Button boton1;
+
+    @FXML
+    private Button boton2;
+
+    @FXML
+    private Button boton3;
+
+    @FXML
+    private Button botonDependencias;
+
+    @FXML
+    private TextField id_productoDependencia;
+
+    @FXML
+    private TextField productoDependencia;
+
+    @FXML
+    private TextField cantidadDependencia;
+
+    @FXML
+    private TableView tablaDependencia;
+
+    @FXML
+    private BorderPane panel;
+
+    @FXML
+    private BorderPane panel2;
     //endregion
 
     private InventarioController inventarioController;
@@ -125,6 +170,7 @@ public class RegInventarioController implements Initializable {
         paga_fundidor.setSelected(true);
         precio_costo.setText("0");
         precio_venta.setText("0");
+        dependencia.setSelected(false);
     }
 
     public void loadParentController(InventarioController inventarioController) {
@@ -137,8 +183,55 @@ public class RegInventarioController implements Initializable {
         existencia.setTextFormatter(General.soloNumero());
     }
 
+    private void enableDependencias(boolean cargar){
+        label1.setVisible(cargar);
+        label2.setVisible(cargar);
+        label3.setVisible(cargar);
+        boton1.setVisible(cargar);
+        boton2.setVisible(cargar);
+        boton3.setVisible(cargar);
+        id_productoDependencia.setVisible(cargar);
+        productoDependencia.setVisible(cargar);
+        cantidadDependencia.setVisible(cargar);
+        tablaDependencia.setVisible(cargar);
+        panel2.setVisible(cargar);
+    }
+
+    private void loadDependencias(boolean cargar){
+        Stage stage = (Stage) salirBoton.getScene().getWindow();
+        double pantalla;
+        if (cargar) {
+            pantalla = 595;
+        }else{
+            pantalla = 350;
+        }
+        stage.setHeight(pantalla);
+        enableDependencias(cargar);
+    }
+
+    public void tieneDependencias(){
+        loadDependencias(dependencia.isSelected());
+        botonDependencias.setVisible(dependencia.isSelected());
+        if(!label1.isVisible()){
+            botonDependencias.setText("Mostrar dependencias");
+        }else{
+            botonDependencias.setText("Ocultar dependencias");
+        }
+    }
+
+    public void botonDependencia(){
+        if(label1.isVisible()){
+            loadDependencias(false);
+            botonDependencias.setText("Mostrar dependencias");
+        }else{
+            loadDependencias(true);
+            botonDependencias.setText("Ocultar dependencias");
+        }
+    }
+
     private void setDatos() throws SQLException {
         llenarCombobox();
+        enableDependencias(false);
         Producto producto = Producto.getInstancia();
         if (producto.getId_producto() != null){
             edicion = true;
@@ -160,6 +253,7 @@ public class RegInventarioController implements Initializable {
         }else{
             clear();
         }
+        botonDependencias.setVisible(dependencia.isSelected());
     }
 
     private void llenarCombobox() throws SQLException {

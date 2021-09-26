@@ -312,6 +312,150 @@
 				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[AperturarProduccion]&#xD;&#xA;&#x9;@id_empleado int,&#xD;&#xA;&#x9;@fecha date,&#xD;&#xA;&#x9;@nota varchar(100)&#xD;&#xA;AS" />
 			</Annotation>
 		</Element>
+		<Element Type="SqlProcedure" Name="[dbo].[BorrarClasificacionProducto]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+	delete ClasificacionProducto where Id_clasificacionProducto = @id_clasificacionProducto;
+
+	select top 0 * from ClasificacionProducto]]></Value>
+			</Property>
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References Name="[dbo].[ClasificacionProducto]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ClasificacionProducto].[Id_clasificacionProducto]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[BorrarClasificacionProducto].[@id_clasificacionProducto]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[BorrarClasificacionProducto].[@id_clasificacionProducto]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="225" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[BorrarClasificacionProducto]&#xD;&#xA;&#x9;@id_clasificacionProducto int&#xD;&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[dbo].[BorrarDepartamento]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+	delete Departamento where id_departamento = @id_departamento;
+
+	select top 0 * from Departamento]]></Value>
+			</Property>
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References Name="[dbo].[Departamento]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Departamento].[id_departamento]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[BorrarDepartamento].[@id_departamento]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[BorrarDepartamento].[@id_departamento]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="171" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[BorrarDepartamento]&#xD;&#xA;&#x9;@id_departamento int&#xD;&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[dbo].[BorrarNacionalidad]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+	delete Nacionalidad where id_nacionalidad = @id_nacionalidad;
+
+	select top 0 * from Nacionalidad]]></Value>
+			</Property>
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References Name="[dbo].[Nacionalidad]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Nacionalidad].[id_nacionalidad]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[BorrarNacionalidad].[@id_nacionalidad]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[BorrarNacionalidad].[@id_nacionalidad]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="171" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[BorrarNacionalidad]&#xD;&#xA;&#x9;@id_nacionalidad int&#xD;&#xA;AS" />
+			</Annotation>
+		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[BorrarProduccion]">
 			<Property Name="BodyScript">
 				<Value><![CDATA[

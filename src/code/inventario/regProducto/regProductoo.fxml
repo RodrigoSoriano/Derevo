@@ -5,6 +5,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -12,32 +13,9 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="351.0" prefWidth="392.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.inventario.regProducto.RegInventarioController">
-   <bottom>
-      <HBox BorderPane.alignment="CENTER">
-         <children>
-            <Region prefHeight="31.0" prefWidth="106.0" HBox.hgrow="ALWAYS" />
-            <Button fx:id="guardarBoton" mnemonicParsing="false" onAction="#regProductoButton" text="Guardar">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
-            <Button fx:id="salirBoton" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#salirBotonOnAction" text="Salir">
-               <font>
-                  <Font size="15.0" />
-               </font>
-               <HBox.margin>
-                  <Insets left="10.0" />
-               </HBox.margin>
-            </Button>
-         </children>
-         <padding>
-            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-         </padding>
-      </HBox>
-   </bottom>
-   <left>
-      <AnchorPane prefHeight="304.0" prefWidth="410.0" BorderPane.alignment="CENTER">
+<BorderPane fx:id="panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="302.0" prefWidth="392.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.inventario.regProducto.RegInventarioController">
+   <top>
+      <AnchorPane prefHeight="519.0" prefWidth="392.0" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="8.0" layoutY="60.0" text="ID:" />
             <Label layoutX="99.0" layoutY="61.0" text="Clasificación:" />
@@ -55,16 +33,56 @@
             </Label>
             <TextField fx:id="mano_obra" layoutX="93.0" layoutY="161.0" prefHeight="25.0" prefWidth="101.0" />
             <TextField fx:id="peso" layoutX="93.0" layoutY="126.0" prefHeight="25.0" prefWidth="101.0" />
-            <CheckBox fx:id="producto_final" layoutX="240.0" layoutY="203.0" mnemonicParsing="false" selected="true" text="Producto Final" />
-            <CheckBox fx:id="paga_fundidor" layoutX="240.0" layoutY="224.0" mnemonicParsing="false" selected="true" text="Paga a Fundidor" />
+            <CheckBox fx:id="producto_final" layoutX="240.0" layoutY="193.0" mnemonicParsing="false" selected="true" text="Producto Final" />
+            <CheckBox fx:id="paga_fundidor" layoutX="240.0" layoutY="214.0" mnemonicParsing="false" selected="true" text="Paga a Fundidor" />
             <Label layoutX="9.0" layoutY="198.0" text="Precio costo:" />
             <TextField fx:id="precio_costo" layoutX="93.0" layoutY="194.0" prefHeight="25.0" prefWidth="101.0" />
             <TextField fx:id="precio_venta" layoutX="93.0" layoutY="227.0" prefHeight="25.0" prefWidth="101.0" />
             <Label layoutX="9.0" layoutY="231.0" text="Precio venta:" />
             <TextField fx:id="existencia1" layoutX="280.0" layoutY="158.0" prefHeight="25.0" prefWidth="101.0" />
-            <Label layoutX="204.0" layoutY="162.0" text="Terminación:" />
+            <Label layoutX="204.0" layoutY="162.0" text="Producidas:" />
             <ComboBox fx:id="clasificacion" layoutX="171.0" layoutY="57.0" prefHeight="25.0" prefWidth="210.0" />
+            <CheckBox fx:id="dependencia" layoutX="240.0" layoutY="235.0" mnemonicParsing="false" onAction="#tieneDependencias" text="Tiene dependencias" />
+            <BorderPane fx:id="panel2" layoutY="370.0" prefHeight="144.0" prefWidth="392.0">
+               <center>
+                  <TableView fx:id="tablaDependencia" prefHeight="146.0" prefWidth="392.0" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+            <Label fx:id="label1" layoutX="8.0" layoutY="274.0" text="Dependencias">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="label2" layoutX="9.0" layoutY="307.0" text="Producto:" />
+            <Label fx:id="label3" layoutX="9.0" layoutY="340.0" text="Cantidad:" />
+            <TextField fx:id="id_productoDependencia" layoutX="68.0" layoutY="305.0" prefHeight="25.0" prefWidth="43.0" />
+            <TextField fx:id="productoDependencia" layoutX="116.0" layoutY="305.0" prefHeight="25.0" prefWidth="197.0" />
+            <TextField fx:id="cantidadDependencia" layoutX="68.0" layoutY="337.0" prefWidth="79.0" />
+            <Button fx:id="boton1" layoutX="324.0" layoutY="305.0" mnemonicParsing="false" prefWidth="58.0" text="Buscar" />
+            <Button fx:id="boton2" layoutX="206.0" layoutY="337.0" mnemonicParsing="false" prefWidth="83.0" text="Agregar" />
+            <Button fx:id="boton3" layoutX="299.0" layoutY="337.0" mnemonicParsing="false" prefWidth="83.0" text="Remover" />
          </children>
       </AnchorPane>
-   </left>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="392.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="botonDependencias" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onAction="#botonDependencia" prefHeight="31.0" text="Mostrar dependencias" />
+            <Region maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="106.0" HBox.hgrow="ALWAYS" />
+            <Button fx:id="guardarBoton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#regProductoButton" prefHeight="31.0" prefWidth="74.0" text="Guardar">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="salirBoton" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#salirBotonOnAction" prefHeight="31.0" prefWidth="49.0" text="Salir">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+         </children>
+         <padding>
+            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+         </padding>
+      </HBox>
+   </bottom>
 </BorderPane>
