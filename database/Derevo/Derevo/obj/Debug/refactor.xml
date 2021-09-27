@@ -63,4 +63,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="id_nacionalidad" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="ffce5312-0752-4668-8ae5-1291acc27711" ChangeDateTime="09/27/2021 00:42:13" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+    <Property Name="ElementName" Value="[dbo].[Dependencia].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Dependencia]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="id_dependencia" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6f5fae78-91de-4344-85f9-4646d399d0de" ChangeDateTime="09/27/2021 00:43:38" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+    <Property Name="ElementName" Value="[dbo].[Dependencia].[id_]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Dependencia]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="id_productoDependencia" />
+  </Operation>
 </Operations>

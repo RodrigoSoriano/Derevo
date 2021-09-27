@@ -3,6 +3,7 @@ package code;
 import code.empleados.Empleadoo;
 import code.inventario.Producto;
 import code.produccion.Produccion;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import java.sql.*;
 
@@ -94,12 +95,29 @@ public class ConeccionBD {
     //endregion
 
     //region INVENTARIO
-    public boolean regProducto(boolean edicion, String id, String id_clasificacionProducto, String descripcion, String peso, String mano_obra, String existencia, boolean producto_final, boolean paga_fundidor, String precio_costo, String precio_venta){
+    public boolean regProducto(boolean edicion, String id, String id_clasificacionProducto, String descripcion, String peso, String mano_obra, String existencia, boolean producto_final, boolean paga_fundidor, String precio_costo, String precio_venta, ObservableList<ObservableList> data){
         boolean exito = false;
         if(!edicion){
             try{
-                getConnection().createStatement().executeUpdate("INSERT INTO Producto (id_clasificacionProducto, descripcion, peso, mano_obra, existencia, producto_final, paga_fundidor, precio_costo, precio_venta) " +
-                        "VALUES ('" + id_clasificacionProducto + "', '" + descripcion + "', '" + peso + "', '" + mano_obra + "', '" + existencia + "', '" + producto_final + "', '" + paga_fundidor + "', '" + precio_costo + "', '" + precio_venta + "')");
+                boolean dependencia = false;
+                if(data != null){
+                    dependencia = true;
+                }
+                getConnection().createStatement().executeUpdate("INSERT INTO Producto (id_clasificacionProducto, descripcion, peso, mano_obra, existencia, producto_final, paga_fundidor, precio_costo, precio_venta, dependencia) " +
+                        "VALUES ('" + id_clasificacionProducto + "', '" + descripcion + "', '" + peso + "', '" + mano_obra + "', '" + existencia + "', '" + producto_final + "', '" + paga_fundidor + "', '" + precio_costo + "', '" + precio_venta + "', '" + dependencia + "')");
+                if(data != null){
+                    ResultSet rs = ejecutarQuery("SELECT MAX(id_producto) AS id FROM Producto");
+                    rs.next();
+                    int id_producto = rs.getInt("id");
+                    int id_productoDependencia;
+                    int cantidad;
+                    for (int i = 0; i < data.size(); i++){
+                        id_productoDependencia = Integer.parseInt(data.get(i).get(0).toString());
+                        cantidad = Integer.parseInt(data.get(i).get(3).toString());
+                        getConnection().createStatement().executeUpdate("INSERT INTO Dependencia(id_producto, id_productoDependencia, cantidad)" +
+                                "values(" + id_producto + ", " + id_productoDependencia + ", " + cantidad + ")");
+                    }
+                }
                 exito = true;
             }catch (Exception e){
                 error(e);
@@ -131,6 +149,7 @@ public class ConeccionBD {
             producto.setPaga_fundidor(queryResult.getString("paga_fundidor").equals("1"));
             producto.setPrecio_costo(queryResult.getString("precio_costo"));
             producto.setPrecio_venta(queryResult.getString("precio_venta"));
+            producto.setDependencia(queryResult.getString("dependencia").equals("1"));
         }
         Producto.setInstancia(producto);
     }

@@ -175,6 +175,8 @@
     <Build Include="dbo\Stored Procedures\Generales\BorrarClasificacionProducto.sql" />
     <Build Include="dbo\Stored Procedures\Generales\BorrarDepartamento.sql" />
     <Build Include="dbo\Stored Procedures\Generales\BorrarNacionalidad.sql" />
+    <Build Include="dbo\Tables\Dependencia.sql" />
+    <Build Include="dbo\Views\vDependencia.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Derevo.refactorlog" />

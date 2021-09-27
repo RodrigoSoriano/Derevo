@@ -147,14 +147,18 @@ public class RegInventarioController implements Initializable {
 
     private void regProducto() throws SQLException {
         String mensaje = "";
+        if(!dependencia.isSelected()){
+            data = null;
+        }
         if (ConeccionBD.getInstancia().regProducto(edicion, id.getText(), clasificacion.getSelectionModel().getSelectedItem().toString().split("|")[0],
                 descripcion.getText(), peso.getText(), mano_obra.getText(), existencia.getText(), producto_final.isSelected(), paga_fundidor.isSelected(),
-                precio_costo.getText(), precio_venta.getText())){
+                precio_costo.getText(), precio_venta.getText(), data)){
             inventarioController.actualizarTabla();
             if(!edicion){
                 mensaje = "Los datos del prducto han sido registrados correctamente";
                 General.mensaje(Alert.AlertType.INFORMATION, ventana, mensaje);
                 clear();
+                tieneDependencias();
             }else{
                 mensaje = "Los datos del producto han sido editados correctamente";
                 General.mensaje(Alert.AlertType.INFORMATION, ventana, mensaje);
@@ -183,8 +187,9 @@ public class RegInventarioController implements Initializable {
         precio_venta.setText("0");
         dependencia.setSelected(false);
         tablaDependencia.getItems().clear();
-        data.clear();
-        clearDependencia();
+        if (data != null) {
+            data.clear();
+        }
     }
 
     private void clearDependencia(){
@@ -319,7 +324,7 @@ public class RegInventarioController implements Initializable {
         }
     }
 
-    public void removerDependencia(){
+    public void removerDependencia() throws SQLException {
         if (tablaDependencia.getSelectionModel().getSelectedItem() != null) {
             for (int i = 0; i < data.size(); i++){
                 if(tablaDependencia.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1).equals(data.get(i).get(0))){
@@ -353,6 +358,7 @@ public class RegInventarioController implements Initializable {
             paga_fundidor.setSelected(producto.getPaga_fundidor());
             precio_costo.setText(producto.getPrecio_costo());
             precio_venta.setText(producto.getPrecio_venta());
+            dependencia.setSelected(producto.isDependencia());
         }else{
             clear();
         }
@@ -365,6 +371,7 @@ public class RegInventarioController implements Initializable {
             col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
             tablaDependencia.getColumns().addAll(col);
         }
+        actualizarTabla(dependencia.isSelected());
     }
 
     private void llenarCombobox() throws SQLException {
@@ -375,9 +382,11 @@ public class RegInventarioController implements Initializable {
         }
     }
 
-    private void actualizarTabla(boolean database){
+    private void actualizarTabla(boolean database) throws SQLException {
         if (database){
-
+            General.llenarTabla(tablaDependencia,"Dependencia", "WHERE id_producto = " + id.getText());
+            tablaDependencia.getColumns().remove(4);
+            data = tablaDependencia.getItems();
         }else{
             tablaDependencia.setItems(data);
         }
