@@ -11,6 +11,9 @@ public class ConeccionBD {
     public Connection BaseDeDatosLink;
     private final static ConeccionBD instancia = new ConeccionBD();
 
+    private String usuarioBD = "derevo";
+    private String contrasenaBD = "abc12345";
+
     public static ConeccionBD getInstancia(){
         return instancia;
     }
@@ -95,7 +98,7 @@ public class ConeccionBD {
     //endregion
 
     //region INVENTARIO
-    public boolean regProducto(boolean edicion, String id, String id_clasificacionProducto, String descripcion, String peso, String mano_obra, String existencia, boolean producto_final, boolean paga_fundidor, String precio_costo, String precio_venta, ObservableList<ObservableList> data){
+    public boolean regProducto(boolean edicion, String id, String id_clasificacionProducto, String descripcion, String peso, String mano_obra, String existencia, boolean producto_final, boolean paga_fundidor, String precio_costo, String precio_venta, ObservableList<ObservableList> data, String producidas){
         boolean exito = false;
         if(!edicion){
             try{
@@ -103,8 +106,8 @@ public class ConeccionBD {
                 if(data != null){
                     dependencia = true;
                 }
-                getConnection().createStatement().executeUpdate("INSERT INTO Producto (id_clasificacionProducto, descripcion, peso, mano_obra, existencia, producto_final, paga_fundidor, precio_costo, precio_venta, dependencia) " +
-                        "VALUES ('" + id_clasificacionProducto + "', '" + descripcion + "', '" + peso + "', '" + mano_obra + "', '" + existencia + "', '" + producto_final + "', '" + paga_fundidor + "', '" + precio_costo + "', '" + precio_venta + "', '" + dependencia + "')");
+                getConnection().createStatement().executeUpdate("INSERT INTO Producto (id_clasificacionProducto, descripcion, peso, mano_obra, existencia, producto_final, paga_fundidor, precio_costo, precio_venta, dependencia, producidas) " +
+                        "VALUES ('" + id_clasificacionProducto + "', '" + descripcion + "', '" + peso + "', '" + mano_obra + "', '" + existencia + "', '" + producto_final + "', '" + paga_fundidor + "', '" + precio_costo + "', '" + precio_venta + "', '" + dependencia + "', '" + producidas + "')");
                 if(data != null){
                     ResultSet rs = ejecutarQuery("SELECT MAX(id_producto) AS id FROM Producto");
                     rs.next();
@@ -124,7 +127,7 @@ public class ConeccionBD {
             }
         }else{
             try{
-                getConnection().createStatement().executeUpdate("UPDATE Producto SET id_clasificacionProducto = '" + id_clasificacionProducto + "', descripcion = '" + descripcion + "', peso = '" + peso + "', mano_obra = '" + mano_obra + "', existencia = '" + existencia + "', producto_final = '" + producto_final + "', paga_fundidor = '" + paga_fundidor + "', precio_costo = '" + precio_costo + "', precio_venta = '" + precio_venta + "' "+
+                getConnection().createStatement().executeUpdate("UPDATE Producto SET id_clasificacionProducto = '" + id_clasificacionProducto + "', descripcion = '" + descripcion + "', peso = '" + peso + "', mano_obra = '" + mano_obra + "', existencia = '" + existencia + "', producidas = '" + producidas + "', producto_final = '" + producto_final + "', paga_fundidor = '" + paga_fundidor + "', precio_costo = '" + precio_costo + "', precio_venta = '" + precio_venta + "' "+
                         "WHERE id_producto = '" + id + "'");
                 exito = true;
             }catch (Exception e){
@@ -145,6 +148,7 @@ public class ConeccionBD {
             producto.setPeso(queryResult.getString("peso"));
             producto.setMano_obra(queryResult.getString("mano_obra"));
             producto.setExistencia(queryResult.getString("existencia"));
+            producto.setProducidas(queryResult.getString("producidas"));
             producto.setProducto_final(queryResult.getString("producto_final").equals("1"));
             producto.setPaga_fundidor(queryResult.getString("paga_fundidor").equals("1"));
             producto.setPrecio_costo(queryResult.getString("precio_costo"));
@@ -251,8 +255,6 @@ public class ConeccionBD {
         return null;
     }
     public Connection getConnection(){
-        String usuarioBD = "derevo";
-        String contrasenaBD = "abc12345";
         String url = "jdbc:sqlserver://localhost\\SQLEXPRESS;database=Derevo";
         try{
             BaseDeDatosLink = DriverManager.getConnection(url, usuarioBD, contrasenaBD);

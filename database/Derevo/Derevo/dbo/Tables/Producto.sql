@@ -4,6 +4,7 @@
     [descripcion]    VARCHAR (100)    NULL,
     [peso]           DECIMAL (18, 2) NULL,
     [mano_obra]      DECIMAL (18, 2) NULL,
+    [producidas]     INT             NULL,
     [existencia]     INT             NULL,
     [producto_final] BIT             NULL,
     [paga_fundidor]  BIT             NULL,

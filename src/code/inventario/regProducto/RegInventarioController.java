@@ -42,6 +42,9 @@ public class RegInventarioController implements Initializable {
     private TextField existencia;
 
     @FXML
+    private TextField producidas;
+
+    @FXML
     private TextField peso;
 
     @FXML
@@ -152,7 +155,7 @@ public class RegInventarioController implements Initializable {
         }
         if (ConeccionBD.getInstancia().regProducto(edicion, id.getText(), clasificacion.getSelectionModel().getSelectedItem().toString().split("|")[0],
                 descripcion.getText(), peso.getText(), mano_obra.getText(), existencia.getText(), producto_final.isSelected(), paga_fundidor.isSelected(),
-                precio_costo.getText(), precio_venta.getText(), data)){
+                precio_costo.getText(), precio_venta.getText(), data, producidas.getText())){
             inventarioController.actualizarTabla();
             if(!edicion){
                 mensaje = "Los datos del prducto han sido registrados correctamente";
@@ -179,6 +182,7 @@ public class RegInventarioController implements Initializable {
         descripcion.setText("");
         clasificacion.getSelectionModel().select(0);
         existencia.setText("0");
+        producidas.setText("0");
         peso.setText("0");
         mano_obra.setText("0");
         producto_final.setSelected(true);
@@ -206,6 +210,7 @@ public class RegInventarioController implements Initializable {
         peso.setTextFormatter(General.soloNumero(true));
         mano_obra.setTextFormatter(General.soloNumero(true));
         existencia.setTextFormatter(General.soloNumero());
+        producidas.setTextFormatter(General.soloNumero());
         id_productoDependencia.setTextFormatter(General.soloNumero());
         cantidadDependencia.setTextFormatter(General.soloNumero());
     }
@@ -354,6 +359,7 @@ public class RegInventarioController implements Initializable {
             peso.setText(producto.getPeso());
             mano_obra.setText(producto.getMano_obra());
             existencia.setText(producto.getExistencia());
+            producidas.setText(producto.getProducidas());
             producto_final.setSelected(producto.getProducto_final());
             paga_fundidor.setSelected(producto.getPaga_fundidor());
             precio_costo.setText(producto.getPrecio_costo());

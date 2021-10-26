@@ -7,6 +7,7 @@ public class Producto {
     private String peso;
     private String mano_obra;
     private String existencia;
+    private String producidas;
     private boolean producto_final;
     private boolean paga_fundidor;
     private String precio_costo;
@@ -14,13 +15,14 @@ public class Producto {
     private boolean dependencia;
     private static Producto instancia = new Producto();
 
-    public Producto(String id_producto, String id_clasificacionProducto, String descripcion, String peso, String mano_obra, String existencia, boolean producto_final, boolean paga_fundidor, String precio_costo, String precio_venta, boolean dependencia) {
+    public Producto(String id_producto, String id_clasificacionProducto, String descripcion, String peso, String mano_obra, String existencia, boolean producto_final, boolean paga_fundidor, String precio_costo, String precio_venta, boolean dependencia, String producidas) {
         this.id_producto = id_producto;
         this.id_clasificacionProducto = id_clasificacionProducto;
         this.descripcion = descripcion;
         this.peso = peso;
         this.mano_obra = mano_obra;
         this.existencia = existencia;
+        this.producidas = producidas;
         this.producto_final = producto_final;
         this.paga_fundidor = paga_fundidor;
         this.precio_costo = precio_costo;
@@ -126,5 +128,13 @@ public class Producto {
 
     public void setDependencia(boolean dependencia) {
         this.dependencia = dependencia;
+    }
+
+    public String getProducidas() {
+        return producidas;
+    }
+
+    public void setProducidas(String producidas) {
+        this.producidas = producidas;
     }
 }

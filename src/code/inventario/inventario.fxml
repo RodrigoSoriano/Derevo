@@ -5,13 +5,14 @@
 
 <BorderPane prefHeight="730.0" prefWidth="1298.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.inventario.InventarioController">
    <top>
-      <HBox BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#abrirRegistrarProducto" prefWidth="65.0" text="Nuevo" />
             <Button mnemonicParsing="false" onAction="#editarRegistrarProducto" prefWidth="65.0" text="Editar" />
             <Button layoutX="75.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteProducto" prefWidth="65.0" text="Borrar" />
             <Button layoutX="140.0" layoutY="10.0" mnemonicParsing="false" onAction="#actualizarTabla" prefWidth="71.0" text="Actualizar" />
-            <Region HBox.hgrow="ALWAYS" />
+            <Region prefHeight="25.0" prefWidth="605.0" HBox.hgrow="ALWAYS" />
+            <CheckBox fx:id="nofinales" accessibleHelp="2" accessibleRoleDescription="3" accessibleText="1" contentDisplay="CENTER" mnemonicParsing="false" onAction="#actualizarTabla" prefHeight="17.0" prefWidth="194.0" text="Mostrar productos no finales" />
             <TextField fx:id="busqueda" onKeyReleased="#actualizarTabla" prefHeight="25.0" prefWidth="252.0" promptText="Buscar" />
          </children>
       </HBox>

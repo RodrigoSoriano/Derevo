@@ -30,6 +30,9 @@ public class InventarioController implements Initializable {
     @FXML
     private TextField busqueda;
 
+    @FXML
+    private CheckBox nofinales;
+
     private void regProducto(String titulo){
         try{
             FXMLLoader loader = new FXMLLoader();
@@ -89,7 +92,13 @@ public class InventarioController implements Initializable {
 
     public void actualizarTabla() throws SQLException {
         String busca = busqueda.getText().replace("'", "''");
-        General.llenarTabla(tablaInventario, ventana, "WHERE ID like '%"+busca+"%' or Clasificacion like '%"+busca+"%' or Descripcion like '%"+busca+"%' or Existencia like '%"+busca+"%'" + " ORDER BY Clasificacion");
+        String nofinal = "AND producto_final = 1" ;
+        if (nofinales.isSelected()) {
+            nofinal = "";
+        }
+        General.llenarTabla(tablaInventario, ventana,
+                "WHERE (ID like '%"+busca+"%' OR Clasificacion LIKE '%"+busca+"%' OR Descripcion LIKE '%"+busca+"%' OR Existencia LIKE '%"+busca+"%'" + ") " + nofinal + " ORDER BY Clasificacion");
+        tablaInventario.getColumns().remove(tablaInventario.getColumns().size() - 1);
     }
 
     @Override
