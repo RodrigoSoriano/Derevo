@@ -107,6 +107,9 @@ public class BuscadorController implements Initializable {
 
     public void actualizarTabla() throws SQLException {
         General.llenarTabla(tabla, ventana);
+        if(ventana.equals("Inventario")){
+            tabla.getColumns().remove(tabla.getColumns().size() - 1);
+        }
     }
 
     public void llenarVentana(String ventana){

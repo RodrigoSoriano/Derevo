@@ -53,6 +53,22 @@ public class InventarioController implements Initializable {
         }
     }
 
+    public void moverInventario(){
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass().getResource("moverInventario/moverInventario.fxml").openStream());
+            Stage movInve = new Stage();
+            movInve.setTitle("Mover Inventario");
+            movInve.setScene(new Scene(root, 394, 176));
+            movInve.setResizable(false);
+            movInve.initModality(Modality.APPLICATION_MODAL);
+            movInve.show();
+        } catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
+
     public void abrirRegistrarProducto() {
         Producto.setInstancia(new Producto());
         regProducto("Registro de Producto");
@@ -93,7 +109,7 @@ public class InventarioController implements Initializable {
     public void actualizarTabla() throws SQLException {
         String busca = busqueda.getText().replace("'", "''");
         String nofinal = "AND producto_final = 1" ;
-        if (nofinales.isSelected()) {
+        if (!nofinales.isSelected()) {
             nofinal = "";
         }
         General.llenarTabla(tablaInventario, ventana,

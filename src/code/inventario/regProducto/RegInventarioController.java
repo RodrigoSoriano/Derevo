@@ -122,7 +122,7 @@ public class RegInventarioController implements Initializable {
     }
 
     private boolean validaDatosRegistro(){
-        if(     clasificacion.getSelectionModel().getSelectedItem().toString().isBlank() ||
+        if(     clasificacion.getSelectionModel().getSelectedIndex() == 0 ||
                 peso.getText().isBlank() ||
                 mano_obra.getText().isBlank() ||
                 existencia.getText().isBlank()

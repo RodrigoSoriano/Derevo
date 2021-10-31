@@ -16,4 +16,6 @@ AS
 						  VALUES(@id_produccion, @id_producto, @cantidad)
 	END
 
+	UPDATE Producto SET producidas = (SELECT producidas FROM Producto WHERE id_producto = @id_producto) + @cantidad WHERE id_producto = @id_producto
+
 	SELECT TOP 0 * FROM SubProduccion
