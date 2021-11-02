@@ -54,7 +54,7 @@ public class General {
         return new TextFormatter<>(new DefaultStringConverter(), null, integerFilter);
     }
 
-    static public void llenarTabla(TableView tabla, String origen, String ... filtro) throws SQLException {
+    static public void llenarTabla(TableView tabla, String origen, String ... filtro) {
         if (filtro.length == 0){
             filtro = new String[1];
             filtro[0] = "";
@@ -64,28 +64,37 @@ public class General {
         ObservableList<ObservableList> data = FXCollections.observableArrayList();
         ResultSet rs = ConexionBD.getInstancia().getData(origen, filtro[0]);
 
-        for(int i=0 ; i<rs.getMetaData().getColumnCount(); i++){
-            final int j = i;
-            TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i+1));
-            col.setCellValueFactory((Callback<CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
-            tabla.getColumns().addAll(col);
-        }
-
-        while(rs.next()){
-            ObservableList<String> row = FXCollections.observableArrayList();
-            for(int i=1 ; i<=rs.getMetaData().getColumnCount(); i++){
-                row.add(rs.getString(i));
+        try {
+            for(int i=0 ; i<rs.getMetaData().getColumnCount(); i++){
+                final int j = i;
+                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i+1));
+                col.setCellValueFactory((Callback<CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString()));
+                tabla.getColumns().addAll(col);
             }
-            data.add(row);
 
+            while(rs.next()){
+                ObservableList<String> row = FXCollections.observableArrayList();
+                for(int i=1 ; i<=rs.getMetaData().getColumnCount(); i++){
+                    row.add(rs.getString(i));
+                }
+                data.add(row);
+
+            }
+        } catch (SQLException throwables) {
+            ConexionBD.getInstancia().error(throwables);
         }
 
         tabla.setItems(data);
     }
 
-    public static void abrirBuscador(String nombre, boolean ... soloBuscar) throws SQLException, IOException {
+    public static void abrirBuscador(String nombre, boolean ... soloBuscar) {
         FXMLLoader loader = new FXMLLoader();
-        Parent root = loader.load(General.class.getResource("/code/generales/buscador/buscador.fxml").openStream());
+        Parent root = null;
+        try {
+            root = loader.load(General.class.getResource("/code/generales/buscador/buscador.fxml").openStream());
+        } catch (IOException e) {
+            ConexionBD.getInstancia().error(e);
+        }
         BuscadorController buscadorController = loader.getController();
         buscadorController.llenarVentana(nombre);
         if (soloBuscar.length > 0) {

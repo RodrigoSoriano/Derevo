@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import java.sql.SQLException;
 
 public class regBuscadorController {
     @FXML
@@ -64,13 +63,13 @@ public class regBuscadorController {
         descripcion.setText("");
     }
 
-    public void enter(KeyEvent event) throws SQLException {
+    public void enter(KeyEvent event){
         if(event.getCode() == KeyCode.ENTER){
             guardar();
         }
     }
 
-    public void guardar() throws SQLException {
+    public void guardar(){
         if (validaData()) {
             ConexionBD.getInstancia().regGeneral1(id.getText(), nombre.getText(), descripcion.getText(), ventana);
             General.mensaje(Alert.AlertType.INFORMATION, ventana, "Registro exitoso.");

@@ -5,9 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 public class PrincipalController {
 
     @FXML
@@ -31,15 +28,15 @@ public class PrincipalController {
         panelPrincipal.setCenter(view);
     }
 
-    public void departamentosBotonOnAction() throws SQLException, IOException {
+    public void departamentosBotonOnAction() {
         General.abrirBuscador("Departamento");
     }
 
-    public void nacionalidadBotonOnAction() throws SQLException, IOException {
+    public void nacionalidadBotonOnAction()  {
         General.abrirBuscador("Nacionalidad");
     }
 
-    public void clasificacionesProductosBotonOnAction() throws SQLException, IOException {
+    public void clasificacionesProductosBotonOnAction() {
         General.abrirBuscador("Clasificacion Producto");
     }
 

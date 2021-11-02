@@ -133,7 +133,7 @@ public class RegInventarioController implements Initializable {
         }
     }
 
-    public void regProductoButton() throws SQLException {
+    public void regProductoButton() {
         if(validaDatosRegistro()){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Registro de producto");
@@ -148,7 +148,7 @@ public class RegInventarioController implements Initializable {
         }
     }
 
-    private void regProducto() throws SQLException {
+    private void regProducto() {
         String mensaje = "";
         if(!dependencia.isSelected()){
             data = null;
@@ -263,7 +263,7 @@ public class RegInventarioController implements Initializable {
         clearDependencia();
     }
 
-    public void buscarProducto() throws SQLException, IOException {
+    public void buscarProducto() {
         General.abrirBuscador("Inventario", true);
         if (!General.getValor().isBlank()) {
             id_productoDependencia.setText(General.getValor());
@@ -272,7 +272,7 @@ public class RegInventarioController implements Initializable {
         }
     }
 
-    public void llenarProducto(KeyEvent event) throws SQLException {
+    public void llenarProducto(KeyEvent event) {
         productoDependencia.setText("");
         if(event.getCode() == KeyCode.ENTER) {
             productoDependencia.setText(ConexionBD.getInstancia().getProductoById(id_productoDependencia.getText()));
@@ -284,7 +284,7 @@ public class RegInventarioController implements Initializable {
         }
     }
 
-    public void enterCantidad(KeyEvent event) throws SQLException {
+    public void enterCantidad(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER){
             agregarDependencia();
             id_productoDependencia.requestFocus();
@@ -301,26 +301,30 @@ public class RegInventarioController implements Initializable {
         }
     }
 
-    public void agregarDependencia() throws SQLException {
+    public void agregarDependencia() {
         if (validaAgregarDependencia()) {
             ResultSet rs = ConexionBD.getInstancia().getDatosProductoById(id_productoDependencia.getText());
-            if(rs.next()){
-                ObservableList<String> row = FXCollections.observableArrayList();
-                row.add(rs.getString("ID"));
-                row.add(rs.getString("Clasificacion"));
-                row.add(rs.getString("Descripcion"));
+            try {
+                if(rs.next()){
+                    ObservableList<String> row = FXCollections.observableArrayList();
+                    row.add(rs.getString("ID"));
+                    row.add(rs.getString("Clasificacion"));
+                    row.add(rs.getString("Descripcion"));
 
-                for (int i = 0; i < data.size(); i++){
-                    if(row.get(0).equals(data.get(i).get(0))){
-                        row.add(Integer.toString(Integer.parseInt(cantidadDependencia.getText()) + Integer.parseInt(data.get(i).get(3).toString())));
-                        data.remove(i);
+                    for (int i = 0; i < data.size(); i++){
+                        if(row.get(0).equals(data.get(i).get(0))){
+                            row.add(Integer.toString(Integer.parseInt(cantidadDependencia.getText()) + Integer.parseInt(data.get(i).get(3).toString())));
+                            data.remove(i);
+                        }
                     }
-                }
 
-                if (row.size() == 3) {
-                    row.add(cantidadDependencia.getText());
+                    if (row.size() == 3) {
+                        row.add(cantidadDependencia.getText());
+                    }
+                    data.add(row);
                 }
-                data.add(row);
+            } catch (SQLException e) {
+                ConexionBD.getInstancia().error(e);
             }
             actualizarTabla(false);
             clearDependencia();
@@ -329,7 +333,7 @@ public class RegInventarioController implements Initializable {
         }
     }
 
-    public void removerDependencia() throws SQLException {
+    public void removerDependencia() {
         if (tablaDependencia.getSelectionModel().getSelectedItem() != null) {
             for (int i = 0; i < data.size(); i++){
                 if(tablaDependencia.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1).equals(data.get(i).get(0))){
@@ -342,7 +346,7 @@ public class RegInventarioController implements Initializable {
         }
     }
 
-    private void setDatos() throws SQLException {
+    private void setDatos() {
         llenarCombobox();
         enableDependencias(false);
         Producto producto = Producto.getInstancia();
@@ -380,15 +384,19 @@ public class RegInventarioController implements Initializable {
         actualizarTabla(dependencia.isSelected());
     }
 
-    private void llenarCombobox() throws SQLException {
-        ResultSet rs = ConexionBD.getInstancia().getData("ClasificacionProducto", "");
-        clasificacion.getItems().add("");
-        while(rs.next()){
-            clasificacion.getItems().add(rs.getString(1) + "   |   " + rs.getString(2));
+    private void llenarCombobox() {
+        try {
+            ResultSet rs = ConexionBD.getInstancia().getData("ClasificacionProducto", "");
+            clasificacion.getItems().add("");
+            while(rs.next()){
+                clasificacion.getItems().add(rs.getString(1) + "   |   " + rs.getString(2));
+            }
+        } catch (SQLException e) {
+            ConexionBD.getInstancia().error(e);
         }
     }
 
-    private void actualizarTabla(boolean database) throws SQLException {
+    private void actualizarTabla(boolean database) {
         if (database){
             General.llenarTabla(tablaDependencia,"Dependencia", "WHERE id_producto = " + id.getText());
             tablaDependencia.getColumns().remove(4);
@@ -401,10 +409,6 @@ public class RegInventarioController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setFormatos();
-        try {
-            setDatos();
-        } catch (SQLException throwables) {
-            ConexionBD.getInstancia().error(throwables);
-        }
+        setDatos();
     }
 }

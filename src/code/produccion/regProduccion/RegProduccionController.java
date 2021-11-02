@@ -15,9 +15,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -73,7 +71,7 @@ public class RegProduccionController implements Initializable {
     private String ventana = "Producción";
     private ProduccionController produccionController;
 
-    public void salirBotonOnAction() throws SQLException {
+    public void salirBotonOnAction() {
         Stage stage = (Stage) salirBoton.getScene().getWindow();
         stage.close();
     }
@@ -108,7 +106,7 @@ public class RegProduccionController implements Initializable {
         }
     }
 
-    public void aperturarProduccionBoton() throws SQLException, IOException {
+    public void aperturarProduccionBoton() {
         if(validaDatosAperturar()){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Apertura de producción");
@@ -125,7 +123,7 @@ public class RegProduccionController implements Initializable {
         }
     }
 
-    public void BuscarEmpleado() throws SQLException, IOException {
+    public void BuscarEmpleado()  {
         General.abrirBuscador("Empleado", true);
         if (!General.getValor().isBlank()) {
             empleado_id.setText(General.getValor());
@@ -133,7 +131,7 @@ public class RegProduccionController implements Initializable {
         }
     }
 
-    public void llenarEmpleado(KeyEvent event) throws SQLException {
+    public void llenarEmpleado(KeyEvent event) {
         if (empleado_id.isEditable()) {
             empleado.setText("");
             if(event.getCode() == KeyCode.ENTER) {
@@ -145,7 +143,7 @@ public class RegProduccionController implements Initializable {
         }
     }
 
-    public void BuscarProducto() throws SQLException, IOException {
+    public void BuscarProducto() {
         General.abrirBuscador("Inventario", true);
         if (!General.getValor().isBlank()) {
             producto_id.setText(General.getValor());
@@ -154,7 +152,7 @@ public class RegProduccionController implements Initializable {
         }
     }
 
-    public void llenarProducto(KeyEvent event) throws SQLException {
+    public void llenarProducto(KeyEvent event)  {
         if (producto_id.isEditable()) {
             producto.setText("");
             if(event.getCode() == KeyCode.ENTER) {
@@ -168,14 +166,14 @@ public class RegProduccionController implements Initializable {
         }
     }
 
-    public void enterCantidad(KeyEvent event) throws SQLException {
+    public void enterCantidad(KeyEvent event)  {
         if (event.getCode() == KeyCode.ENTER){
             agregarProduccion();
             producto_id.requestFocus();
         }
     }
 
-    public void agregarProduccion() throws SQLException {
+    public void agregarProduccion() {
         if (validaDatosAgregar()) {
             ConexionBD.getInstancia().agregarProduccion(id.getText(), producto_id.getText(), cantidad.getText());
             actualizarTabla();
@@ -186,13 +184,13 @@ public class RegProduccionController implements Initializable {
         }
     }
 
-    public void dobleClick(MouseEvent event) throws SQLException {
+    public void dobleClick(MouseEvent event) {
         if(event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2){
             removerProduccion();
         }
     }
 
-    public void removerProduccion() throws SQLException {
+    public void removerProduccion() {
         if (validaDatosRemover()) {
             ConexionBD.getInstancia().removerProduccion(id.getText(), tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
             actualizarTabla();
@@ -247,7 +245,7 @@ public class RegProduccionController implements Initializable {
         }
     }
 
-    private void actualizarTabla() throws SQLException {
+    private void actualizarTabla() {
         General.llenarTabla(tablaProduccion,"SubProduccion", "WHERE id_produccion = " + id.getText());
         tablaProduccion.getColumns().remove(4);
     }

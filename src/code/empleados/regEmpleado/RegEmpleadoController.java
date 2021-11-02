@@ -67,7 +67,7 @@ public class RegEmpleadoController implements Initializable {
         }
     }
 
-    public void regEmpleadoButton() throws SQLException {
+    public void regEmpleadoButton() {
         if(validaDatos()){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Registro de empleado");
@@ -86,11 +86,13 @@ public class RegEmpleadoController implements Initializable {
         }
     }
 
-    private void regEmpleado() throws SQLException {
+    private void regEmpleado() {
         if (ConexionBD.getInstancia().regEmpleado(edicion, id.getText(), cedula.getText(), nombres.getText(), apellidos.getText(), telefono.getText(), fecha.getValue().toString(),
                 sueldo.getText(), departamento.getSelectionModel().getSelectedItem().toString().split("|")[0], nacionalidad.getSelectionModel().getSelectedItem().toString().split("|")[0],
                 inactivo.isSelected())){
+
             empleadosController.actualizarTabla();
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             if(!edicion){
                 alert.setTitle("Registro de empleado");
@@ -142,7 +144,7 @@ public class RegEmpleadoController implements Initializable {
         sueldo.setTextFormatter(General.soloNumero(true));
     }
 
-    private void setDatos() throws SQLException {
+    private void setDatos(){
         llenarCombobox();
         Empleadoo empleadoo = Empleadoo.getEmpleadoo();
         if (empleadoo.getId_empleado() != null){
@@ -172,26 +174,26 @@ public class RegEmpleadoController implements Initializable {
         }
     }
 
-    private void llenarCombobox() throws SQLException {
-        ResultSet rs = ConexionBD.getInstancia().getData("Departamento", "");
-        departamento.getItems().add("");
-        while(rs.next()){
-            departamento.getItems().add(rs.getString(1) + "   |   " + rs.getString(2));
-        }
-        rs = ConexionBD.getInstancia().getData("Nacionalidad", "");
-        nacionalidad.getItems().add("");
-        while(rs.next()){
-            nacionalidad.getItems().add(rs.getString(1) + "   |   " + rs.getString(2));
+    private void llenarCombobox() {
+        try {
+            ResultSet rs = ConexionBD.getInstancia().getData("Departamento", "");
+            departamento.getItems().add("");
+            while(rs.next()){
+                departamento.getItems().add(rs.getString(1) + "   |   " + rs.getString(2));
+            }
+            rs = ConexionBD.getInstancia().getData("Nacionalidad", "");
+            nacionalidad.getItems().add("");
+            while(rs.next()){
+                nacionalidad.getItems().add(rs.getString(1) + "   |   " + rs.getString(2));
+            }
+        } catch (SQLException throwables) {
+            ConexionBD.getInstancia().error(throwables);
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setFormatos();
-        try {
-            setDatos();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        setDatos();
     }
 }

@@ -35,8 +35,7 @@ public class ConexionBD {
             getConnection().close();
             return exito;
         } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
+            error(e);
         }
         return exito;
     }
@@ -65,34 +64,43 @@ public class ConexionBD {
         }
         return exito;
     }
-    public void setEmpleadoHolder(String id) throws SQLException {
-        ResultSet queryResult = ejecutarQuery("select * from Empleado where id_empleado =" + id);
-        Empleadoo empleadoo = new Empleadoo();
-        while (true){
-            assert queryResult != null;
-            if (!queryResult.next()) break;
-            empleadoo.setId_empleado(queryResult.getString("id_empleado"));
-            empleadoo.setCedula(queryResult.getString("cedula"));
-            empleadoo.setNombres(queryResult.getString("nombres"));
-            empleadoo.setApellidos(queryResult.getString("apellidos"));
-            empleadoo.setNumero(queryResult.getString("telefono"));
-            empleadoo.setFecha(queryResult.getDate("fecha").toLocalDate());
-            empleadoo.setSueldo_base(queryResult.getString("sueldo_base"));
-            empleadoo.setId_departamento(queryResult.getString("id_departamento"));
-            empleadoo.setId_nacionalidad(queryResult.getString("id_nacionalidad"));
-            empleadoo.setInactivo(queryResult.getString("inactivo").equals("1"));
+    public void setEmpleadoHolder(String id) {
+        try {
+            ResultSet queryResult = ejecutarQuery("select * from Empleado where id_empleado =" + id);
+            Empleadoo empleadoo = new Empleadoo();
+            while (true){
+                assert queryResult != null;
+                if (!queryResult.next()) break;
+                empleadoo.setId_empleado(queryResult.getString("id_empleado"));
+                empleadoo.setCedula(queryResult.getString("cedula"));
+                empleadoo.setNombres(queryResult.getString("nombres"));
+                empleadoo.setApellidos(queryResult.getString("apellidos"));
+                empleadoo.setNumero(queryResult.getString("telefono"));
+                empleadoo.setFecha(queryResult.getDate("fecha").toLocalDate());
+                empleadoo.setSueldo_base(queryResult.getString("sueldo_base"));
+                empleadoo.setId_departamento(queryResult.getString("id_departamento"));
+                empleadoo.setId_nacionalidad(queryResult.getString("id_nacionalidad"));
+                empleadoo.setInactivo(queryResult.getString("inactivo").equals("1"));
+            }
+            Empleadoo.setEmpleadoo(empleadoo);
+        } catch (SQLException e) {
+            error(e);
         }
-        Empleadoo.setEmpleadoo(empleadoo);
     }
     public void deleteEmpleado(String id){
         ejecutarQuery("delete from Empleado where id_empleado = " + id);
     }
-    public String getEmpleadoById(String id) throws SQLException {
-        ResultSet query = ejecutarQuery("select top 1 nombres + ' ' + apellidos as resultado from Empleado where id_empleado = " + (id.equals("") ? "0": id));
-        if(query.next()){
-            return query.getString("resultado");
-        }else{
-            return "No encontrado";
+    public String getEmpleadoById(String id){
+        try {
+            ResultSet query = ejecutarQuery("select top 1 nombres + ' ' + apellidos as resultado from Empleado where id_empleado = " + (id.equals("") ? "0": id));
+            if(query.next()){
+                return query.getString("resultado");
+            }else{
+                return "No encontrado";
+            }
+        } catch (SQLException e) {
+            error(e);
+            return "";
         }
     }
     //endregion
@@ -136,36 +144,45 @@ public class ConexionBD {
         }
         return exito;
     }
-    public void setProductoHolder(String id) throws SQLException {
-        ResultSet queryResult = ejecutarQuery("select * from Producto where id_producto =" + id);
-        Producto producto = new Producto();
-        while (true){
-            assert queryResult != null;
-            if (!queryResult.next()) break;
-            producto.setId_producto(queryResult.getString("id_producto"));
-            producto.setId_clasificacionProducto(queryResult.getString("id_clasificacionProducto"));
-            producto.setDescripcion(queryResult.getString("descripcion"));
-            producto.setPeso(queryResult.getString("peso"));
-            producto.setMano_obra(queryResult.getString("mano_obra"));
-            producto.setExistencia(queryResult.getString("existencia"));
-            //producto.setProducidas(queryResult.getString("producidas"));
-            producto.setProducto_final(queryResult.getString("producto_final").equals("1"));
-            producto.setPaga_fundidor(queryResult.getString("paga_fundidor").equals("1"));
-            producto.setPrecio_costo(queryResult.getString("precio_costo"));
-            producto.setPrecio_venta(queryResult.getString("precio_venta"));
-            producto.setDependencia(queryResult.getString("dependencia").equals("1"));
+    public void setProductoHolder(String id) {
+        try {
+            ResultSet queryResult = ejecutarQuery("select * from Producto where id_producto =" + id);
+            Producto producto = new Producto();
+            while (true){
+                assert queryResult != null;
+                if (!queryResult.next()) break;
+                producto.setId_producto(queryResult.getString("id_producto"));
+                producto.setId_clasificacionProducto(queryResult.getString("id_clasificacionProducto"));
+                producto.setDescripcion(queryResult.getString("descripcion"));
+                producto.setPeso(queryResult.getString("peso"));
+                producto.setMano_obra(queryResult.getString("mano_obra"));
+                producto.setExistencia(queryResult.getString("existencia"));
+                //producto.setProducidas(queryResult.getString("producidas"));
+                producto.setProducto_final(queryResult.getString("producto_final").equals("1"));
+                producto.setPaga_fundidor(queryResult.getString("paga_fundidor").equals("1"));
+                producto.setPrecio_costo(queryResult.getString("precio_costo"));
+                producto.setPrecio_venta(queryResult.getString("precio_venta"));
+                producto.setDependencia(queryResult.getString("dependencia").equals("1"));
+            }
+            Producto.setInstancia(producto);
+        } catch (SQLException e) {
+            error(e);
         }
-        Producto.setInstancia(producto);
     }
     public void deleteProducto(String id){
         ejecutarQuery("EXEC BorrarProducto @id_producto = " + id);
     }
-    public String getProductoById(String id) throws SQLException {
-        ResultSet query = ejecutarQuery("select top 1 descripcion as resultado from Producto where id_producto = " + (id.equals("") ? "0": id));
-        if(query.next()){
-            return query.getString("resultado");
-        }else{
-            return "No encontrado";
+    public String getProductoById(String id) {
+        try {
+            ResultSet query = ejecutarQuery("select top 1 descripcion as resultado from Producto where id_producto = " + (id.equals("") ? "0": id));
+            if(query.next()){
+                return query.getString("resultado");
+            }else{
+                return "No encontrado";
+            }
+        } catch (SQLException e) {
+            error(e);
+            return "";
         }
     }
     public ResultSet getDatosProductoById(String id){
@@ -182,26 +199,34 @@ public class ConexionBD {
     //endregion
 
     //region PRODUCCION
-    public void aperturarProduccion(String id_empelado, String fecha, String nota) throws SQLException {
-        ResultSet rs = ejecutarQuery("EXEC AperturarProduccion @id_empleado = " + id_empelado + ", @fecha = '" + fecha + "', @nota = '" + nota + "'");
-        rs.next();
-        setProduccionHolder(rs.getString("id_produccion"));
+    public void aperturarProduccion(String id_empelado, String fecha, String nota) {
+        try {
+            ResultSet rs = ejecutarQuery("EXEC AperturarProduccion @id_empleado = " + id_empelado + ", @fecha = '" + fecha + "', @nota = '" + nota + "'");
+            rs.next();
+            setProduccionHolder(rs.getString("id_produccion"));
+        } catch (SQLException e) {
+            error(e);
+        }
     }
     public void deleteProduccion(String id){
         ejecutarQuery("EXEC BorrarProduccion @id_produccion = " + id);
     }
-    public void setProduccionHolder(String id) throws SQLException {
-        ResultSet queryResult = ejecutarQuery("select * from Produccion where id_produccion = " + id);
-        Produccion produccion = new Produccion();
-        while (true){
-            assert queryResult != null;
-            if (!queryResult.next()) break;
-            produccion.setId_produccion(queryResult.getString("id_produccion"));
-            produccion.setId_empleado(queryResult.getString("id_empleado"));
-            produccion.setFecha(queryResult.getDate("fecha").toLocalDate());
-            produccion.setNota(queryResult.getString("nota"));
+    public void setProduccionHolder(String id){
+        try {
+            ResultSet queryResult = ejecutarQuery("select * from Produccion where id_produccion = " + id);
+            Produccion produccion = new Produccion();
+            while (true){
+                assert queryResult != null;
+                if (!queryResult.next()) break;
+                produccion.setId_produccion(queryResult.getString("id_produccion"));
+                produccion.setId_empleado(queryResult.getString("id_empleado"));
+                produccion.setFecha(queryResult.getDate("fecha").toLocalDate());
+                produccion.setNota(queryResult.getString("nota"));
+            }
+            Produccion.setInstancia(produccion);
+        } catch (SQLException e) {
+            error(e);
         }
-        Produccion.setInstancia(produccion);
     }
     public void agregarProduccion(String produccion_id, String producto_id, String cantidad){
         ejecutarQuery("EXEC AgregarProduccion @id_produccion = " + produccion_id + ", @id_producto = " + producto_id + ", @cantidad = " + cantidad);
@@ -221,7 +246,7 @@ public class ConexionBD {
             ejecutarQuery("EXEC Guardar" + ventana + " @id_" + ventana + " = " + id + ", @nombre = '" + nombre + "', @descripcion = '" + descripcion + "'");
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            error(e);
             return false;
         }
     }
@@ -234,7 +259,7 @@ public class ConexionBD {
             ejecutarQuery("EXEC Borrar" + ventana + " @id_" + ventana + " = " + id);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            error(e);
             return false;
         }
     }

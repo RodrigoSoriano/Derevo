@@ -17,7 +17,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class BuscadorController implements Initializable {
@@ -56,8 +55,7 @@ public class BuscadorController implements Initializable {
             regStage.initModality(Modality.APPLICATION_MODAL);
             regStage.show();
         } catch (Exception e){
-            e.printStackTrace();
-            e.getCause();
+            ConexionBD.getInstancia().error(e);
         }
     }
 
@@ -76,12 +74,11 @@ public class BuscadorController implements Initializable {
             regStage.initModality(Modality.APPLICATION_MODAL);
             regStage.show();
         } catch (Exception e){
-            e.printStackTrace();
-            e.getCause();
+            ConexionBD.getInstancia().error(e);
         }
     }
 
-    public void botonBorrar() throws SQLException {
+    public void botonBorrar() {
         String id = tabla.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1);
         ConexionBD.getInstancia().borrarGeneral1(id, ventana);
         actualizarTabla();
@@ -105,7 +102,7 @@ public class BuscadorController implements Initializable {
         stage.close();
     }
 
-    public void actualizarTabla() throws SQLException {
+    public void actualizarTabla() {
         General.llenarTabla(tabla, ventana);
     }
 

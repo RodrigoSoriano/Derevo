@@ -1,5 +1,6 @@
 package code.principal;
 
+import code.ConexionBD;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -19,8 +20,7 @@ public class FxmlLoader {
             view = new FXMLLoader().load(fileUrl);
 
         }catch(Exception e){
-            e.printStackTrace();
-            e.getCause();
+            ConexionBD.getInstancia().error(e);
         }
         return view;
     }

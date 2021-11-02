@@ -10,7 +10,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,7 +45,7 @@ public class SalidaInventarioController implements Initializable {
         stage.close();
     }
 
-    public void BuscarProducto() throws SQLException, IOException {
+    public void BuscarProducto() {
         General.abrirBuscador("Inventario", true);
         if (!General.getValor().isBlank()) {
             setDatos(General.getValor());
@@ -54,7 +53,7 @@ public class SalidaInventarioController implements Initializable {
         }
     }
 
-    public void llenarProducto(KeyEvent event) throws SQLException {
+    public void llenarProducto(KeyEvent event) {
         if (producto_id.isEditable()) {
             producto.setText("");
             existencia.setText("");
@@ -71,14 +70,18 @@ public class SalidaInventarioController implements Initializable {
         }
     }
 
-    public void setDatos(String id) throws SQLException {
-        ResultSet RS = ConexionBD.getInstancia().getDatosProductoById(id);
-        while (true){
-            assert RS != null;
-            if (!RS.next()) break;
-            producto_id.setText(RS.getString("ID"));
-            producto.setText(RS.getString("Descripcion"));
-            existencia.setText(RS.getString("Existencia"));
+    public void setDatos(String id) {
+        try {
+            ResultSet RS = ConexionBD.getInstancia().getDatosProductoById(id);
+            while (true){
+                assert RS != null;
+                if (!RS.next()) break;
+                producto_id.setText(RS.getString("ID"));
+                producto.setText(RS.getString("Descripcion"));
+                existencia.setText(RS.getString("Existencia"));
+            }
+        } catch (SQLException e) {
+            ConexionBD.getInstancia().error(e);
         }
     }
 
@@ -87,7 +90,7 @@ public class SalidaInventarioController implements Initializable {
         cantidad.setTextFormatter(General.soloNumero());
     }
 
-    public void registrarBoton() throws SQLException, IOException {
+    public void registrarBoton() {
         if(validaDatosRegistro()){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle(ventana);

@@ -14,7 +14,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -40,8 +39,7 @@ public class EmpleadosController implements Initializable {
             regStage.initModality(Modality.APPLICATION_MODAL);
             regStage.show();
         } catch (Exception e){
-            e.printStackTrace();
-            e.getCause();
+            ConexionBD.getInstancia().error(e);
         }
     }
     
@@ -50,13 +48,13 @@ public class EmpleadosController implements Initializable {
         regEmpleado("Registro de Empleado");
     }
 
-    public void dobleClick(MouseEvent event) throws SQLException {
+    public void dobleClick(MouseEvent event) {
         if(event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2){
             editarRegistrarEmpleado();
         }
     }
 
-    public void editarRegistrarEmpleado() throws SQLException {
+    public void editarRegistrarEmpleado() {
         if(tablaEmpleados.getSelectionModel().getSelectedItem() != null){
             ConexionBD.getInstancia().setEmpleadoHolder(tablaEmpleados.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
             regEmpleado("Edición de Empleado");
@@ -68,7 +66,7 @@ public class EmpleadosController implements Initializable {
         }
     }
 
-    public void deleteEmpleado() throws SQLException {
+    public void deleteEmpleado() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Eliminación de empleado");
         alert.setHeaderText("Se procedera a eliminar el empleado: " + tablaEmpleados.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
@@ -80,17 +78,13 @@ public class EmpleadosController implements Initializable {
         }
     }
 
-    public void actualizarTabla() throws SQLException {
+    public void actualizarTabla() {
         String busca = busqueda.getText().replace("'", "''");
         General.llenarTabla(tablaEmpleados, ventana, "WHERE ID like '%"+busca+"%' or Identificación like '%"+busca+"%' or Nombres like '%"+busca+"%' or Apellidos like '%"+busca+"%' or Departamento like '%"+busca+"%'");
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            actualizarTabla();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        actualizarTabla();
     }
 }

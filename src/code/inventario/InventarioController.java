@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -78,13 +77,13 @@ public class InventarioController implements Initializable {
         regProducto("Registro de Producto");
     }
 
-    public void dobleClick(MouseEvent event) throws SQLException {
+    public void dobleClick(MouseEvent event) {
         if(event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2){
             editarRegistrarProducto();
         }
     }
 
-    public void editarRegistrarProducto() throws SQLException {
+    public void editarRegistrarProducto() {
         if(tablaInventario.getSelectionModel().getSelectedItem() != null){
             ConexionBD.getInstancia().setProductoHolder(tablaInventario.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
             regProducto("Edición de Producto");
@@ -93,7 +92,7 @@ public class InventarioController implements Initializable {
         }
     }
 
-    public void deleteProducto() throws SQLException {
+    public void deleteProducto() {
         if (tablaInventario.getSelectionModel().getSelectedItem() != null) {
             String id = tablaInventario.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1);
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -110,7 +109,7 @@ public class InventarioController implements Initializable {
         }
     }
 
-    public void actualizarTabla() throws SQLException {
+    public void actualizarTabla() {
         String busca = busqueda.getText().replace("'", "''");
         String nofinal = "AND [Producto Final] = 'SI'" ;
         if (!nofinales.isSelected()) {
@@ -122,10 +121,6 @@ public class InventarioController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            actualizarTabla();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        actualizarTabla();
     }
 }

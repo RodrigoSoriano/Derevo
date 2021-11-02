@@ -77,8 +77,7 @@ public class LoginController implements Initializable {
             principalStage.setMaximized(true);
             principalStage.show();
         } catch (Exception e){
-            e.printStackTrace();
-            e.getCause();
+            ConexionBD.getInstancia().error(e);
         }
     }
 
@@ -89,6 +88,7 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (prueba){
             abrirPrincipal();
+            cancelarBotonOnAction();
         }
     }
 }
