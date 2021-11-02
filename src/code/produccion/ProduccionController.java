@@ -1,6 +1,6 @@
 package code.produccion;
 
-import code.ConeccionBD;
+import code.ConexionBD;
 import code.generales.General;
 import code.produccion.regProduccion.RegProduccionController;
 import javafx.fxml.FXML;
@@ -62,7 +62,7 @@ public class ProduccionController implements Initializable {
 
     public void editarRegistrarProduccion() throws SQLException {
         if(tablaProduccion.getSelectionModel().getSelectedItem() != null){
-            ConeccionBD.getInstancia().setProduccionHolder(tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
+            ConexionBD.getInstancia().setProduccionHolder(tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
             regProduccion("Edición de Producción");
         }else{
             General.mensaje(Alert.AlertType.WARNING, ventana, "Seleccione una producción para editar");
@@ -78,7 +78,7 @@ public class ProduccionController implements Initializable {
             alert.setContentText("¿Seguro que desea preceder?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
-                ConeccionBD.getInstancia().deleteProduccion(id);
+                ConexionBD.getInstancia().deleteProduccion(id);
                 actualizarTabla();
             }
         } else {

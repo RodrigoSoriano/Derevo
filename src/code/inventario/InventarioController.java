@@ -1,8 +1,9 @@
 package code.inventario;
 
-import code.ConeccionBD;
+import code.ConexionBD;
 import code.generales.General;
 import code.inventario.regProducto.RegInventarioController;
+import code.inventario.salidaInventario.SalidaInventarioController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -48,24 +49,27 @@ public class InventarioController implements Initializable {
             regStage.initModality(Modality.APPLICATION_MODAL);
             regStage.show();
         } catch (Exception e){
-            e.printStackTrace();
-            e.getCause();
+            ConexionBD.getInstancia().error(e);
         }
     }
 
-    public void moverInventario(){
+    public void salidaInventario(){
         try{
             FXMLLoader loader = new FXMLLoader();
-            Parent root = loader.load(getClass().getResource("moverInventario/moverInventario.fxml").openStream());
+            Parent root = loader.load(getClass().getResource("salidaInventario/salidaInventario.fxml").openStream());
+            SalidaInventarioController salidaInventarioController = loader.getController();
+            salidaInventarioController.loadParentController(this);
+            if(tablaInventario.getSelectionModel().getSelectedItem() != null) {
+                salidaInventarioController.setDatos(tablaInventario.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
+            }
             Stage movInve = new Stage();
-            movInve.setTitle("Mover Inventario");
-            movInve.setScene(new Scene(root, 394, 176));
+            movInve.setTitle("Salida de Inventario");
+            movInve.setScene(new Scene(root));
             movInve.setResizable(false);
             movInve.initModality(Modality.APPLICATION_MODAL);
             movInve.show();
         } catch (Exception e){
-            e.printStackTrace();
-            e.getCause();
+            ConexionBD.getInstancia().error(e);
         }
     }
 
@@ -82,7 +86,7 @@ public class InventarioController implements Initializable {
 
     public void editarRegistrarProducto() throws SQLException {
         if(tablaInventario.getSelectionModel().getSelectedItem() != null){
-            ConeccionBD.getInstancia().setProductoHolder(tablaInventario.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
+            ConexionBD.getInstancia().setProductoHolder(tablaInventario.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
             regProducto("Edición de Producto");
         }else{
             General.mensaje(Alert.AlertType.WARNING, ventana, "Seleccione un producto para editar");
@@ -98,7 +102,7 @@ public class InventarioController implements Initializable {
             alert.setContentText("¿Seguro que desea preceder?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
-                ConeccionBD.getInstancia().deleteProducto(id);
+                ConexionBD.getInstancia().deleteProducto(id);
                 actualizarTabla();
             }
         } else {
@@ -108,13 +112,12 @@ public class InventarioController implements Initializable {
 
     public void actualizarTabla() throws SQLException {
         String busca = busqueda.getText().replace("'", "''");
-        String nofinal = "AND producto_final = 1" ;
+        String nofinal = "AND [Producto Final] = 'SI'" ;
         if (!nofinales.isSelected()) {
             nofinal = "";
         }
         General.llenarTabla(tablaInventario, ventana,
                 "WHERE (ID like '%"+busca+"%' OR Clasificacion LIKE '%"+busca+"%' OR Descripcion LIKE '%"+busca+"%' OR Existencia LIKE '%"+busca+"%'" + ") " + nofinal + " ORDER BY Clasificacion");
-        tablaInventario.getColumns().remove(tablaInventario.getColumns().size() - 1);
     }
 
     @Override

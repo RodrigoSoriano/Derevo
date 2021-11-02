@@ -1,6 +1,6 @@
 package code.empleados;
 
-import code.ConeccionBD;
+import code.ConexionBD;
 import code.empleados.regEmpleado.RegEmpleadoController;
 import code.generales.General;
 import javafx.fxml.FXML;
@@ -58,7 +58,7 @@ public class EmpleadosController implements Initializable {
 
     public void editarRegistrarEmpleado() throws SQLException {
         if(tablaEmpleados.getSelectionModel().getSelectedItem() != null){
-            ConeccionBD.getInstancia().setEmpleadoHolder(tablaEmpleados.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
+            ConexionBD.getInstancia().setEmpleadoHolder(tablaEmpleados.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
             regEmpleado("Edición de Empleado");
         }else{
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -75,7 +75,7 @@ public class EmpleadosController implements Initializable {
         alert.setContentText("¿Seguro que desea preceder?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
-            ConeccionBD.getInstancia().deleteEmpleado(tablaEmpleados.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
+            ConexionBD.getInstancia().deleteEmpleado(tablaEmpleados.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
             actualizarTabla();
         }
     }

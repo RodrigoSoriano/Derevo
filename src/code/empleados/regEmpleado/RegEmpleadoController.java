@@ -1,6 +1,6 @@
 package code.empleados.regEmpleado;
 
-import code.ConeccionBD;
+import code.ConexionBD;
 import code.empleados.Empleadoo;
 import code.empleados.EmpleadosController;
 import code.generales.General;
@@ -87,7 +87,7 @@ public class RegEmpleadoController implements Initializable {
     }
 
     private void regEmpleado() throws SQLException {
-        if (ConeccionBD.getInstancia().regEmpleado(edicion, id.getText(), cedula.getText(), nombres.getText(), apellidos.getText(), telefono.getText(), fecha.getValue().toString(),
+        if (ConexionBD.getInstancia().regEmpleado(edicion, id.getText(), cedula.getText(), nombres.getText(), apellidos.getText(), telefono.getText(), fecha.getValue().toString(),
                 sueldo.getText(), departamento.getSelectionModel().getSelectedItem().toString().split("|")[0], nacionalidad.getSelectionModel().getSelectedItem().toString().split("|")[0],
                 inactivo.isSelected())){
             empleadosController.actualizarTabla();
@@ -173,12 +173,12 @@ public class RegEmpleadoController implements Initializable {
     }
 
     private void llenarCombobox() throws SQLException {
-        ResultSet rs = ConeccionBD.getInstancia().getData("Departamento", "");
+        ResultSet rs = ConexionBD.getInstancia().getData("Departamento", "");
         departamento.getItems().add("");
         while(rs.next()){
             departamento.getItems().add(rs.getString(1) + "   |   " + rs.getString(2));
         }
-        rs = ConeccionBD.getInstancia().getData("Nacionalidad", "");
+        rs = ConexionBD.getInstancia().getData("Nacionalidad", "");
         nacionalidad.getItems().add("");
         while(rs.next()){
             nacionalidad.getItems().add(rs.getString(1) + "   |   " + rs.getString(2));

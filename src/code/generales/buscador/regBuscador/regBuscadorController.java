@@ -1,6 +1,6 @@
 package code.generales.buscador.regBuscador;
 
-import code.ConeccionBD;
+import code.ConexionBD;
 import code.generales.General;
 import code.generales.buscador.BuscadorController;
 import javafx.fxml.FXML;
@@ -72,7 +72,7 @@ public class regBuscadorController {
 
     public void guardar() throws SQLException {
         if (validaData()) {
-            ConeccionBD.getInstancia().regGeneral1(id.getText(), nombre.getText(), descripcion.getText(), ventana);
+            ConexionBD.getInstancia().regGeneral1(id.getText(), nombre.getText(), descripcion.getText(), ventana);
             General.mensaje(Alert.AlertType.INFORMATION, ventana, "Registro exitoso.");
             clear();
             buscadorController.actualizarTabla();

@@ -1,6 +1,6 @@
 package code.inventario.regProducto;
 
-import code.ConeccionBD;
+import code.ConexionBD;
 import code.generales.General;
 import code.inventario.InventarioController;
 import code.inventario.Producto;
@@ -153,9 +153,9 @@ public class RegInventarioController implements Initializable {
         if(!dependencia.isSelected()){
             data = null;
         }
-        if (ConeccionBD.getInstancia().regProducto(edicion, id.getText(), clasificacion.getSelectionModel().getSelectedItem().toString().split("|")[0],
+        if (ConexionBD.getInstancia().regProducto(edicion, id.getText(), clasificacion.getSelectionModel().getSelectedItem().toString().split("|")[0],
                 descripcion.getText(), peso.getText(), mano_obra.getText(), existencia.getText(), producto_final.isSelected(), paga_fundidor.isSelected(),
-                precio_costo.getText(), precio_venta.getText(), data, producidas.getText())){
+                precio_costo.getText(), precio_venta.getText(), data, "0")){
             inventarioController.actualizarTabla();
             if(!edicion){
                 mensaje = "Los datos del prducto han sido registrados correctamente";
@@ -182,7 +182,7 @@ public class RegInventarioController implements Initializable {
         descripcion.setText("");
         clasificacion.getSelectionModel().select(0);
         existencia.setText("0");
-        producidas.setText("0");
+        //producidas.setText("0");
         peso.setText("0");
         mano_obra.setText("0");
         producto_final.setSelected(true);
@@ -210,7 +210,7 @@ public class RegInventarioController implements Initializable {
         peso.setTextFormatter(General.soloNumero(true));
         mano_obra.setTextFormatter(General.soloNumero(true));
         existencia.setTextFormatter(General.soloNumero());
-        producidas.setTextFormatter(General.soloNumero());
+        //producidas.setTextFormatter(General.soloNumero());
         id_productoDependencia.setTextFormatter(General.soloNumero());
         cantidadDependencia.setTextFormatter(General.soloNumero());
     }
@@ -267,7 +267,7 @@ public class RegInventarioController implements Initializable {
         General.abrirBuscador("Inventario", true);
         if (!General.getValor().isBlank()) {
             id_productoDependencia.setText(General.getValor());
-            productoDependencia.setText(ConeccionBD.getInstancia().getProductoById(General.getValor()));
+            productoDependencia.setText(ConexionBD.getInstancia().getProductoById(General.getValor()));
             cantidadDependencia.requestFocus();
         }
     }
@@ -275,7 +275,7 @@ public class RegInventarioController implements Initializable {
     public void llenarProducto(KeyEvent event) throws SQLException {
         productoDependencia.setText("");
         if(event.getCode() == KeyCode.ENTER) {
-            productoDependencia.setText(ConeccionBD.getInstancia().getProductoById(id_productoDependencia.getText()));
+            productoDependencia.setText(ConexionBD.getInstancia().getProductoById(id_productoDependencia.getText()));
             if (!productoDependencia.getText().equals("No encontrado")){
                 cantidadDependencia.requestFocus();
             }else{
@@ -303,7 +303,7 @@ public class RegInventarioController implements Initializable {
 
     public void agregarDependencia() throws SQLException {
         if (validaAgregarDependencia()) {
-            ResultSet rs = ConeccionBD.getInstancia().getDatosProductoById(id_productoDependencia.getText());
+            ResultSet rs = ConexionBD.getInstancia().getDatosProductoById(id_productoDependencia.getText());
             if(rs.next()){
                 ObservableList<String> row = FXCollections.observableArrayList();
                 row.add(rs.getString("ID"));
@@ -359,7 +359,7 @@ public class RegInventarioController implements Initializable {
             peso.setText(producto.getPeso());
             mano_obra.setText(producto.getMano_obra());
             existencia.setText(producto.getExistencia());
-            producidas.setText(producto.getProducidas());
+            //producidas.setText(producto.getProducidas());
             producto_final.setSelected(producto.getProducto_final());
             paga_fundidor.setSelected(producto.getPaga_fundidor());
             precio_costo.setText(producto.getPrecio_costo());
@@ -381,7 +381,7 @@ public class RegInventarioController implements Initializable {
     }
 
     private void llenarCombobox() throws SQLException {
-        ResultSet rs = ConeccionBD.getInstancia().getData("ClasificacionProducto", "");
+        ResultSet rs = ConexionBD.getInstancia().getData("ClasificacionProducto", "");
         clasificacion.getItems().add("");
         while(rs.next()){
             clasificacion.getItems().add(rs.getString(1) + "   |   " + rs.getString(2));
@@ -404,7 +404,7 @@ public class RegInventarioController implements Initializable {
         try {
             setDatos();
         } catch (SQLException throwables) {
-            ConeccionBD.getInstancia().error(throwables);
+            ConexionBD.getInstancia().error(throwables);
         }
     }
 }

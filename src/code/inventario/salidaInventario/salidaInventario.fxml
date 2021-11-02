@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="195.0" prefWidth="394.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="code.inventario.salidaInventario.SalidaInventarioController">
+   <children>
+      <DatePicker fx:id="fecha" editable="false" layoutX="271.0" layoutY="7.0" prefHeight="25.0" prefWidth="105.0" />
+      <TextField fx:id="producto_id" layoutX="83.0" layoutY="51.0" onKeyPressed="#llenarProducto" prefHeight="25.0" prefWidth="43.0" />
+      <TextField fx:id="cantidad" layoutX="232.0" layoutY="86.0" prefHeight="25.0" prefWidth="79.0" />
+      <TextField fx:id="razon" layoutX="83.0" layoutY="123.0" prefHeight="25.0" prefWidth="228.0" />
+      <Button fx:id="registrarBoton" layoutX="242.0" layoutY="158.0" mnemonicParsing="false" onAction="#registrarBoton" prefHeight="25.0" prefWidth="70.0" text="Registrar" />
+      <Button fx:id="salirBoton" layoutX="322.0" layoutY="159.0" mnemonicParsing="false" onAction="#salirBotonOnAction" text="Cancelar" />
+      <TextField fx:id="producto" editable="false" layoutX="131.0" layoutY="51.0" prefHeight="25.0" prefWidth="180.0" />
+      <Label layoutX="18.0" layoutY="55.0" text="Producto:" />
+      <Label layoutX="172.0" layoutY="90.0" text="Cantidad:" />
+      <Button fx:id="buscarProducto" layoutX="318.0" layoutY="51.0" mnemonicParsing="false" onAction="#BuscarProducto" prefHeight="25.0" prefWidth="58.0" text="Buscar" />
+      <Label contentDisplay="CENTER" layoutX="18.0" layoutY="1.0" prefHeight="43.0" prefWidth="195.0" text="Salida de Inventario">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="18.0" layoutY="90.0" text="Existencia:" />
+      <TextField fx:id="existencia" editable="false" layoutX="83.0" layoutY="86.0" prefHeight="25.0" prefWidth="79.0" />
+      <Label layoutX="227.0" layoutY="11.0" text="Fecha:" />
+      <Label layoutX="19.0" layoutY="127.0" text="Razón:" />
+   </children>
+</AnchorPane>

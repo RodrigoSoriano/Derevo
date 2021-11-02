@@ -1,6 +1,6 @@
 package code.produccion.regProduccion;
 
-import code.ConeccionBD;
+import code.ConexionBD;
 import code.generales.General;
 import code.produccion.Produccion;
 import code.produccion.ProduccionController;
@@ -116,7 +116,7 @@ public class RegProduccionController implements Initializable {
             alert.setContentText("¿Seguro que desea preceder?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
-                ConeccionBD.getInstancia().aperturarProduccion(empleado_id.getText(), fecha.getValue().toString(), nota.getText());
+                ConexionBD.getInstancia().aperturarProduccion(empleado_id.getText(), fecha.getValue().toString(), nota.getText());
                 setDatos();
                 produccionController.actualizarTabla();
             }
@@ -129,7 +129,7 @@ public class RegProduccionController implements Initializable {
         General.abrirBuscador("Empleado", true);
         if (!General.getValor().isBlank()) {
             empleado_id.setText(General.getValor());
-            empleado.setText(ConeccionBD.getInstancia().getEmpleadoById(General.getValor()));
+            empleado.setText(ConexionBD.getInstancia().getEmpleadoById(General.getValor()));
         }
     }
 
@@ -137,7 +137,7 @@ public class RegProduccionController implements Initializable {
         if (empleado_id.isEditable()) {
             empleado.setText("");
             if(event.getCode() == KeyCode.ENTER) {
-                empleado.setText(ConeccionBD.getInstancia().getEmpleadoById(empleado_id.getText()));
+                empleado.setText(ConexionBD.getInstancia().getEmpleadoById(empleado_id.getText()));
                 if (empleado.getText().equals("No encontrado")){
                     empleado_id.setText("");
                 }
@@ -149,7 +149,7 @@ public class RegProduccionController implements Initializable {
         General.abrirBuscador("Inventario", true);
         if (!General.getValor().isBlank()) {
             producto_id.setText(General.getValor());
-            producto.setText(ConeccionBD.getInstancia().getProductoById(General.getValor()));
+            producto.setText(ConexionBD.getInstancia().getProductoById(General.getValor()));
             cantidad.requestFocus();
         }
     }
@@ -158,7 +158,7 @@ public class RegProduccionController implements Initializable {
         if (producto_id.isEditable()) {
             producto.setText("");
             if(event.getCode() == KeyCode.ENTER) {
-                producto.setText(ConeccionBD.getInstancia().getProductoById(producto_id.getText()));
+                producto.setText(ConexionBD.getInstancia().getProductoById(producto_id.getText()));
                 if (!producto.getText().equals("No encontrado")){
                     cantidad.requestFocus();
                 }else{
@@ -177,7 +177,7 @@ public class RegProduccionController implements Initializable {
 
     public void agregarProduccion() throws SQLException {
         if (validaDatosAgregar()) {
-            ConeccionBD.getInstancia().agregarProduccion(id.getText(), producto_id.getText(), cantidad.getText());
+            ConexionBD.getInstancia().agregarProduccion(id.getText(), producto_id.getText(), cantidad.getText());
             actualizarTabla();
             clear();
             produccionController.actualizarTabla();
@@ -194,7 +194,7 @@ public class RegProduccionController implements Initializable {
 
     public void removerProduccion() throws SQLException {
         if (validaDatosRemover()) {
-            ConeccionBD.getInstancia().removerProduccion(id.getText(), tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
+            ConexionBD.getInstancia().removerProduccion(id.getText(), tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
             actualizarTabla();
             produccionController.actualizarTabla();
         } else {
@@ -236,10 +236,10 @@ public class RegProduccionController implements Initializable {
             empleado_id.setText(produccion.getId_empleado());
             fecha.setValue(produccion.getFecha());
             try {
-                empleado.setText(ConeccionBD.getInstancia().getEmpleadoById(empleado_id.getText()));
+                empleado.setText(ConexionBD.getInstancia().getEmpleadoById(empleado_id.getText()));
                 actualizarTabla();
             } catch (Exception e) {
-                ConeccionBD.getInstancia().error(e);
+                ConexionBD.getInstancia().error(e);
             }
         }else{
             cambiarEditable(false);

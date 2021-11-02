@@ -1,5 +1,5 @@
 package code.generales;
-import code.ConeccionBD;
+import code.ConexionBD;
 import code.generales.buscador.BuscadorController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -62,7 +62,7 @@ public class General {
         origen = origen.replace(" ", "");
         tabla.getColumns().clear();
         ObservableList<ObservableList> data = FXCollections.observableArrayList();
-        ResultSet rs = ConeccionBD.getInstancia().getData(origen, filtro[0]);
+        ResultSet rs = ConexionBD.getInstancia().getData(origen, filtro[0]);
 
         for(int i=0 ; i<rs.getMetaData().getColumnCount(); i++){
             final int j = i;

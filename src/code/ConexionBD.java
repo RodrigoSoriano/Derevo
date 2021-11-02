@@ -7,14 +7,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import java.sql.*;
 
-public class ConeccionBD {
+public class ConexionBD {
     public Connection BaseDeDatosLink;
-    private final static ConeccionBD instancia = new ConeccionBD();
+    private final static ConexionBD instancia = new ConexionBD();
 
     private String usuarioBD = "derevo";
     private String contrasenaBD = "abc12345";
 
-    public static ConeccionBD getInstancia(){
+    public static ConexionBD getInstancia(){
         return instancia;
     }
 
@@ -148,7 +148,7 @@ public class ConeccionBD {
             producto.setPeso(queryResult.getString("peso"));
             producto.setMano_obra(queryResult.getString("mano_obra"));
             producto.setExistencia(queryResult.getString("existencia"));
-            producto.setProducidas(queryResult.getString("producidas"));
+            //producto.setProducidas(queryResult.getString("producidas"));
             producto.setProducto_final(queryResult.getString("producto_final").equals("1"));
             producto.setPaga_fundidor(queryResult.getString("paga_fundidor").equals("1"));
             producto.setPrecio_costo(queryResult.getString("precio_costo"));
@@ -170,6 +170,14 @@ public class ConeccionBD {
     }
     public ResultSet getDatosProductoById(String id){
         return ejecutarQuery("select * from vInventario where ID = " + (id.equals("") ? "0": id));
+    }
+    public void salidaInventario(String fecha, String producto_id, String cantidad, String razon) {
+        try {
+            getConnection().createStatement().executeUpdate("INSERT INTO salidaInventario(id_producto, cantidad, razon, fecha) VALUES('" + producto_id + "', '" + cantidad + "', '" + razon + "', '" + fecha + "')");
+            getConnection().createStatement().executeUpdate("UPDATE Producto SET existencia = (SELECT existencia FROM Producto WHERE id_producto = " + producto_id + ") - " + cantidad + " WHERE id_producto = " + producto_id);
+        } catch (SQLException throwables) {
+            error(throwables);
+        }
     }
     //endregion
 

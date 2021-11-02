@@ -10,7 +10,7 @@ import javafx.stage.StageStyle;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
-        ConeccionBD.getInstancia().testConection();
+        ConexionBD.getInstancia().testConection();
 
         Parent root = FXMLLoader.load(getClass().getResource("/code/acceder/acceder.fxml"));
         primaryStage.initStyle(StageStyle.UNDECORATED);

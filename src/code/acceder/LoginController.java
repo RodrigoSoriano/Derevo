@@ -1,6 +1,6 @@
 package code.acceder;
 
-import code.ConeccionBD;
+import code.ConexionBD;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -60,7 +60,7 @@ public class LoginController implements Initializable {
     }
 
     public void validarAcceso() {
-        if(ConeccionBD.getInstancia().validarAcceso(usuarioTextField.getText(), contrasenaTextField.getText())){
+        if(ConexionBD.getInstancia().validarAcceso(usuarioTextField.getText(), contrasenaTextField.getText())){
             cancelarBotonOnAction();
             abrirPrincipal();
         }else{
