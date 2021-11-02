@@ -7,12 +7,19 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
+
 public class Main extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage){
         ConexionBD.getInstancia().testConection();
 
-        Parent root = FXMLLoader.load(getClass().getResource("/code/acceder/acceder.fxml"));
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/code/acceder/acceder.fxml"));
+        } catch (IOException e) {
+            ConexionBD.getInstancia().error(e);
+        }
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(new Scene(root, 355, 426));
         primaryStage.setResizable(false);

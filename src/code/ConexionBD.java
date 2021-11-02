@@ -303,8 +303,12 @@ public class ConexionBD {
         System.out.println("e.getCause()");
         e.getCause();
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Base de datos");
-        alert.setHeaderText("Error en la base de datos");
+        alert.setTitle("Error");
+        if (!String.valueOf(e.getCause()).equals("null")) {
+            alert.setHeaderText(String.valueOf(e.getCause()));
+        }else{
+            alert.setHeaderText("Error en el sistema");
+        }
         alert.setContentText(e.getMessage());
         alert.showAndWait();
     }
