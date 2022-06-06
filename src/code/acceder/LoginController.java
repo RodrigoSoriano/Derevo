@@ -88,7 +88,6 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (prueba){
             abrirPrincipal();
-            cancelarBotonOnAction();
         }
     }
 }

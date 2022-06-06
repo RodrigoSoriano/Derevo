@@ -10,6 +10,12 @@ public class PrincipalController {
     @FXML
     private BorderPane panelPrincipal;
 
+    public void facturacionBotonOnAction() {
+        FxmlLoader carga = new FxmlLoader();
+        Pane view = carga.getPage("facturacion");
+        panelPrincipal.setCenter(view);
+    }
+
     public void empleadosBotonOnAction() {
         FxmlLoader carga = new FxmlLoader();
         Pane view = carga.getPage("empleados");

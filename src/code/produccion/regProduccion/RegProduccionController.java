@@ -110,7 +110,7 @@ public class RegProduccionController implements Initializable {
         if(validaDatosAperturar()){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Apertura de producción");
-            alert.setHeaderText("Se procedera a aprturar la producción");
+            alert.setHeaderText("Se procederá a aprturar la producción");
             alert.setContentText("¿Seguro que desea preceder?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
@@ -191,10 +191,18 @@ public class RegProduccionController implements Initializable {
     }
 
     public void removerProduccion() {
+        String produccion_id = tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1);
         if (validaDatosRemover()) {
-            ConexionBD.getInstancia().removerProduccion(id.getText(), tablaProduccion.getSelectionModel().getSelectedItem().toString().split(",")[0].substring(1));
-            actualizarTabla();
-            produccionController.actualizarTabla();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Remover producción");
+            alert.setHeaderText("Se procederá a remover la producción: " + produccion_id);
+            alert.setContentText("¿Seguro que desea preceder?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                ConexionBD.getInstancia().removerProduccion(id.getText(), produccion_id);
+                actualizarTabla();
+                produccionController.actualizarTabla();
+            }
         } else {
             General.mensaje(Alert.AlertType.WARNING, ventana, "Seleccione una produccion para remover");
         }

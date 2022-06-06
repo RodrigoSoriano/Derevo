@@ -127,31 +127,14 @@
     <Folder Include="dbo\Stored Procedures\Empleado" />
     <Folder Include="dbo\Stored Procedures\Inventario" />
     <Folder Include="dbo\Stored Procedures\Generales" />
+    <Folder Include="dbo\Tables\Generales" />
+    <Folder Include="dbo\Tables\Inventario" />
+    <Folder Include="dbo\Tables\Empleado" />
+    <Folder Include="dbo\Views\Inventario" />
+    <Folder Include="dbo\Views\Empleado" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\Produccion.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Tables\Producto.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Tables\Usuario.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Tables\Empleado.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
     <Build Include="Security\Permissions.sql" />
-    <Build Include="dbo\Tables\SubProduccion.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="dbo\Views\vProduccion.sql" />
-    <Build Include="dbo\Views\vSubProduccion.sql" />
     <Build Include="dbo\Stored Procedures\Produccion\AgregarProduccion.sql" />
     <Build Include="dbo\Stored Procedures\Produccion\AperturarProduccion.sql" />
     <Build Include="dbo\Stored Procedures\Produccion\BorrarProduccion.sql" />
@@ -160,26 +143,50 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Views\vInventario.sql" />
     <Build Include="dbo\Stored Procedures\Inventario\BorrarProducto.sql" />
-    <Build Include="dbo\Tables\Departamento.sql" />
-    <Build Include="dbo\Views\vDepartamento.sql" />
-    <Build Include="dbo\Views\vEmpleado.sql" />
-    <Build Include="dbo\Tables\ClasificacionProducto.sql" />
-    <Build Include="dbo\Views\vClasificacionProducto.sql" />
     <Build Include="dbo\Stored Procedures\Generales\GuardarDepartamento.sql" />
     <Build Include="dbo\Stored Procedures\Generales\GuardarClasificacionProducto.sql" />
-    <Build Include="dbo\Tables\Nacionalidad.sql" />
-    <Build Include="dbo\Views\vNacionalidad.sql" />
     <Build Include="dbo\Stored Procedures\Generales\GuardarNacionalidad.sql" />
     <Build Include="dbo\Stored Procedures\Generales\BorrarClasificacionProducto.sql" />
     <Build Include="dbo\Stored Procedures\Generales\BorrarDepartamento.sql" />
     <Build Include="dbo\Stored Procedures\Generales\BorrarNacionalidad.sql" />
-    <Build Include="dbo\Tables\Dependencia.sql" />
-    <Build Include="dbo\Views\vDependencia.sql" />
-    <Build Include="dbo\Tables\SalidaInventario.sql" />
+    <Build Include="dbo\Tables\Inventario\Dependencia.sql" />
+    <Build Include="dbo\Tables\Inventario\Produccion.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Tables\Inventario\ClasificacionProducto.sql" />
+    <Build Include="dbo\Tables\Empleado\Empleado.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Tables\Generales\Usuario.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Views\Inventario\vClasificacionProducto.sql" />
+    <Build Include="dbo\Views\Inventario\vDependencia.sql" />
+    <Build Include="dbo\Views\Inventario\vInventario.sql" />
+    <Build Include="dbo\Views\Inventario\vProduccion.sql" />
+    <Build Include="dbo\Views\Inventario\vSubProduccion.sql" />
+    <Build Include="dbo\Views\Empleado\vEmpleado.sql" />
+    <Build Include="dbo\Views\Empleado\vDepartamento.sql" />
+    <Build Include="dbo\Tables\Empleado\Departamento.sql" />
+    <Build Include="dbo\Tables\Empleado\Nacionalidad.sql" />
+    <Build Include="dbo\Views\Empleado\vNacionalidad.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Derevo.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\Inventario\Producto.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Tables\Inventario\SalidaInventario.sql" />
+    <Build Include="dbo\Tables\Inventario\SubProduccion.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
   </ItemGroup>
 </Project>
