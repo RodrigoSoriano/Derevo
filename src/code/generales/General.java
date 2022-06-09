@@ -4,9 +4,7 @@ import code.generales.buscador.BuscadorController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.converter.DefaultStringConverter;
@@ -20,7 +18,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.util.Callback;
 
@@ -85,6 +82,22 @@ public class General {
         }
 
         tabla.setItems(data);
+    }
+
+    static public void llenarCombobo(ComboBox combo, String tabla, Integer columnaCodigo, Integer columnaDato, String ... filt) {
+        String filtro = "";
+        if (filt.length > 0) {
+            filtro = filt[0];
+        }
+        try {
+            ResultSet rs = ConexionBD.getInstancia().getData(tabla, filtro);
+            combo.getItems().add("");
+            while(rs.next()){
+                combo.getItems().add(rs.getString(columnaCodigo) + "   |   " + rs.getString(columnaDato));
+            }
+        } catch (SQLException throwables) {
+            ConexionBD.getInstancia().error(throwables);
+        }
     }
 
     public static void abrirBuscador(String nombre, boolean ... soloBuscar) {

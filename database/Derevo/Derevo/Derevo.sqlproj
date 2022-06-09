@@ -132,6 +132,8 @@
     <Folder Include="dbo\Tables\Empleado" />
     <Folder Include="dbo\Views\Inventario" />
     <Folder Include="dbo\Views\Empleado" />
+    <Folder Include="dbo\Tables\Facturacion" />
+    <Folder Include="dbo\Views\Facturacion" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Security\Permissions.sql" />
@@ -174,6 +176,12 @@
     <Build Include="dbo\Tables\Empleado\Departamento.sql" />
     <Build Include="dbo\Tables\Empleado\Nacionalidad.sql" />
     <Build Include="dbo\Views\Empleado\vNacionalidad.sql" />
+    <Build Include="dbo\Tables\Facturacion\Factura_Condicion.sql" />
+    <Build Include="dbo\Tables\Facturacion\Factura_Tipo.sql" />
+    <Build Include="dbo\Tables\Facturacion\Factura_FormaPago.sql" />
+    <Build Include="dbo\Views\Facturacion\vFactura_Condicion.sql" />
+    <Build Include="dbo\Views\Facturacion\vFactura_FormaPago.sql" />
+    <Build Include="dbo\Views\Facturacion\vFactura_Tipo.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Derevo.refactorlog" />

@@ -175,20 +175,8 @@ public class RegEmpleadoController implements Initializable {
     }
 
     private void llenarCombobox() {
-        try {
-            ResultSet rs = ConexionBD.getInstancia().getData("Departamento", "");
-            departamento.getItems().add("");
-            while(rs.next()){
-                departamento.getItems().add(rs.getString(1) + "   |   " + rs.getString(2));
-            }
-            rs = ConexionBD.getInstancia().getData("Nacionalidad", "");
-            nacionalidad.getItems().add("");
-            while(rs.next()){
-                nacionalidad.getItems().add(rs.getString(1) + "   |   " + rs.getString(2));
-            }
-        } catch (SQLException throwables) {
-            ConexionBD.getInstancia().error(throwables);
-        }
+        General.llenarCombobo(departamento, "Departamento", 1, 2);
+        General.llenarCombobo(nacionalidad, "Nacionalidad", 1, 2);
     }
 
     @Override
