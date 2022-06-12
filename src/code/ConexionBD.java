@@ -243,7 +243,7 @@ public class ConexionBD {
             id = "0";
         }
         try {
-            ejecutarQuery("EXEC Guardar" + ventana + " @id_" + ventana + " = " + id + ", @nombre = '" + nombre + "', @descripcion = '" + descripcion + "'");
+            ejecutarQuery("EXEC Guardar" + ventana + " " + id + ", '" + nombre + "', '" + descripcion + "'");
             return true;
         } catch (Exception e) {
             error(e);
@@ -256,7 +256,7 @@ public class ConexionBD {
             id = "0";
         }
         try {
-            ejecutarQuery("EXEC Borrar" + ventana + " @id_" + ventana + " = " + id);
+            ejecutarQuery("EXEC Borrar" + ventana + " " + id);
             return true;
         } catch (Exception e) {
             error(e);

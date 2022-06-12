@@ -50,7 +50,7 @@
 					<Element Type="SqlIndexedColumnSpecification">
 						<Relationship Name="Column">
 							<Entry>
-								<References Name="[dbo].[Departamento].[id_departamento]" />
+								<References Name="[dbo].[ClasificacionProducto].[Id_clasificacionProducto]" />
 							</Entry>
 						</Relationship>
 					</Element>
@@ -58,7 +58,7 @@
 			</Relationship>
 			<Relationship Name="DefiningTable">
 				<Entry>
-					<References Name="[dbo].[Departamento]" />
+					<References Name="[dbo].[ClasificacionProducto]" />
 				</Entry>
 			</Relationship>
 			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="5" />
@@ -69,7 +69,7 @@
 					<Element Type="SqlIndexedColumnSpecification">
 						<Relationship Name="Column">
 							<Entry>
-								<References Name="[dbo].[ClasificacionProducto].[Id_clasificacionProducto]" />
+								<References Name="[dbo].[Departamento].[id_departamento]" />
 							</Entry>
 						</Relationship>
 					</Element>
@@ -77,7 +77,7 @@
 			</Relationship>
 			<Relationship Name="DefiningTable">
 				<Entry>
-					<References Name="[dbo].[ClasificacionProducto]" />
+					<References Name="[dbo].[Departamento]" />
 				</Entry>
 			</Relationship>
 			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="6" />
@@ -101,6 +101,63 @@
 			</Relationship>
 			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="7" />
 		</Element>
+		<Element Type="SqlPrimaryKeyConstraint">
+			<Relationship Name="ColumnSpecifications">
+				<Entry>
+					<Element Type="SqlIndexedColumnSpecification">
+						<Relationship Name="Column">
+							<Entry>
+								<References Name="[dbo].[FacturaFormaPago].[id_Factura_FormaPago]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[FacturaFormaPago]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="8" />
+		</Element>
+		<Element Type="SqlPrimaryKeyConstraint">
+			<Relationship Name="ColumnSpecifications">
+				<Entry>
+					<Element Type="SqlIndexedColumnSpecification">
+						<Relationship Name="Column">
+							<Entry>
+								<References Name="[dbo].[FacturaCondicion].[id_Factura_Condicion]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[FacturaCondicion]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="9" />
+		</Element>
+		<Element Type="SqlPrimaryKeyConstraint">
+			<Relationship Name="ColumnSpecifications">
+				<Entry>
+					<Element Type="SqlIndexedColumnSpecification">
+						<Relationship Name="Column">
+							<Entry>
+								<References Name="[dbo].[FacturaTipo].[id_Factura_Tipo]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[FacturaTipo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="10" />
+		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[AgregarProduccion]">
 			<Property Name="BodyScript">
 				<Value><![CDATA[
@@ -116,6 +173,8 @@
 		INSERT INTO SubProduccion(id_produccion, id_producto, cantidad)
 						  VALUES(@id_produccion, @id_producto, @cantidad)
 	END
+
+	UPDATE Producto SET existencia = (SELECT existencia FROM Producto WHERE id_producto = @id_producto) + @cantidad WHERE id_producto = @id_producto
 
 	SELECT TOP 0 * FROM SubProduccion]]></Value>
 			</Property>
@@ -156,6 +215,24 @@
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[AgregarProduccion].[@cantidad]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Producto]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Producto].[existencia]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Producto]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Producto].[existencia]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Producto].[id_producto]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Producto].[id_producto]" />
 				</Entry>
 			</Relationship>
 			<Relationship Name="Parameters">
@@ -211,7 +288,7 @@
 				</Entry>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
-				<Property Name="Length" Value="559" />
+				<Property Name="Length" Value="708" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[AgregarProduccion]&#xD;&#xA;&#x9;@id_produccion int,&#xD;&#xA;&#x9;@id_producto int,&#xD;&#xA;&#x9;@cantidad int&#xD;&#xA;AS" />
@@ -312,6 +389,54 @@
 				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[AperturarProduccion]&#xD;&#xA;&#x9;@id_empleado int,&#xD;&#xA;&#x9;@fecha date,&#xD;&#xA;&#x9;@nota varchar(100)&#xD;&#xA;AS" />
 			</Annotation>
 		</Element>
+		<Element Type="SqlProcedure" Name="[dbo].[BorarFacturaCondicion]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+	delete FacturaCondicion where id_Factura_Condicion = @id;
+
+	select top 0 * from FacturaCondicion]]></Value>
+			</Property>
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References Name="[dbo].[FacturaCondicion]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaCondicion].[id_Factura_Condicion]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[BorarFacturaCondicion].[@id]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[BorarFacturaCondicion].[@id]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="161" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[BorarFacturaCondicion]&#xD;&#xA;&#x9;@id int&#xD;&#xA;AS" />
+			</Annotation>
+		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[BorrarClasificacionProducto]">
 			<Property Name="BodyScript">
 				<Value><![CDATA[
@@ -408,6 +533,102 @@
 				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[BorrarDepartamento]&#xD;&#xA;&#x9;@id_departamento int&#xD;&#xA;AS" />
 			</Annotation>
 		</Element>
+		<Element Type="SqlProcedure" Name="[dbo].[BorrarFacturaFormaPago]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+	delete FacturaFormaPago where id_Factura_FormaPago = @id;
+
+	select top 0 * from FacturaFormaPago]]></Value>
+			</Property>
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References Name="[dbo].[FacturaFormaPago]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaFormaPago].[id_Factura_FormaPago]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[BorrarFacturaFormaPago].[@id]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[BorrarFacturaFormaPago].[@id]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="162" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[BorrarFacturaFormaPago]&#xD;&#xA;&#x9;@id int&#xD;&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[dbo].[BorrarFacturaTipo]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+	delete FacturaTipo where id_Factura_Tipo = @id;
+
+	select top 0 * from FacturaTipo]]></Value>
+			</Property>
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References Name="[dbo].[FacturaTipo]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaTipo].[id_Factura_Tipo]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[BorrarFacturaTipo].[@id]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[BorrarFacturaTipo].[@id]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="142" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[BorrarFacturaTipo]&#xD;&#xA;&#x9;@id int&#xD;&#xA;AS" />
+			</Annotation>
+		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[BorrarNacionalidad]">
 			<Property Name="BodyScript">
 				<Value><![CDATA[
@@ -459,7 +680,7 @@
 		<Element Type="SqlProcedure" Name="[dbo].[BorrarProduccion]">
 			<Property Name="BodyScript">
 				<Value><![CDATA[
-	DELETE SubProduccion WHERE id_produccion = @id_produccion
+	--DELETE SubProduccion WHERE id_produccion = @id_produccion
 	DELETE Produccion WHERE id_produccion = @id_produccion
 
 	SELECT TOP 0 * FROM Produccion]]></Value>
@@ -467,19 +688,13 @@
 			<Property Name="IsQuotedIdentifierOn" Value="False" />
 			<Relationship Name="BodyDependencies">
 				<Entry>
-					<References Name="[dbo].[SubProduccion]" />
-				</Entry>
-				<Entry>
-					<References Name="[dbo].[SubProduccion].[id_produccion]" />
-				</Entry>
-				<Entry>
-					<References Name="[dbo].[BorrarProduccion].[@id_produccion]" />
-				</Entry>
-				<Entry>
 					<References Name="[dbo].[Produccion]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[Produccion].[id_produccion]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[BorrarProduccion].[@id_produccion]" />
 				</Entry>
 			</Relationship>
 			<Relationship Name="Parameters">
@@ -505,7 +720,7 @@
 				</Entry>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
-				<Property Name="Length" Value="218" />
+				<Property Name="Length" Value="220" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[BorrarProduccion]&#xD;&#xA;&#x9;@id_produccion int&#xD;&#xA;AS" />
@@ -514,27 +729,27 @@
 		<Element Type="SqlProcedure" Name="[dbo].[BorrarProducto]">
 			<Property Name="BodyScript">
 				<Value><![CDATA[
-	delete Producto where id_producto = @id_producto
 	delete Dependencia where id_producto = @id_producto
+	delete Producto where id_producto = @id_producto
 
 	select top 0 * from Producto]]></Value>
 			</Property>
 			<Property Name="IsQuotedIdentifierOn" Value="False" />
 			<Relationship Name="BodyDependencies">
 				<Entry>
-					<References Name="[dbo].[Producto]" />
+					<References Name="[dbo].[Dependencia]" />
 				</Entry>
 				<Entry>
-					<References Name="[dbo].[Producto].[id_producto]" />
+					<References Name="[dbo].[Dependencia].[id_producto]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[BorrarProducto].[@id_producto]" />
 				</Entry>
 				<Entry>
-					<References Name="[dbo].[Dependencia]" />
+					<References Name="[dbo].[Producto]" />
 				</Entry>
 				<Entry>
-					<References Name="[dbo].[Dependencia].[id_producto]" />
+					<References Name="[dbo].[Producto].[id_producto]" />
 				</Entry>
 			</Relationship>
 			<Relationship Name="Parameters">
@@ -657,7 +872,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="6" />
+						<AttachedAnnotation Disambiguator="5" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -717,7 +932,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="5" />
+						<AttachedAnnotation Disambiguator="6" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -830,9 +1045,9 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="8" />
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="9" />
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="10" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="11" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="12" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="13" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[Empleado]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -1002,9 +1217,189 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="11" />
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="12" />
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="13" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="14" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="15" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="16" />
+		</Element>
+		<Element Type="SqlTable" Name="[dbo].[FacturaCondicion]">
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="Columns">
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[FacturaCondicion].[id_Factura_Condicion]">
+						<Property Name="IsNullable" Value="False" />
+						<Property Name="IsIdentity" Value="True" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+						<AttachedAnnotation Disambiguator="9" />
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[FacturaCondicion].[nombre]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="50" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[FacturaCondicion].[descripcion]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="100" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+		</Element>
+		<Element Type="SqlTable" Name="[dbo].[FacturaFormaPago]">
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="Columns">
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[FacturaFormaPago].[id_Factura_FormaPago]">
+						<Property Name="IsNullable" Value="False" />
+						<Property Name="IsIdentity" Value="True" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+						<AttachedAnnotation Disambiguator="8" />
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[FacturaFormaPago].[nombre]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="50" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[FacturaFormaPago].[descripcion]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="100" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+		</Element>
+		<Element Type="SqlTable" Name="[dbo].[FacturaTipo]">
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="Columns">
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[FacturaTipo].[id_Factura_Tipo]">
+						<Property Name="IsNullable" Value="False" />
+						<Property Name="IsIdentity" Value="True" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+						<AttachedAnnotation Disambiguator="10" />
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[FacturaTipo].[nombre]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="50" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[FacturaTipo].[descripcion]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="100" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
 		</Element>
 		<Element Type="SqlForeignKeyConstraint" Name="[dbo].[FK_Dependencia_ToProducto]">
 			<Relationship Name="Columns">
@@ -1027,7 +1422,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Producto]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="9" />
+			<AttachedAnnotation Disambiguator="12" />
 		</Element>
 		<Element Type="SqlForeignKeyConstraint" Name="[dbo].[FK_Dependencia_ToProducto2]">
 			<Relationship Name="Columns">
@@ -1050,7 +1445,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Producto]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="10" />
+			<AttachedAnnotation Disambiguator="13" />
 		</Element>
 		<Element Type="SqlForeignKeyConstraint" Name="[dbo].[FK_Empleado_ToDepartamento]">
 			<Relationship Name="Columns">
@@ -1073,7 +1468,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Departamento]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="12" />
+			<AttachedAnnotation Disambiguator="15" />
 		</Element>
 		<Element Type="SqlForeignKeyConstraint" Name="[dbo].[FK_Empleado_ToNacionalidad]">
 			<Relationship Name="Columns">
@@ -1096,7 +1491,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Nacionalidad]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="13" />
+			<AttachedAnnotation Disambiguator="16" />
 		</Element>
 		<Element Type="SqlForeignKeyConstraint" Name="[dbo].[FK_Produccion_Empleado]">
 			<Relationship Name="Columns">
@@ -1119,7 +1514,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Empleado]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="14" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="17" />
 		</Element>
 		<Element Type="SqlForeignKeyConstraint" Name="[dbo].[FK_Producto_ToClasificacionProducto]">
 			<Relationship Name="Columns">
@@ -1142,7 +1537,30 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[ClasificacionProducto]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="15" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="18" />
+		</Element>
+		<Element Type="SqlForeignKeyConstraint" Name="[dbo].[FK_SalidaInventario_ToProducto]">
+			<Relationship Name="Columns">
+				<Entry>
+					<References Name="[dbo].[SalidaInventario].[id_producto]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[SalidaInventario]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForeignColumns">
+				<Entry>
+					<References Name="[dbo].[Producto].[id_producto]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForeignTable">
+				<Entry>
+					<References Name="[dbo].[Producto]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="19" />
 		</Element>
 		<Element Type="SqlForeignKeyConstraint" Name="[dbo].[FK_SubProduccion_Produccion]">
 			<Relationship Name="Columns">
@@ -1165,7 +1583,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Produccion]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="16" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="20" />
 		</Element>
 		<Element Type="SqlForeignKeyConstraint" Name="[dbo].[FK_SubProduccion_Producto]">
 			<Relationship Name="Columns">
@@ -1188,7 +1606,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Producto]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="17" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="21" />
 		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[GuardarClasificacionProducto]">
 			<Property Name="BodyScript">
@@ -1390,6 +1808,306 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[GuardarDepartamento]&#xD;&#xA;&#x9;@id_departamento int,&#xD;&#xA;&#x9;@nombre varchar(50),&#xD;&#xA;&#x9;@descripcion varchar(100)&#xD;&#xA;AS" />
 			</Annotation>
 		</Element>
+		<Element Type="SqlProcedure" Name="[dbo].[GuardarFacturaCondicion]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+	if (@id <> 0)
+	begin
+		update FacturaCondicion set nombre = @nombre, descripcion = @descripcion 
+		where id_Factura_Condicion = @id
+	end
+	else
+	begin
+		insert into FacturaCondicion(nombre, descripcion) values(@nombre, @descripcion)
+	end
+
+	select top 0 * from FacturaCondicion]]></Value>
+			</Property>
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References Name="[dbo].[GuardarFacturaCondicion].[@id]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaCondicion]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaCondicion].[nombre]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[GuardarFacturaCondicion].[@nombre]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaCondicion].[descripcion]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[GuardarFacturaCondicion].[@descripcion]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaCondicion].[id_Factura_Condicion]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[GuardarFacturaCondicion].[@id]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[GuardarFacturaCondicion].[@nombre]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="50" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[GuardarFacturaCondicion].[@descripcion]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="100" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="402" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[GuardarFacturaCondicion]&#xD;&#xA;&#x9;@id int,&#xD;&#xA;&#x9;@nombre varchar(50),&#xD;&#xA;&#x9;@descripcion varchar(100)&#xD;&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[dbo].[GuardarFacturaFormaPago]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+	if (@id <> 0)
+	begin
+		update FacturaFormaPago set nombre = @nombre, descripcion = @descripcion 
+		where id_Factura_FormaPago = @id
+	end
+	else
+	begin
+		insert into FacturaFormaPago(nombre, descripcion) values(@nombre, @descripcion)
+	end
+
+	select top 0 * from FacturaFormaPago]]></Value>
+			</Property>
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References Name="[dbo].[GuardarFacturaFormaPago].[@id]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaFormaPago]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaFormaPago].[nombre]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[GuardarFacturaFormaPago].[@nombre]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaFormaPago].[descripcion]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[GuardarFacturaFormaPago].[@descripcion]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaFormaPago].[id_Factura_FormaPago]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[GuardarFacturaFormaPago].[@id]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[GuardarFacturaFormaPago].[@nombre]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="50" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[GuardarFacturaFormaPago].[@descripcion]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="100" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="402" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[GuardarFacturaFormaPago]&#xD;&#xA;&#x9;@id int,&#xD;&#xA;&#x9;@nombre varchar(50),&#xD;&#xA;&#x9;@descripcion varchar(100)&#xD;&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[dbo].[GuardarFacturaTipo]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+	if (@id <> 0)
+	begin
+		update FacturaTipo set nombre = @nombre, descripcion = @descripcion 
+		where id_Factura_Tipo = @id
+	end
+	else
+	begin
+		insert into FacturaTipo(nombre, descripcion) values(@nombre, @descripcion)
+	end
+
+	select top 0 * from FacturaTipo]]></Value>
+			</Property>
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References Name="[dbo].[GuardarFacturaTipo].[@id]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaTipo]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaTipo].[nombre]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[GuardarFacturaTipo].[@nombre]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaTipo].[descripcion]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[GuardarFacturaTipo].[@descripcion]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaTipo].[id_Factura_Tipo]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[GuardarFacturaTipo].[@id]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[GuardarFacturaTipo].[@nombre]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="50" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[GuardarFacturaTipo].[@descripcion]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="100" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="377" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[GuardarFacturaTipo]&#xD;&#xA;&#x9;@id int,&#xD;&#xA;&#x9;@nombre varchar(50),&#xD;&#xA;&#x9;@descripcion varchar(100)&#xD;&#xA;AS" />
+			</Annotation>
+		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[GuardarNacionalidad]">
 			<Property Name="BodyScript">
 				<Value><![CDATA[
@@ -1567,7 +2285,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Dependencia]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="8" />
+			<AttachedAnnotation Disambiguator="11" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_Empleado]">
 			<Relationship Name="ColumnSpecifications">
@@ -1586,7 +2304,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Empleado]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="11" />
+			<AttachedAnnotation Disambiguator="14" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_Produccion]">
 			<Relationship Name="ColumnSpecifications">
@@ -1605,7 +2323,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Produccion]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="18" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="22" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_Producto]">
 			<Relationship Name="ColumnSpecifications">
@@ -1624,7 +2342,26 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Producto]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="19" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="23" />
+		</Element>
+		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_SalidaInventario]">
+			<Relationship Name="ColumnSpecifications">
+				<Entry>
+					<Element Type="SqlIndexedColumnSpecification">
+						<Relationship Name="Column">
+							<Entry>
+								<References Name="[dbo].[SalidaInventario].[id_salida]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[SalidaInventario]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="24" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_SubProduccion]">
 			<Relationship Name="ColumnSpecifications">
@@ -1643,7 +2380,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[SubProduccion]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="20" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="25" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_Usuario]">
 			<Relationship Name="ColumnSpecifications">
@@ -1662,7 +2399,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Usuario]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="21" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="26" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[Produccion]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -1738,8 +2475,8 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="18" />
-			<AttachedAnnotation Disambiguator="14" />
+			<AttachedAnnotation Disambiguator="22" />
+			<AttachedAnnotation Disambiguator="17" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[Producto]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -1820,6 +2557,21 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 									<Relationship Name="Type">
 										<Entry>
 											<References ExternalSource="BuiltIns" Name="[decimal]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[Producto].[producidas]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
 										</Entry>
 									</Relationship>
 								</Element>
@@ -1927,21 +2679,34 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="19" />
-			<AttachedAnnotation Disambiguator="15" />
+			<AttachedAnnotation Disambiguator="23" />
+			<AttachedAnnotation Disambiguator="18" />
 		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[RemoverProduccion]">
 			<Property Name="BodyScript">
 				<Value><![CDATA[
+	DECLARE @cantidad INT
+
+	SELECT @cantidad = cantidad FROM SubProduccion WHERE id_produccion = @id_produccion AND 
+									    id_producto = @id_producto
+
 	DELETE SubProduccion WHERE id_produccion = @id_produccion AND 
 							     id_producto = @id_producto
-	
+
+    UPDATE Producto SET existencia = (SELECT existencia FROM Producto WHERE id_producto = @id_producto) - @cantidad WHERE id_producto = @id_producto
+
 	SELECT TOP 0 * FROM SubProduccion]]></Value>
 			</Property>
 			<Property Name="IsQuotedIdentifierOn" Value="False" />
 			<Relationship Name="BodyDependencies">
 				<Entry>
+					<References ExternalSource="BuiltIns" Name="[int]" />
+				</Entry>
+				<Entry>
 					<References Name="[dbo].[SubProduccion]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[SubProduccion].[cantidad]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[SubProduccion].[id_produccion]" />
@@ -1954,6 +2719,24 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[RemoverProduccion].[@id_producto]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Producto]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Producto].[existencia]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Producto]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Producto].[existencia]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Producto].[id_producto]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[Producto].[id_producto]" />
 				</Entry>
 			</Relationship>
 			<Relationship Name="Parameters">
@@ -1994,11 +2777,102 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 				</Entry>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
-				<Property Name="Length" Value="231" />
+				<Property Name="Length" Value="542" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[RemoverProduccion]&#xD;&#xA;&#x9;@id_produccion int,&#xD;&#xA;&#x9;@id_producto int&#xD;&#xA;AS" />
 			</Annotation>
+		</Element>
+		<Element Type="SqlTable" Name="[dbo].[SalidaInventario]">
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="Columns">
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[SalidaInventario].[id_salida]">
+						<Property Name="IsNullable" Value="False" />
+						<Property Name="IsIdentity" Value="True" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[SalidaInventario].[id_producto]">
+						<Property Name="IsNullable" Value="False" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[SalidaInventario].[cantidad]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[SalidaInventario].[razon]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="100" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[SalidaInventario].[fecha]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[date]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+						<AttachedAnnotation Disambiguator="24" />
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<AttachedAnnotation Disambiguator="19" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[SubProduccion]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -2074,9 +2948,9 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
+			<AttachedAnnotation Disambiguator="25" />
 			<AttachedAnnotation Disambiguator="20" />
-			<AttachedAnnotation Disambiguator="16" />
-			<AttachedAnnotation Disambiguator="17" />
+			<AttachedAnnotation Disambiguator="21" />
 		</Element>
 		<Element Type="SqlUniqueConstraint" Name="[dbo].[UQ__Usuario__9AFF8FC663790BEE]">
 			<Relationship Name="ColumnSpecifications">
@@ -2095,7 +2969,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Usuario]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="22" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="27" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[Usuario]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -2189,8 +3063,8 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="21" />
-			<AttachedAnnotation Disambiguator="22" />
+			<AttachedAnnotation Disambiguator="26" />
+			<AttachedAnnotation Disambiguator="27" />
 		</Element>
 		<Element Type="SqlView" Name="[dbo].[vClasificacionProducto]">
 			<Property Name="QueryScript">
@@ -2375,7 +3249,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 		Dependencia.cantidad as Cantidad,
 		Dependencia.id_producto
 	FROM Dependencia
-	LEFT JOIN Producto ON Producto.id_producto = Dependencia.id_dependencia
+	LEFT JOIN Producto ON Producto.id_producto = Dependencia.id_productoDependencia
 	left join ClasificacionProducto on Producto.id_clasificacionProducto = ClasificacionProducto.Id_clasificacionProducto]]></Value>
 			</Property>
 			<Property Name="IsQuotedIdentifierOn" Value="False" />
@@ -2437,7 +3311,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 					<References Name="[dbo].[Producto].[id_producto]" />
 				</Entry>
 				<Entry>
-					<References Name="[dbo].[Dependencia].[id_dependencia]" />
+					<References Name="[dbo].[Dependencia].[id_productoDependencia]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[ClasificacionProducto]" />
@@ -2470,7 +3344,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 				</Entry>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
-				<Property Name="Length" Value="441" />
+				<Property Name="Length" Value="449" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="CREATE VIEW [dbo].[vDependencia]&#xD;&#xA;&#x9;AS" />
@@ -2571,6 +3445,198 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 				<Property Name="HeaderContents" Value="CREATE VIEW [dbo].[vEmpleado]&#xD;&#xA;&#x9;AS" />
 			</Annotation>
 		</Element>
+		<Element Type="SqlView" Name="[dbo].[vFacturaCondicion]">
+			<Property Name="QueryScript">
+				<Value><![CDATA[ 
+SELECT id_Factura_Condicion AS ID,
+	   nombre AS [Condicion Factura],
+	   descripcion AS Descripcion
+FROM [FacturaCondicion]]]></Value>
+			</Property>
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="Columns">
+				<Entry>
+					<Element Type="SqlComputedColumn" Name="[dbo].[vFacturaCondicion].[ID]">
+						<Relationship Name="ExpressionDependencies">
+							<Entry>
+								<References Name="[dbo].[FacturaCondicion].[id_Factura_Condicion]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlComputedColumn" Name="[dbo].[vFacturaCondicion].[Condicion Factura]">
+						<Relationship Name="ExpressionDependencies">
+							<Entry>
+								<References Name="[dbo].[FacturaCondicion].[nombre]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlComputedColumn" Name="[dbo].[vFacturaCondicion].[Descripcion]">
+						<Relationship Name="ExpressionDependencies">
+							<Entry>
+								<References Name="[dbo].[FacturaCondicion].[descripcion]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="QueryDependencies">
+				<Entry>
+					<References Name="[dbo].[FacturaCondicion]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaCondicion].[id_Factura_Condicion]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaCondicion].[nombre]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaCondicion].[descripcion]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="172" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE VIEW [dbo].[vFacturaCondicion]&#xD;&#xA;&#x9;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlView" Name="[dbo].[vFacturaFormaPago]">
+			<Property Name="QueryScript">
+				<Value><![CDATA[ 
+SELECT id_Factura_FormaPago AS ID,
+	   nombre AS [Forma de Pago],
+	   descripcion AS Descripcion
+FROM [FacturaFormaPago]]]></Value>
+			</Property>
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="Columns">
+				<Entry>
+					<Element Type="SqlComputedColumn" Name="[dbo].[vFacturaFormaPago].[ID]">
+						<Relationship Name="ExpressionDependencies">
+							<Entry>
+								<References Name="[dbo].[FacturaFormaPago].[id_Factura_FormaPago]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlComputedColumn" Name="[dbo].[vFacturaFormaPago].[Forma de Pago]">
+						<Relationship Name="ExpressionDependencies">
+							<Entry>
+								<References Name="[dbo].[FacturaFormaPago].[nombre]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlComputedColumn" Name="[dbo].[vFacturaFormaPago].[Descripcion]">
+						<Relationship Name="ExpressionDependencies">
+							<Entry>
+								<References Name="[dbo].[FacturaFormaPago].[descripcion]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="QueryDependencies">
+				<Entry>
+					<References Name="[dbo].[FacturaFormaPago]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaFormaPago].[id_Factura_FormaPago]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaFormaPago].[nombre]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaFormaPago].[descripcion]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="168" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE VIEW [dbo].[vFacturaFormaPago]&#xD;&#xA;&#x9;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlView" Name="[dbo].[vFacturaTipo]">
+			<Property Name="QueryScript">
+				<Value><![CDATA[ 
+SELECT id_Factura_Tipo AS ID,
+	   nombre AS [Tipo de Factura],
+	   descripcion AS Descripcion
+FROM [FacturaTipo]]]></Value>
+			</Property>
+			<Property Name="IsQuotedIdentifierOn" Value="False" />
+			<Relationship Name="Columns">
+				<Entry>
+					<Element Type="SqlComputedColumn" Name="[dbo].[vFacturaTipo].[ID]">
+						<Relationship Name="ExpressionDependencies">
+							<Entry>
+								<References Name="[dbo].[FacturaTipo].[id_Factura_Tipo]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlComputedColumn" Name="[dbo].[vFacturaTipo].[Tipo de Factura]">
+						<Relationship Name="ExpressionDependencies">
+							<Entry>
+								<References Name="[dbo].[FacturaTipo].[nombre]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlComputedColumn" Name="[dbo].[vFacturaTipo].[Descripcion]">
+						<Relationship Name="ExpressionDependencies">
+							<Entry>
+								<References Name="[dbo].[FacturaTipo].[descripcion]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="QueryDependencies">
+				<Entry>
+					<References Name="[dbo].[FacturaTipo]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaTipo].[id_Factura_Tipo]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaTipo].[nombre]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FacturaTipo].[descripcion]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="155" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE VIEW [dbo].[vFacturaTipo]&#xD;&#xA;&#x9;AS" />
+			</Annotation>
+		</Element>
 		<Element Type="SqlView" Name="[dbo].[vInventario]">
 			<Property Name="QueryScript">
 				<Value><![CDATA[ SELECT 
@@ -2578,7 +3644,8 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 	nombre AS Clasificacion, 
 	Producto.descripcion AS Descripcion, 
 	precio_venta as 'Precio de venta', 
-	existencia AS Existencia 
+	existencia AS Existencia,
+	(case when producto_final = 1 then 'SI' else 'NO' end) as 'Producto final'
 	FROM [Producto] left join ClasificacionProducto on Producto.id_clasificacionProducto = ClasificacionProducto.Id_clasificacionProducto]]></Value>
 			</Property>
 			<Property Name="IsQuotedIdentifierOn" Value="False" />
@@ -2628,6 +3695,9 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 						</Relationship>
 					</Element>
 				</Entry>
+				<Entry>
+					<Element Type="SqlComputedColumn" Name="[dbo].[vInventario].[Producto final]" />
+				</Entry>
 			</Relationship>
 			<Relationship Name="QueryDependencies">
 				<Entry>
@@ -2657,6 +3727,9 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 				<Entry>
 					<References Name="[dbo].[Producto].[existencia]" />
 				</Entry>
+				<Entry>
+					<References Name="[dbo].[Producto].[producto_final]" />
+				</Entry>
 			</Relationship>
 			<Relationship Name="Schema">
 				<Entry>
@@ -2664,7 +3737,7 @@ sueldo_base like '%'+@Busqueda+'%']]></Value>
 				</Entry>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
-				<Property Name="Length" Value="336" />
+				<Property Name="Length" Value="413" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="CREATE VIEW [dbo].[vInventario]&#xD;&#xA;&#x9;AS" />

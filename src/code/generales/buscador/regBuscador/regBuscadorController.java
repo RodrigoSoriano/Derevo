@@ -71,8 +71,9 @@ public class regBuscadorController {
 
     public void guardar(){
         if (validaData()) {
-            ConexionBD.getInstancia().regGeneral1(id.getText(), nombre.getText(), descripcion.getText(), ventana);
-            General.mensaje(Alert.AlertType.INFORMATION, ventana, "Registro exitoso.");
+            if (ConexionBD.getInstancia().regGeneral1(id.getText(), nombre.getText(), descripcion.getText(), ventana)){
+                General.mensaje(Alert.AlertType.INFORMATION, ventana, "Registro exitoso.");
+            }
             clear();
             buscadorController.actualizarTabla();
         } else {

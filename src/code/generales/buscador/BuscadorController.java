@@ -61,6 +61,7 @@ public class BuscadorController implements Initializable {
 
     public void botonEditar(){
         String data = tabla.getSelectionModel().getSelectedItem().toString();
+        data = data.substring(0, data.length() - 1);
         try{
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getResource("/code/generales/buscador/regBuscador/regBuscador.fxml").openStream());

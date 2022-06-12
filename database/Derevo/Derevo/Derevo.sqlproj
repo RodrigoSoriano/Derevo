@@ -134,6 +134,7 @@
     <Folder Include="dbo\Views\Empleado" />
     <Folder Include="dbo\Tables\Facturacion" />
     <Folder Include="dbo\Views\Facturacion" />
+    <Folder Include="dbo\Stored Procedures\Facturacion" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Security\Permissions.sql" />
@@ -146,12 +147,6 @@
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
     <Build Include="dbo\Stored Procedures\Inventario\BorrarProducto.sql" />
-    <Build Include="dbo\Stored Procedures\Generales\GuardarDepartamento.sql" />
-    <Build Include="dbo\Stored Procedures\Generales\GuardarClasificacionProducto.sql" />
-    <Build Include="dbo\Stored Procedures\Generales\GuardarNacionalidad.sql" />
-    <Build Include="dbo\Stored Procedures\Generales\BorrarClasificacionProducto.sql" />
-    <Build Include="dbo\Stored Procedures\Generales\BorrarDepartamento.sql" />
-    <Build Include="dbo\Stored Procedures\Generales\BorrarNacionalidad.sql" />
     <Build Include="dbo\Tables\Inventario\Dependencia.sql" />
     <Build Include="dbo\Tables\Inventario\Produccion.sql">
       <AnsiNulls>On</AnsiNulls>
@@ -176,12 +171,24 @@
     <Build Include="dbo\Tables\Empleado\Departamento.sql" />
     <Build Include="dbo\Tables\Empleado\Nacionalidad.sql" />
     <Build Include="dbo\Views\Empleado\vNacionalidad.sql" />
-    <Build Include="dbo\Tables\Facturacion\Factura_Condicion.sql" />
-    <Build Include="dbo\Tables\Facturacion\Factura_Tipo.sql" />
-    <Build Include="dbo\Tables\Facturacion\Factura_FormaPago.sql" />
-    <Build Include="dbo\Views\Facturacion\vFactura_Condicion.sql" />
-    <Build Include="dbo\Views\Facturacion\vFactura_FormaPago.sql" />
-    <Build Include="dbo\Views\Facturacion\vFactura_Tipo.sql" />
+    <Build Include="dbo\Tables\Facturacion\FacturaCondicion.sql" />
+    <Build Include="dbo\Tables\Facturacion\FacturaTipo.sql" />
+    <Build Include="dbo\Tables\Facturacion\FacturaFormaPago.sql" />
+    <Build Include="dbo\Views\Facturacion\vFacturaCondicion.sql" />
+    <Build Include="dbo\Views\Facturacion\vFacturaFormaPago.sql" />
+    <Build Include="dbo\Views\Facturacion\vFacturaTipo.sql" />
+    <Build Include="dbo\Stored Procedures\Empleado\BorrarNacionalidad.sql" />
+    <Build Include="dbo\Stored Procedures\Empleado\GuardarNacionalidad.sql" />
+    <Build Include="dbo\Stored Procedures\Empleado\GuardarDepartamento.sql" />
+    <Build Include="dbo\Stored Procedures\Empleado\BorrarDepartamento.sql" />
+    <Build Include="dbo\Stored Procedures\Produccion\GuardarClasificacionProducto.sql" />
+    <Build Include="dbo\Stored Procedures\Produccion\BorrarClasificacionProducto.sql" />
+    <Build Include="dbo\Stored Procedures\Facturacion\GuardarFacturaCondicion.sql" />
+    <Build Include="dbo\Stored Procedures\Facturacion\GuardarFacturaFormaPago.sql" />
+    <Build Include="dbo\Stored Procedures\Facturacion\GuardarFacturaTipo.sql" />
+    <Build Include="dbo\Stored Procedures\Facturacion\BorarFacturaCondicion.sql" />
+    <Build Include="dbo\Stored Procedures\Facturacion\BorrarFacturaFormaPago.sql" />
+    <Build Include="dbo\Stored Procedures\Facturacion\BorrarFacturaTipo.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Derevo.refactorlog" />

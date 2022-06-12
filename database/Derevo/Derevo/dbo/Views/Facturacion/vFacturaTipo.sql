@@ -1,6 +1,6 @@
-﻿CREATE VIEW [dbo].[vFactura_Tipo]
+﻿CREATE VIEW [dbo].[vFacturaTipo]
 	AS 
 SELECT id_Factura_Tipo AS ID,
 	   nombre AS [Tipo de Factura],
 	   descripcion AS Descripcion
-FROM [Factura_Tipo]
+FROM [FacturaTipo]
